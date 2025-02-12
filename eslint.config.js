@@ -15,6 +15,12 @@ export default [
      * ESLint requires "ignores" key to be the only one in this object
      */
     // ignores: []
+
+    rules: {
+      'vue/multi-word-component-names': ['error', {
+        'ignores': ['Home', 'Login', 'Header', 'Sidebar', 'Tab']
+      }]
+    }
   },
 
   ...pluginQuasar.configs.recommended(),
