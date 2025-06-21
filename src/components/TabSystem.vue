@@ -205,7 +205,7 @@
 
 <script setup lang="ts">
 import { ref, computed, nextTick, onMounted } from 'vue'
-import { useTabStore } from '@/stores/tab-store'
+import { useTabStore } from '../stores/tab-store'
 import { storeToRefs } from 'pinia'
 
 interface Tab {

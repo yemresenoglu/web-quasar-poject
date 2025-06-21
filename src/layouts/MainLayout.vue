@@ -152,9 +152,9 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import ModernSidebar from 'src/components/ModernSidebar.vue'
-import TabSystem from 'src/components/TabSystem.vue'
-import CommandPalette from 'src/components/CommandPalette.vue'
+import ModernSidebar from '../components/ModernSidebar.vue'
+import TabSystem from '../components/TabSystem.vue'
+import CommandPalette from '../components/CommandPalette.vue'
 
 const commandPalette = ref()
 const accountMenu = ref()
