@@ -27,33 +27,59 @@
       </div>
     </div>
     <div class="integrated-service-view__frame-container">
-      <div v-if="isLoading" class="integrated-service-view__loading">
-        <q-spinner color="primary" size="2em" />
-        <div class="integrated-service-view__loading-text">{{ loadingText }}</div>
-      </div>
-      <iframe
-        ref="iframeRef"
+          <LoadingStates 
+      v-if="isLoading" 
+      type="spinner" 
+      spinner-type="dots"
+      :message="loadingText"
+      size="40px"
+      color="primary"
+    />
+      
+      <!-- Webview for all services -->
+      <webview 
+        v-if="isElectron"
+        ref="webviewRef"
         :src="store.currentService.url"
-        frameborder="0"
-        class="integrated-service-view__iframe"
-        referrerpolicy="no-referrer"
-        loading="lazy"
-        sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-        @load="handleIframeLoad"
-      ></iframe>
+        class="integrated-service-view__webview"
+        allowpopups
+        webpreferences="contextIsolation=true,webSecurity=false,allowRunningInsecureContent=true"
+        @dom-ready="handleWebviewLoad"
+        @did-fail-load="handleWebviewError"
+        @did-finish-load="handleWebviewFinishLoad"
+      ></webview>
+      
+      <!-- Fallback message for non-Electron environments -->
+      <div v-else class="integrated-service-view__fallback">
+        <q-icon name="bi-exclamation-triangle" size="48px" />
+        <h3>Electron Gerekli</h3>
+        <p>Bu özellik sadece Electron uygulamasında kullanılabilir.</p>
+        <q-btn 
+          color="primary" 
+          @click="openExternal"
+          label="Tarayıcıda Aç"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useIntegratedServiceViewStore } from 'src/stores/integrated-service-view-store'
 import { useI18n } from 'vue-i18n'
+import LoadingStates from './LoadingStates.vue'
 
 const { t } = useI18n()
 const store = useIntegratedServiceViewStore()
-const iframeRef = ref(null)
+const webviewRef = ref(null)
 const isLoading = ref(true)
+const isElectron = ref(false)
+
+// Check if running in Electron
+onMounted(() => {
+  isElectron.value = window.electronAPI !== undefined
+})
 
 // Computed translations
 const pinTooltip = computed(() => store.isPinned ? t('serviceView.unpin') : t('serviceView.pin'))
@@ -61,16 +87,47 @@ const reloadText = computed(() => t('serviceView.reload'))
 const closeText = computed(() => t('serviceView.close'))
 const loadingText = computed(() => t('serviceView.loading'))
 
-const handleIframeLoad = () => {
+const handleWebviewLoad = () => {
+  console.log('Webview DOM ready')
+}
+
+const handleWebviewFinishLoad = () => {
+  isLoading.value = false
+  console.log('Webview finished loading')
+}
+
+const handleWebviewError = (event) => {
+  console.warn('Webview load error:', event)
   isLoading.value = false
 }
 
 const handleReload = () => {
   isLoading.value = true
-  if (iframeRef.value) {
-    iframeRef.value.src = store.currentService.url
+  
+  if (isElectron.value && webviewRef.value) {
+    // Reload webview
+    webviewRef.value.reload()
   }
 }
+
+const openExternal = () => {
+  if (isElectron.value && window.electronAPI) {
+    window.electronAPI.openExternal(store.currentService.url)
+  } else {
+    window.open(store.currentService.url, '_blank')
+  }
+}
+
+// Cleanup webview on unmount
+onUnmounted(() => {
+  if (webviewRef.value) {
+    try {
+      webviewRef.value.stop()
+    } catch {
+      // Ignore cleanup errors
+    }
+  }
+})
 </script>
 
 <style lang="sass">
@@ -117,12 +174,31 @@ const handleReload = () => {
     color: #5f6368
     font-size: 14px
 
-  &__iframe
+  &__webview
     width: 100%
     height: 100%
     border: none
     background: #fff
     border-radius: 8px
+
+  &__fallback
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    height: 100%
+    gap: 16px
+    color: #5f6368
+    padding: 32px
+
+    h3
+      margin: 0
+      color: #202124
+
+    p
+      margin: 0
+      text-align: center
+      opacity: 0.8
 
   &__header
     height: 48px

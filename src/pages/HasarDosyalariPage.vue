@@ -14,7 +14,7 @@
           <q-card class="stat-card">
             <q-card-section>
               <div class="stat-title">Toplam Dosya</div>
-              <div class="stat-value">1,234</div>
+                <div class="stat-value">{{ damageFilesStore.statistics.totalFiles.toLocaleString() }}</div>
               <div class="stat-trend positive">
                 <q-icon name="bi-arrow-up-right" />
                 <span>8.2%</span>
@@ -26,7 +26,7 @@
           <q-card class="stat-card">
             <q-card-section>
               <div class="stat-title">Aktif Dosyalar</div>
-              <div class="stat-value">856</div>
+                <div class="stat-value">{{ damageFilesStore.statistics.activeFiles.toLocaleString() }}</div>
               <div class="stat-trend positive">
                 <q-icon name="bi-arrow-up-right" />
                 <span>12.5%</span>
@@ -38,7 +38,7 @@
           <q-card class="stat-card">
             <q-card-section>
               <div class="stat-title">Tamamlanan</div>
-              <div class="stat-value">378</div>
+                <div class="stat-value">{{ damageFilesStore.statistics.completedFiles.toLocaleString() }}</div>
               <div class="stat-trend negative">
                 <q-icon name="bi-arrow-down-right" />
                 <span>3.1%</span>
@@ -50,7 +50,7 @@
           <q-card class="stat-card">
             <q-card-section>
               <div class="stat-title">Ortalama Süre</div>
-              <div class="stat-value">15.2<span class="stat-unit">gün</span></div>
+                <div class="stat-value">{{ damageFilesStore.statistics.averageDuration }}<span class="stat-unit">gün</span></div>
               <div class="stat-trend positive">
                 <q-icon name="bi-arrow-up-right" />
                 <span>5.4%</span>
@@ -75,24 +75,26 @@
               </div>
 
               <q-table
-                :rows="files"
-                :columns="columns"
+                  :rows="damageFilesStore.files"
+                  :columns="damageFilesStore.columns"
                 row-key="id"
-                :filter="filter"
-                :loading="loading"
-                :pagination="pagination"
+                  :filter="damageFilesStore.filter"
+                  :loading="damageFilesStore.loading"
+                  :pagination="damageFilesStore.pagination"
                 flat
                 bordered
                 binary-state-sort
-                :sort-icon="sortIcon"
+                  :sort-icon="damageFilesStore.sortIcon"
+                  @update:pagination="handlePaginationChange"
               >
                 <template v-slot:top-right>
                   <q-input
-                    v-model="filter"
+                      v-model="damageFilesStore.filter"
                     placeholder="Ara..."
                     dense
                     outlined
                     class="q-ml-md"
+                      @update:model-value="handleFilterChange"
                   >
                     <template v-slot:append>
                       <q-icon name="bi-search" />
@@ -103,7 +105,7 @@
                 <template v-slot:body-cell-status="props">
                   <q-td :props="props">
                     <q-chip
-                      :color="getStatusColor(props.value)"
+                        :color="damageFilesStore.getStatusColor(props.value)"
                       text-color="white"
                       dense
                       class="status-chip"
@@ -136,75 +138,28 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { useDamageFilesStore } from 'src/stores/damage-files-store'
 
-const loading = ref(false)
-const filter = ref('')
-const pagination = ref({
-  sortBy: 'date',
-  descending: true,
-  page: 1,
-  rowsPerPage: 10
-})
+const damageFilesStore = useDamageFilesStore()
 
-const columns = [
-  { name: 'id', label: 'Dosya No', field: 'id', sortable: true, align: 'left' },
-  { name: 'date', label: 'Tarih', field: 'date', sortable: true, align: 'left' },
-  { name: 'customer', label: 'Müşteri', field: 'customer', sortable: true, align: 'left' },
-  { name: 'type', label: 'Hasar Tipi', field: 'type', sortable: true, align: 'left' },
-  { name: 'amount', label: 'Tutar', field: 'amount', sortable: true, align: 'right' },
-  { name: 'status', label: 'Durum', field: 'status', sortable: true, align: 'center' },
-  { name: 'actions', label: 'İşlemler', field: 'actions', align: 'center' }
-]
-
-const files = ref([
-  {
-    id: 'HSR-2024-001',
-    date: '01.03.2024',
-    customer: 'Ahmet Yılmaz',
-    type: 'Kaza',
-    amount: '₺15,000',
-    status: 'İşlemde'
-  },
-  {
-    id: 'HSR-2024-002',
-    date: '02.03.2024',
-    customer: 'Mehmet Demir',
-    type: 'Sel',
-    amount: '₺25,000',
-    status: 'Tamamlandı'
-  },
-  {
-    id: 'HSR-2024-003',
-    date: '03.03.2024',
-    customer: 'Ayşe Kaya',
-    type: 'Yangın',
-    amount: '₺50,000',
-    status: 'Beklemede'
-  }
-])
-
-const getStatusColor = (status) => {
-  const colors = {
-    'Beklemede': 'warning',
-    'İşlemde': 'info',
-    'Tamamlandı': 'positive',
-    'İptal': 'negative'
-  }
-  return colors[status] || 'grey'
+// Filtre değiştiğinde store'u güncelle
+const handleFilterChange = (value) => {
+  damageFilesStore.updateFilter(value)
 }
 
-const sortIcon = computed(() => ({
-  up: 'bi-chevron-up',
-  down: 'bi-chevron-down'
-}))
+// Pagination değiştiğinde store'u güncelle
+const handlePaginationChange = (newPagination) => {
+  damageFilesStore.updatePagination(newPagination)
+}
 </script>
 
 <style lang="sass">
 .hasar-dosyalari
-  padding: 24px
+  width: 100%
+  height: 100%
   background: #f9f9f9
-  min-height: 100vh
+
+  padding: 24px
 
   .page-container
     max-width: 1400px
@@ -296,18 +251,5 @@ const sortIcon = computed(() => ({
         font-size: 14px
         color: #424242
 
-  // Scroll bar styling
-  ::-webkit-scrollbar
-    width: 8px
-    height: 8px
 
-  ::-webkit-scrollbar-track
-    background: transparent
-
-  ::-webkit-scrollbar-thumb
-    background: rgba(0,0,0,0.2)
-    border-radius: 4px
-
-    &:hover
-      background: rgba(0,0,0,0.3)
 </style> 

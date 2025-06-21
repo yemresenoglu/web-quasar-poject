@@ -14,25 +14,27 @@
             <div class="col-12 col-md-4">
               <q-input
                 outlined
-                v-model="searchParams.dosyaNo"
+                v-model="damageTrackingStore.searchParams.dosyaNo"
                 label="Dosya No"
                 class="form-field"
                 dense
+                @update:model-value="handleInputChange('dosyaNo', $event)"
               />
             </div>
             <div class="col-12 col-md-4">
               <q-input
                 outlined
-                v-model="searchParams.plaka"
+                v-model="damageTrackingStore.searchParams.plaka"
                 label="Plaka"
                 class="form-field"
                 dense
+                @update:model-value="handleInputChange('plaka', $event)"
               />
             </div>
             <div class="col-12 col-md-4">
               <q-select
                 outlined
-                v-model="searchParams.durum"
+                v-model="damageTrackingStore.searchParams.durum"
                 :options="durumOptions"
                 label="Durum"
                 class="form-field"
@@ -41,6 +43,7 @@
                 map-options
                 options-dense
                 dropdown-icon="bi-chevron-down"
+                @update:model-value="handleInputChange('durum', $event)"
               />
             </div>
           </div>
@@ -48,13 +51,21 @@
 
         <q-card-actions align="right" class="q-pa-md">
           <q-btn
+            flat
+            label="Temizle"
+            color="grey-7"
+            class="form-button q-mr-sm"
+            no-caps
+            @click="damageTrackingStore.resetSearchParams"
+          />
+          <q-btn
             unelevated
             icon="bi-search"
             label="Ara"
             color="primary"
             class="search-button"
             no-caps
-            @click="search"
+            @click="damageTrackingStore.search"
           />
         </q-card-actions>
       </q-card>
@@ -64,11 +75,11 @@
           <div class="text-h6 q-mb-md">Arama Sonuçları</div>
           
           <q-table
-            :rows="searchResults"
+            :rows="damageTrackingStore.searchResults"
             :columns="columns"
             row-key="id"
-            :loading="loading"
-            :pagination="pagination"
+            :loading="damageTrackingStore.loading"
+            :pagination="damageTrackingStore.pagination"
             flat
             bordered
           >
@@ -90,13 +101,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { useDamageTrackingStore } from 'src/stores/damage-tracking-store'
 
-const searchParams = ref({
-  dosyaNo: '',
-  plaka: '',
-  durum: null
-})
+const damageTrackingStore = useDamageTrackingStore()
 
 const durumOptions = [
   { label: 'Tümü', value: null },
@@ -106,14 +113,6 @@ const durumOptions = [
   { label: 'İptal', value: 'cancelled' }
 ]
 
-const loading = ref(false)
-const pagination = ref({
-  sortBy: 'desc',
-  descending: false,
-  page: 1,
-  rowsPerPage: 10
-})
-
 const columns = [
   { name: 'dosyaNo', label: 'Dosya No', field: 'dosyaNo', sortable: true, align: 'left' },
   { name: 'plaka', label: 'Plaka', field: 'plaka', sortable: true, align: 'left' },
@@ -122,29 +121,10 @@ const columns = [
   { name: 'actions', label: 'İşlemler', field: 'actions', align: 'center' }
 ]
 
-const searchResults = ref([
-  {
-    id: 1,
-    dosyaNo: 'HSR-2024-001',
-    plaka: '34ABC123',
-    tarih: '01.03.2024',
-    durum: 'İşlemde'
-  },
-  {
-    id: 2,
-    dosyaNo: 'HSR-2024-002',
-    plaka: '06XYZ789',
-    tarih: '02.03.2024',
-    durum: 'Tamamlandı'
-  }
-])
-
-const search = () => {
-  loading.value = true
-  // API çağrısı burada yapılacak
-  setTimeout(() => {
-    loading.value = false
-  }, 1000)
+// Form alanları değiştiğinde store'u güncelle
+const handleInputChange = (field, value) => {
+  const updateData = { [field]: value }
+  damageTrackingStore.updateSearchParams(updateData)
 }
 </script>
 

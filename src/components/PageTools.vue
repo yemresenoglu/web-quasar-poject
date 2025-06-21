@@ -112,7 +112,7 @@
               <div class="page-tools__shortcut">F11</div>
             </q-item-section>
           </q-item>
-          <q-item clickable v-ripple class="page-tools__item">
+          <q-item clickable v-ripple class="page-tools__item" @click="handleSplitViewToggle">
             <q-item-section avatar>
               <q-icon name="bi-layout-split" size="16px" />
             </q-item-section>
@@ -164,6 +164,10 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useSplitViewStore } from 'src/stores/split-view-store'
+
+// Split view store
+const splitViewStore = useSplitViewStore()
 
 // Arama state'leri
 const searchQuery = ref('')
@@ -256,6 +260,11 @@ const clearSearch = () => {
   totalMatches.value = 0
   matches.value = []
   clearHighlights()
+}
+
+// Split view toggle handler
+const handleSplitViewToggle = () => {
+  splitViewStore.toggle()
 }
 </script>
 

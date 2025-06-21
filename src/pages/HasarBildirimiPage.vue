@@ -142,9 +142,10 @@ const handleInputChange = (field, value) => {
 
 <style lang="sass">
 .hasar-bildirimi
-  padding: 24px
+  width: 100%
+  height: 100%
   background: #f9f9f9
-  min-height: 100vh
+  padding: 24px
 
   .page-container
     max-width: 1200px
@@ -155,15 +156,13 @@ const handleInputChange = (field, value) => {
 
   .page-title
     font-size: 24px
-    font-weight: 500
+    font-weight: 600
     color: #202124
     margin: 0
     display: flex
     align-items: center
-    letter-spacing: 0.25px
 
     .q-icon
-      font-size: 24px
       color: #1976d2
       opacity: 0.9
 
@@ -171,87 +170,24 @@ const handleInputChange = (field, value) => {
     background: #fff
     border-radius: 12px
     box-shadow: 0 1px 3px rgba(0,0,0,0.12)
-    transition: all 0.2s ease
     border: 1px solid rgba(0,0,0,0.06)
-    &:hover
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1)
 
   .form-field
     .q-field__control
-      height: 44px
-      font-size: 14px
-      background: white
+      background: #fff
       border-radius: 8px
-      &:hover
-        border-color: rgba(25, 118, 210, 0.4)
-    .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__input
-      padding: 0 4px
+    .q-field__native
       font-size: 14px
-    .q-field__label
-      font-size: 14px
-      color: #424242
-    .q-field__marginal
-      height: 44px
-      .q-icon
-        font-size: 18px
-        color: #1976d2
-        opacity: 0.8
-    &.q-textarea .q-field__control
-      height: auto
-      padding: 8px 0
-    &.q-select
-      .q-field__append
-        .q-icon
-          color: #1976d2
-          opacity: 0.8
-    &.q-field--focused,
-    &.q-field--highlighted
+    &.q-field--focused
       .q-field__control
-        border-color: #1976d2 !important
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12)
-      .q-field__label
-        color: #1976d2 !important
-
-    &:hover .q-field__control
-      border-color: #1976d2 !important
+        box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2)
 
   .form-button
-    min-height: 44px
-    font-size: 14px
-    font-weight: 500
-    padding: 0 24px
     border-radius: 8px
-    transition: all 0.2s ease
-    &.q-btn--unelevated
-      background: #1976d2
-      &:hover
-        background: #1565c0
-    &.q-btn--flat
-      color: #424242
-      &:hover
-        background: rgba(25, 118, 210, 0.04)
-        color: #1976d2
+    font-weight: 500
+    padding: 8px 16px
+    font-size: 14px
 
-  // Scroll bar styling
-  ::-webkit-scrollbar
-    width: 8px
-    height: 8px
-
-  ::-webkit-scrollbar-track
-    background: transparent
-
-  ::-webkit-scrollbar-thumb
-    background: rgba(0,0,0,0.2)
-    border-radius: 4px
-
-    &:hover
-      background: rgba(0,0,0,0.3)
-
-.q-field
-  &.q-field--focused
-    .q-field__control,
-    .q-field__label
-      color: #1976d2 !important
-    .q-field__control
-      border-color: #1976d2 !important 
+  .q-card-actions
+    border-top: 1px solid rgba(0,0,0,0.08)
 </style> 

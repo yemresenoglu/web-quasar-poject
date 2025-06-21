@@ -34,16 +34,12 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
 import IntegratedServiceView from './IntegratedServiceView.vue'
 import SplitViewPanel from './content/SplitViewPanel.vue'
 import PanelSeparator from './content/PanelSeparator.vue'
 import MainContent from './content/MainContent.vue'
 import { useIntegratedServiceViewStore } from 'src/stores/integrated-service-view-store'
 import { useSplitViewStore } from 'src/stores/split-view-store'
-
-// Router
-const router = useRouter()
 
 // Stores
 const integratedServiceStore = useIntegratedServiceViewStore()
@@ -66,9 +62,6 @@ const resetPanelWidths = () => {
 
 // Toggle layout split
 const toggleLayoutSplit = () => {
-  if (!splitViewStore.isVisible) {
-    router.push('/split')
-  }
   splitViewStore.toggle()
 }
 

@@ -9,7 +9,7 @@
           </div>
         </div>
 
-        <q-scroll-area class="tabs-scroll-area">
+        <div class="tabs-scroll-area">
           <div class="tab-previews">
             <q-card 
               v-for="tab in tabs" 
@@ -34,7 +34,7 @@
               </q-card-section>
             </q-card>
           </div>
-        </q-scroll-area>
+        </div>
       </div>
     </div>
   </q-page>
@@ -147,6 +147,7 @@ onMounted(() => {
   .tabs-scroll-area
     height: calc(100% - 65px) // Header yüksekliğini çıkar
     background: #fafafa
+    overflow-y: auto
 
   .tab-previews
     display: grid

@@ -43,15 +43,22 @@
             <q-item-section avatar v-if="item.icon">
               <q-icon :name="item.icon" size="18px" />
             </q-item-section>
-            <q-item-section>{{item.text}}</q-item-section>
+            <q-item-section>
+              <div class="item-content">
+                <span class="item-text">{{ item.text }}</span>
+                <q-chip 
+                  v-if="item.type === 'external'" 
+                  size="xs" 
+                  color="blue" 
+                  text-color="white"
+                  class="external-chip"
+                >
+                  Web App
+                </q-chip>
+              </div>
+            </q-item-section>
           </q-item>
         </q-list>
-      </div>
-
-      <div v-for="n in 100" :key="n" class="q-pa-xs">
-        Lorem ipsum dolor sit amet, consectetur adipisicing
-        elit, sed do eiusmod tempor incididunt ut labore et
-        dolore magna aliqua.
       </div>
     </div>
   </q-page>
@@ -73,15 +80,39 @@ const clearSearch = () => {
   searchQuery.value = ''
 }
 
+const filterMenuItems = () => {
+  // Implement filtering logic if needed
+}
+
 const openInTab = (item) => {
-  tabStore.addTab({
-    title: item.text,
-    name: item.text,
-    icon: item.icon,
-    route: item.route
-  })
-  
-  router.push(item.route)
+  if (item.type === 'external') {
+    // External web application - open as tab with WebAppPage
+    const webappRoute = `/webapp/${item.id}?title=${encodeURIComponent(item.text)}&icon=${encodeURIComponent(item.icon)}&url=${encodeURIComponent(item.url)}`
+    
+    tabStore.addTab({
+      title: item.text,
+      name: item.text,
+      icon: item.icon,
+      route: webappRoute,
+      type: 'external',
+      url: item.url
+    })
+    
+    router.push(webappRoute)
+  } else if (item.type === 'internal') {
+    // Internal Vue.js page - open in tab system
+    tabStore.addTab({
+      title: item.text,
+      name: item.text,
+      icon: item.icon,
+      route: item.route,
+      type: 'internal'
+    })
+    
+    router.push(item.route)
+  } else {
+    console.warn('Unknown menu item type:', item.type)
+  }
 }
 </script>
 
@@ -91,7 +122,6 @@ const openInTab = (item) => {
   height: 100%
   background: #f9f9f9
   padding: 24px
-  overflow: auto
 
   .search-container
     width: 100%
@@ -172,6 +202,20 @@ const openInTab = (item) => {
       color: #1976d2
       opacity: 0.8
 
+    .item-content
+      display: flex
+      align-items: center
+      justify-content: space-between
+      width: 100%
+
+    .item-text
+      flex-grow: 1
+
+    .external-chip
+      margin-left: 8px
+      font-size: 10px
+      font-weight: 500
+
     &:hover
       background: rgba(25, 118, 210, 0.04)
       color: #1976d2
@@ -181,19 +225,4 @@ const openInTab = (item) => {
 
     &:active
       background: rgba(25, 118, 210, 0.08)
-
-  // Scroll bar styling
-  ::-webkit-scrollbar
-    width: 8px
-    height: 8px
-
-  ::-webkit-scrollbar-track
-    background: transparent
-
-  ::-webkit-scrollbar-thumb
-    background: rgba(0,0,0,0.2)
-    border-radius: 4px
-
-    &:hover
-      background: rgba(0,0,0,0.3)
 </style> 

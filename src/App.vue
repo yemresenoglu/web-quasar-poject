@@ -3,7 +3,20 @@
 </template>
 
 <script setup>
-//
+import { onMounted } from 'vue'
+import { useThemeStore } from 'src/stores/theme-store'
+import { useAppDataStore } from 'src/stores/app-data-store'
+
+const themeStore = useThemeStore()
+const appDataStore = useAppDataStore()
+
+onMounted(() => {
+  // Initialize app data store
+  appDataStore.initialize()
+  
+  // Initialize theme system
+  themeStore.initializeTheme()
+})
 </script>
 
 <style>

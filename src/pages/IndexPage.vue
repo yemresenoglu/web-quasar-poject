@@ -301,7 +301,7 @@ const tasks = [
   {
     id: 3,
     title: 'Eksper Raporu İnceleme',
-    description: 'Ağır Hasar - Onay Bekliyor',
+            description: 'Hasar Sorgulama - Aktif',
     priority: 'Acil',
     icon: 'bi-file-text',
     color: 'orange'
@@ -468,8 +468,10 @@ const operationStats = [
 
 <style lang="sass">
 .dashboard
-  padding: 24px
+  width: 100%
+  height: 100%
   background: #f9f9f9
+  padding: 24px
   min-height: 100vh
 
   .dashboard-card
@@ -624,19 +626,4 @@ const operationStats = [
       &:hover
         box-shadow: 0 2px 4px rgba(0,0,0,0.1)
         transform: translateY(-1px)
-
-  // Scroll bar styling
-  ::-webkit-scrollbar
-    width: 8px
-    height: 8px
-
-  ::-webkit-scrollbar-track
-    background: transparent
-
-  ::-webkit-scrollbar-thumb
-    background: rgba(0,0,0,0.2)
-    border-radius: 4px
-
-    &:hover
-      background: rgba(0,0,0,0.3)
 </style>

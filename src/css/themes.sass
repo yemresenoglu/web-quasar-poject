@@ -1,0 +1,221 @@
+// Theme CSS Variables and Styles
+
+// CSS Custom Properties (Variables)
+:root
+  // Light theme (default)
+  --q-primary: #1976d2
+  --q-secondary: #26a69a
+  --q-accent: #9c27b0
+  --theme-background: #ffffff
+  --theme-surface: #f5f5f5
+  --theme-text-primary: #202124
+  --theme-text-secondary: #5f6368
+  --theme-border: rgba(0,0,0,0.12)
+  --theme-shadow: rgba(0,0,0,0.1)
+
+// Light Theme
+.theme-light
+  --theme-background: #ffffff
+  --theme-surface: #f5f5f5
+  --theme-text-primary: #202124
+  --theme-text-secondary: #5f6368
+  --theme-border: rgba(0,0,0,0.12)
+  --theme-shadow: rgba(0,0,0,0.1)
+  --header-background: linear-gradient(135deg, #d7e1ea, #f5f1ff)
+  --card-background: #ffffff
+  --sidebar-background: #f8f9fa
+
+// Dark Theme
+.theme-dark
+  --q-primary: #3f51b5
+  --q-secondary: #4caf50
+  --q-accent: #ff5722
+  --theme-background: #121212
+  --theme-surface: #1e1e1e
+  --theme-text-primary: #ffffff
+  --theme-text-secondary: #b3b3b3
+  --theme-border: rgba(255,255,255,0.12)
+  --theme-shadow: rgba(0,0,0,0.3)
+  --header-background: linear-gradient(135deg, #2c3e50, #34495e)
+  --card-background: #1e1e1e
+  --sidebar-background: #1a1a1a
+
+// Business Theme
+.theme-business
+  --q-primary: #2c3e50
+  --q-secondary: #34495e
+  --q-accent: #e74c3c
+  --theme-background: #ecf0f1
+  --theme-surface: #ffffff
+  --theme-text-primary: #2c3e50
+  --theme-text-secondary: #7f8c8d
+  --theme-border: rgba(44,62,80,0.12)
+  --theme-shadow: rgba(44,62,80,0.1)
+  --header-background: linear-gradient(135deg, #bdc3c7, #ecf0f1)
+  --card-background: #ffffff
+  --sidebar-background: #f8f9fa
+
+// High Contrast Mode
+.high-contrast
+  --theme-text-primary: #000000 !important
+  --theme-text-secondary: #333333 !important
+  --theme-border: #000000 !important
+  --theme-shadow: rgba(0,0,0,0.5) !important
+  
+  &.theme-dark
+    --theme-text-primary: #ffffff !important
+    --theme-text-secondary: #cccccc !important
+    --theme-border: #ffffff !important
+
+// Apply theme variables to components
+.q-layout
+  background: var(--theme-background)
+  color: var(--theme-text-primary)
+
+.q-header
+  background: var(--header-background) !important
+
+.q-drawer
+  background: var(--sidebar-background) !important
+  color: var(--theme-text-primary)
+
+.q-card
+  background: var(--card-background) !important
+  color: var(--theme-text-primary)
+  border: 1px solid var(--theme-border)
+  box-shadow: 0 1px 3px var(--theme-shadow)
+
+.q-page
+  background: var(--theme-background)
+  color: var(--theme-text-primary)
+
+// Form elements
+.q-field
+  .q-field__control
+    background: var(--card-background) !important
+    border-color: var(--theme-border) !important
+  
+  .q-field__native, .q-field__prefix, .q-field__suffix
+    color: var(--theme-text-primary) !important
+  
+  .q-field__label
+    color: var(--theme-text-secondary) !important
+
+// Buttons
+.q-btn
+  &.q-btn--standard
+    background: var(--q-primary) !important
+    color: white !important
+
+// Tables
+.q-table
+  background: var(--card-background) !important
+  color: var(--theme-text-primary)
+  
+  thead
+    background: var(--theme-surface) !important
+  
+  tbody tr:nth-child(even)
+    background: var(--theme-surface)
+
+// Scrollbars for dark theme
+.theme-dark
+  ::-webkit-scrollbar-thumb
+    background: #555555
+    opacity: 0.8
+  
+  ::-webkit-scrollbar-thumb:hover
+    background: #777777
+
+// Dynamic Theme Support
+.dynamic-theme
+  // Apply wallpaper background to body
+  background-attachment: fixed !important
+  background-size: cover !important
+  background-position: center !important
+  background-repeat: no-repeat !important
+  
+  // Apply glass morphism effects
+  .q-card
+    background: rgba(255, 255, 255, 0.15) !important
+    backdrop-filter: blur(20px) !important
+    border: 1px solid rgba(255, 255, 255, 0.2) !important
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37) !important
+  
+  .q-header
+    background: rgba(255, 255, 255, 0.1) !important
+    backdrop-filter: blur(20px) !important
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important
+  
+  .q-drawer
+    background: rgba(255, 255, 255, 0.1) !important
+    backdrop-filter: blur(20px) !important
+    border-right: 1px solid rgba(255, 255, 255, 0.2) !important
+  
+  // Content areas with glass effect
+  .content-scroll
+    background: rgba(255, 255, 255, 0.1) !important
+    backdrop-filter: blur(20px) !important
+    border: 1px solid rgba(255, 255, 255, 0.2) !important
+  
+  // Menus and overlays
+  .settings-menu, .favorites-menu, .notifications-menu, .history-menu, .account-menu, .pinboards-menu
+    .q-menu
+      background: rgba(255, 255, 255, 0.15) !important
+      backdrop-filter: blur(20px) !important
+      border: 1px solid rgba(255, 255, 255, 0.2) !important
+  
+  // Form elements with transparency
+  .q-field
+    .q-field__control
+      background: rgba(255, 255, 255, 0.2) !important
+      backdrop-filter: blur(10px) !important
+      border: 1px solid rgba(255, 255, 255, 0.3) !important
+  
+  // Buttons with dynamic colors
+  .q-btn--standard
+    background: var(--theme-primary) !important
+    color: white !important
+    backdrop-filter: blur(10px)
+    border: 1px solid rgba(255, 255, 255, 0.2)
+  
+  // Text colors for better contrast
+  --theme-text-primary: rgba(255, 255, 255, 0.95) !important
+  --theme-text-secondary: rgba(255, 255, 255, 0.7) !important
+  
+  // Dynamic color adaptation
+  &.light-wallpaper
+    --theme-text-primary: rgba(0, 0, 0, 0.87) !important
+    --theme-text-secondary: rgba(0, 0, 0, 0.6) !important
+    
+    .q-card
+      background: rgba(255, 255, 255, 0.8) !important
+    
+    .q-header, .q-drawer
+      background: rgba(255, 255, 255, 0.9) !important
+
+// Auto theme (follows system preference)
+.theme-auto
+  @media (prefers-color-scheme: dark)
+    @extend .theme-dark
+  
+  @media (prefers-color-scheme: light)
+    @extend .theme-light
+
+// Wallpaper overlay for better text readability
+.wallpaper-overlay
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.1) 100%)
+  pointer-events: none
+  z-index: 1
+
+// Transitions for smooth theme changes
+*
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease
+  
+.q-layout, .q-page, .q-card, .q-header, .q-drawer
+  transition: background 0.3s ease, background-color 0.3s ease, backdrop-filter 0.3s ease 

@@ -5,45 +5,48 @@ const routes = [
     children: [
       { 
         path: '', 
-        components: {
-          default: () => import('pages/IndexPage.vue'),
-          split: () => import('pages/SplitIndexPage.vue')
-        }
+        name: 'home',
+        component: () => import('pages/IndexPage.vue')
       },
       { 
         path: 'menu', 
-        components: {
-          default: () => import('pages/MenuPage.vue'),
-          split: () => import('pages/SplitIndexPage.vue')
-        }
+        name: 'menu',
+        component: () => import('pages/MenuPage.vue')
       },
       { 
         path: 'hasar-bildirimi', 
-        components: {
-          default: () => import('src/pages/HasarBildirimiPage.vue'),
-          split: () => import('pages/SplitIndexPage.vue')
-        }
+        name: 'hasar-bildirimi',
+        component: () => import('src/pages/HasarBildirimiPage.vue')
       },
       { 
         path: 'hasar-takibi', 
-        components: {
-          default: () => import('src/pages/HasarTakibiPage.vue'),
-          split: () => import('pages/SplitIndexPage.vue')
-        }
+        name: 'hasar-takibi',
+        component: () => import('src/pages/HasarTakibiPage.vue')
       },
       { 
         path: 'hasar-dosyalari', 
-        components: {
-          default: () => import('src/pages/HasarDosyalariPage.vue'),
-          split: () => import('pages/SplitIndexPage.vue')
-        }
+        name: 'hasar-dosyalari',
+        component: () => import('src/pages/HasarDosyalariPage.vue')
       },
       { 
-        path: 'split',
-        components: {
-          default: () => import('pages/SplitIndexPage.vue'),
-          split: () => import('pages/SplitIndexPage.vue')
-        }
+        path: 'musteri-bilgileri', 
+        name: 'musteri-bilgileri',
+        component: () => import('src/pages/IndexPage.vue')
+      },
+      { 
+        path: 'police-sorgulama', 
+        name: 'police-sorgulama',
+        component: () => import('src/pages/IndexPage.vue')
+      },
+      { 
+        path: 'webapp/:appId', 
+        name: 'webapp',
+        component: () => import('src/pages/EmptyPage.vue')
+      },
+      { 
+        path: 'performance', 
+        name: 'performance',
+        component: () => import('src/pages/PerformancePage.vue')
       }
     ]
   },

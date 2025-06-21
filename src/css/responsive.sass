@@ -1,0 +1,379 @@
+// Responsive Design System
+// Mobile-first approach with breakpoints
+
+// Breakpoints
+$mobile: 480px
+$tablet: 768px
+$desktop: 1024px
+$large: 1440px
+
+// Mixins for responsive design
+@mixin mobile
+  @media (max-width: #{$mobile - 1px})
+    @content
+
+@mixin tablet
+  @media (min-width: #{$mobile}) and (max-width: #{$tablet - 1px})
+    @content
+
+@mixin desktop
+  @media (min-width: #{$tablet})
+    @content
+
+@mixin large
+  @media (min-width: #{$desktop})
+    @content
+
+// Layout Responsive Rules
+.q-layout
+  @include mobile
+    .q-drawer
+      width: 100% !important
+      max-width: 280px
+      
+    .q-header
+      .header__toolbar
+        padding: 2px 8px !important
+        
+      .header__actions
+        gap: 1px
+        
+      .header__action-button
+        width: 20px
+        height: 20px
+        .q-icon
+          font-size: 10px
+
+// Header Responsive
+.header
+  @include mobile
+    height: 40px !important
+    
+    &__toolbar
+      height: 100%
+      padding: 1px 4px !important
+      
+    &__actions
+      gap: 1px
+      
+    &__action-button
+      width: 20px
+      height: 20px
+      
+      .q-icon
+        font-size: 10px
+        
+    .alexa_button
+      width: 24px
+      height: 24px
+      
+      .q-icon
+        font-size: 16px !important
+
+// Sidebar Responsive  
+.drawer
+  @include mobile
+    width: 280px !important
+    
+  @include tablet
+    width: 56px !important
+    
+  &__section
+    @include mobile
+      padding: 8px 16px
+      
+  .drawer-item
+    @include mobile
+      padding: 8px 12px
+      
+      .q-item-section
+        min-width: auto
+
+// Tab Container Responsive
+.header-tabs
+  @include mobile
+    height: 32px
+    
+    &__container
+      height: 32px
+      padding-left: 2px
+      padding-right: 4px
+
+// Tab Responsive
+.tab
+  @include mobile
+    min-width: 80px !important
+    max-width: 120px !important
+    height: 28px !important
+    
+    &__content
+      padding: 0 6px !important
+      gap: 4px
+      
+    &__icon
+      font-size: 12px !important
+      
+    &__text
+      font-size: 11px !important
+      
+    &__close
+      width: 16px !important
+      height: 16px !important
+      
+      .q-icon
+        font-size: 10px !important
+
+// Content Responsive
+.content-view
+  @include mobile
+    padding: 8px
+    
+  @include tablet
+    padding: 12px
+    
+  @include desktop
+    padding: 16px
+
+// Cards Responsive
+.q-card
+  @include mobile
+    margin: 8px 0
+    border-radius: 12px
+    
+  @include tablet
+    margin: 12px 0
+    border-radius: 16px
+    
+  @include desktop
+    margin: 16px 0
+    border-radius: 18px
+
+// Menu Responsive
+.settings-menu, .favorites-menu, .notifications-menu, .history-menu, .account-menu, .pinboards-menu
+  .q-menu
+    @include mobile
+      max-width: calc(100vw - 32px) !important
+      max-height: calc(100vh - 100px) !important
+      
+    @include tablet
+      max-width: 400px !important
+      max-height: calc(100vh - 120px) !important
+
+// Performance Dashboard Responsive
+.performance-dashboard
+  @include mobile
+    padding: 8px
+    
+    .performance-grid
+      grid-template-columns: 1fr !important
+      gap: 8px
+      
+    .performance-widget
+      padding: 12px
+      
+      h3
+        font-size: 14px
+        
+    .stat-item
+      flex-direction: column
+      text-align: center
+      gap: 4px
+      
+      .stat-label
+        font-size: 11px
+        
+      .stat-value
+        font-size: 16px
+        
+  @include tablet
+    .performance-grid
+      grid-template-columns: repeat(2, 1fr) !important
+      gap: 12px
+
+// Tables Responsive
+.q-table
+  @include mobile
+    .q-table__container
+      max-width: calc(100vw - 32px)
+      
+    .q-table__middle
+      max-width: 100%
+      overflow-x: auto
+      
+    th, td
+      padding: 8px 4px !important
+      font-size: 12px !important
+      
+    .q-table__bottom
+      flex-direction: column
+      gap: 8px
+      
+      .q-table__control
+        justify-content: center
+
+// Forms Responsive
+.q-field
+  @include mobile
+    margin-bottom: 12px
+    
+    .q-field__control
+      min-height: 44px // Touch-friendly height
+      
+    .q-field__native
+      font-size: 16px // Prevent zoom on iOS
+      
+  @include tablet
+    margin-bottom: 16px
+
+// Buttons Responsive
+.q-btn
+  @include mobile
+    min-height: 44px // Touch-friendly height
+    padding: 0 16px
+    
+    &.q-btn--small
+      min-height: 36px
+      padding: 0 12px
+      
+    &.q-btn--large
+      min-height: 52px
+      padding: 0 24px
+
+// Dialog Responsive
+.q-dialog
+  @include mobile
+    .q-dialog__inner
+      padding: 16px
+      
+    .q-card
+      width: calc(100vw - 32px) !important
+      max-width: none !important
+      margin: 0
+      border-radius: 16px
+
+// Tooltips Responsive
+.q-tooltip
+  @include mobile
+    display: none !important // Hide tooltips on mobile
+
+// Loading States Responsive
+.loading-overlay
+  @include mobile
+    .loading-content
+      .loading-message
+        font-size: 12px
+        max-width: 150px
+
+// Empty State Responsive
+.empty-state
+  @include mobile
+    min-height: 150px
+    padding: 16px 8px
+    
+    &__content
+      max-width: 250px
+      
+    &__title
+      font-size: 16px
+      
+    &__description
+      font-size: 12px
+      
+    &__icon .q-icon
+      font-size: 48px !important
+
+// Error State Responsive
+.error-state
+  @include mobile
+    min-height: 200px
+    padding: 16px 8px
+    
+    &__content
+      max-width: 280px
+      
+    &__title
+      font-size: 18px
+      
+    &__message
+      font-size: 13px
+      
+    &__actions
+      flex-direction: column
+      gap: 8px
+      
+      .q-btn
+        width: 100%
+        max-width: 200px
+
+// Utility Classes
+.mobile-only
+  @include tablet
+    display: none !important
+    
+  @include desktop
+    display: none !important
+
+.tablet-only
+  @include mobile
+    display: none !important
+    
+  @include desktop
+    display: none !important
+
+.desktop-only
+  @include mobile
+    display: none !important
+    
+  @include tablet
+    display: none !important
+
+.mobile-hidden
+  @include mobile
+    display: none !important
+
+.tablet-hidden
+  @include tablet
+    display: none !important
+
+.desktop-hidden
+  @include desktop
+    display: none !important
+
+// Touch-friendly improvements
+@media (hover: none) and (pointer: coarse)
+  // This targets touch devices
+  .q-btn, .q-item, .q-tab
+    min-height: 44px
+    
+  .q-field__control
+    min-height: 44px
+    
+  .drawer-item
+    min-height: 48px
+    
+  // Remove hover effects on touch devices
+  .q-btn:hover, .q-item:hover, .q-tab:hover
+    background: transparent !important
+
+// High DPI displays
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
+  .q-icon
+    image-rendering: -webkit-optimize-contrast
+    image-rendering: crisp-edges
+    
+  img
+    image-rendering: -webkit-optimize-contrast
+    image-rendering: crisp-edges
+
+// Print styles
+@media print
+  .header, .drawer, .q-fab, .q-page-sticky
+    display: none !important
+    
+  .q-page
+    margin: 0 !important
+    padding: 0 !important
+    
+  .q-card
+    box-shadow: none !important
+    border: 1px solid #ccc !important 

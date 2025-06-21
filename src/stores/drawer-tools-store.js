@@ -9,39 +9,46 @@ export const useDrawerToolsStore = defineStore('drawer-tools', () => {
   const tools = ref([
     { 
       id: 'favorites', 
+      key: 'favorites',
       icon: 'bi-heart', 
       translationKey: 'drawer.tools.favorites', 
-      enabled: false 
+      enabled: true 
     },
     { 
       id: 'pinboards', 
+      key: 'pinboards',
       icon: 'bi-pin-angle', 
       translationKey: 'drawer.tools.pinboards', 
-      enabled: false 
+      enabled: true 
     },
     { 
       id: 'history', 
+      key: 'history',
       icon: 'bi-clock', 
       translationKey: 'drawer.tools.history', 
-      enabled: false 
+      enabled: true 
     },
     { 
       id: 'notifications', 
+      key: 'notifications',
       icon: 'bi-bell', 
       translationKey: 'drawer.tools.notifications', 
-      enabled: false 
+      enabled: true 
+    },
+    { 
+      id: 'performance', 
+      key: 'performance',
+      icon: 'bi-speedometer2', 
+      text: 'Performance', 
+      route: '/performance',
+      enabled: true 
     },
     { 
       id: 'settings', 
+      key: 'settings',
       icon: 'bi-gear', 
       translationKey: 'drawer.tools.settings', 
-      enabled: false 
-    },
-    { 
-      id: 'education', 
-      icon: 'bi-mortarboard', 
-      translationKey: 'drawer.tools.education', 
-      enabled: false 
+      enabled: true 
     }
   ])
 
@@ -49,10 +56,21 @@ export const useDrawerToolsStore = defineStore('drawer-tools', () => {
   const bottomLinks = computed(() => {
     return tools.value
       .filter(tool => tool.enabled)
-      .map(tool => ({
-        ...tool,
-        text: t(tool.translationKey)
-      }))
+      .map(tool => {
+        let text = tool.text
+        if (!text && tool.translationKey) {
+          try {
+            text = t(tool.translationKey)
+          } catch {
+            console.warn(`Translation key not found: ${tool.translationKey}`)
+            text = tool.key || tool.id || 'Unknown'
+          }
+        }
+        return {
+          ...tool,
+          text: text || tool.key || tool.id || 'Unknown'
+        }
+      })
   })
 
   // Toggle tool enabled state
@@ -65,10 +83,21 @@ export const useDrawerToolsStore = defineStore('drawer-tools', () => {
 
   // Return store interface with computed translations
   return {
-    tools: computed(() => tools.value.map(tool => ({
-      ...tool,
-      text: t(tool.translationKey)
-    }))),
+    tools: computed(() => tools.value.map(tool => {
+      let text = tool.text
+      if (!text && tool.translationKey) {
+        try {
+          text = t(tool.translationKey)
+        } catch {
+          console.warn(`Translation key not found: ${tool.translationKey}`)
+          text = tool.key || tool.id || 'Unknown'
+        }
+      }
+      return {
+        ...tool,
+        text: text || tool.key || tool.id || 'Unknown'
+      }
+    })),
     bottomLinks,
     toggleTool
   }

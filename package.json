@@ -8,11 +8,23 @@
   "private": true,
   "scripts": {
     "lint": "eslint -c ./eslint.config.js \"./src*/**/*.{js,cjs,mjs,vue}\"",
+    "lint:fix": "eslint -c ./eslint.config.js \"./src*/**/*.{js,cjs,mjs,vue}\" --fix",
     "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
-    "test": "echo \"No test specified\" && exit 0",
+    "type-check": "vue-tsc --noEmit",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
     "dev": "quasar dev",
     "build": "quasar build",
-    "postinstall": "quasar prepare"
+    "electron:dev": "quasar dev -m electron",
+    "electron:build": "quasar build -m electron",
+    "electron:pack": "quasar build -m electron --publish=never",
+    "postinstall": "quasar prepare",
+    "release": "semantic-release",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.16",
@@ -28,17 +40,28 @@
     "vue-router": "^4.0.0"
   },
   "devDependencies": {
+    "@electron/packager": "^18.3.6",
     "@eslint/js": "^9.14.0",
     "@intlify/unplugin-vue-i18n": "^2.0.0",
     "@quasar/app-vite": "^2.0.0",
+    "@types/node": "^22.0.0",
     "@vue/eslint-config-prettier": "^10.1.0",
+    "@vue/test-utils": "^2.4.0",
     "autoprefixer": "^10.4.2",
+    "electron": "^36.4.0",
+    "electron-builder": "^25.0.0",
     "eslint": "^9.14.0",
     "eslint-plugin-vue": "^9.30.0",
     "globals": "^15.12.0",
+    "happy-dom": "^15.0.0",
     "postcss": "^8.4.14",
     "prettier": "^3.3.3",
-    "vite-plugin-checker": "^0.8.0"
+    "semantic-release": "^24.0.0",
+    "typescript": "^5.0.0",
+    "vite-plugin-checker": "^0.8.0",
+    "vitepress": "^1.0.0",
+    "vitest": "^2.0.0",
+    "vue-tsc": "^2.0.0"
   },
   "engines": {
     "node": "^28 || ^26 || ^24 || ^22 || ^20 || ^18",

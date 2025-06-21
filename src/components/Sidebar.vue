@@ -36,6 +36,23 @@
             </q-icon>
           </q-item-section>
         </q-item>
+
+        <!-- Tab Management -->
+        <q-item class="drawer-item drawer-item-static">
+          <q-item-section avatar>
+            <q-icon 
+              name="bi-window-stack" 
+              size="16px"
+              class="cursor-pointer"
+              @click="navigateToTabs"
+            >
+              <q-tooltip anchor="center right" self="center left" :offset="[16, 0]">
+                Sekme Yönetimi
+              </q-tooltip>
+            </q-icon>
+          </q-item-section>
+        </q-item>
+
         <!-- Workspaces -->
         <q-item 
           v-for="workspace in workspaces" 
@@ -98,10 +115,16 @@
               :name="link.icon" 
               size="16px"
               class="cursor-pointer"
+              @click="handleBottomLinkClick(link)"
             >
               <q-tooltip anchor="center right" self="center left" :offset="[16, 0]">
                 {{ link.text }}
               </q-tooltip>
+              <FavoritesMenu v-if="link.key === 'favorites'" />
+              <NotificationsMenu v-if="link.key === 'notifications'" />
+              <PinboardsMenu v-if="link.key === 'pinboards'" />
+              <HistoryMenu v-if="link.key === 'history'" />
+              <SettingsMenu v-if="link.key === 'settings'" />
             </q-icon>
           </q-item-section>
         </q-item>
@@ -127,6 +150,7 @@
               <q-tooltip anchor="center right" self="center left" :offset="[16, 0]">
                 {{ $t('sidebar.account') }}
               </q-tooltip>
+              <AccountMenu />
             </q-avatar>
           </q-item-section>
         </q-item>
@@ -138,14 +162,23 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
 import { useDrawerToolsStore } from 'src/stores/drawer-tools-store'
 import { useIntegratedServicesStore } from 'src/stores/integrated-services-store'
 import { useWorkspacesStore } from 'src/stores/workspaces-store'
 import { useIntegratedServiceViewStore } from 'src/stores/integrated-service-view-store'
 import { useTabStore } from 'src/stores/tab-store'
 import SidebarSetting from './SidebarSetting.vue'
+import FavoritesMenu from './FavoritesMenu.vue'
+import NotificationsMenu from './NotificationsMenu.vue'
+import PinboardsMenu from './PinboardsMenu.vue'
+import HistoryMenu from './HistoryMenu.vue'
+import SettingsMenu from './SettingsMenu.vue'
+import AccountMenu from './AccountMenu.vue'
+import TabsDialog from './TabsDialog.vue'
 
 const router = useRouter()
+const $q = useQuasar()
 const drawerToolsStore = useDrawerToolsStore()
 const integratedServicesStore = useIntegratedServicesStore()
 const workspacesStore = useWorkspacesStore()
@@ -174,9 +207,29 @@ const navigateToMenu = () => {
   })
 }
 
+const navigateToTabs = () => {
+  $q.dialog({
+    component: TabsDialog,
+    componentProps: {}
+  })
+}
+
 const handleServiceClick = (service) => {
+  // All integrated services are now external web applications
   integratedServiceViewStore.show()
   integratedServiceViewStore.setCurrentService(service)
+}
+
+const handleBottomLinkClick = (link) => {
+  if (link.route) {
+    // Navigate to internal route (like Performance Dashboard)
+    tabStore.addTab({
+      title: link.text,
+      icon: link.icon,
+      route: link.route,
+      type: 'internal'
+    })
+  }
 }
 
 const workspaces = computed(() => [...workspacesStore.activeWorkspaces])

@@ -145,6 +145,7 @@
             </div>
           </div>
           <div class="drawer-settings__divider"></div>
+          
           <div class="drawer-settings__section">
             <div class="drawer-settings__section-header">
               <div class="drawer-settings__section-title">{{ $t('settings.sidebar.settings') }}</div>
@@ -239,6 +240,7 @@ const closeMenu = () => {
     flex: 1
     width: 444px
     padding-right: 8px
+    // Vertical scrollbar
     .q-scrollarea__thumb--v
       width: 4px !important
       right: 4px
@@ -250,6 +252,20 @@ const closeMenu = () => {
     .q-scrollarea__bar--v
       width: 4px !important
       right: 4px !important
+      background: transparent !important
+      opacity: 0.4 !important
+    // Horizontal scrollbar
+    .q-scrollarea__thumb--h
+      height: 4px !important
+      bottom: 4px
+      background: #9e9e9e !important
+      opacity: 0.6 !important
+      &:hover
+        opacity: 0.8 !important
+        background: #757575 !important
+    .q-scrollarea__bar--h
+      height: 4px !important
+      bottom: 4px !important
       background: transparent !important
       opacity: 0.4 !important
     :deep(.q-scrollarea__content)
@@ -322,6 +338,8 @@ const closeMenu = () => {
         color: #202124
         .q-item__section--side .q-icon
           opacity: 1
+
+
 
   &__footer
     padding: 8px 16px

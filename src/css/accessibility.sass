@@ -1,0 +1,273 @@
+// Accessibility (A11y) Improvements
+// WCAG 2.1 AA compliant styles
+
+// Focus Management
+*:focus
+  outline: 2px solid var(--q-primary)
+  outline-offset: 2px
+  border-radius: 4px
+
+// Skip to content link
+.skip-link
+  position: absolute
+  top: -40px
+  left: 6px
+  background: var(--q-primary)
+  color: white
+  padding: 8px
+  text-decoration: none
+  border-radius: 4px
+  z-index: 10000
+  
+  &:focus
+    top: 6px
+
+// High contrast mode support
+@media (prefers-contrast: high)
+  .q-btn, .q-card, .q-field
+    border: 2px solid var(--theme-text-primary) !important
+    
+  .q-btn
+    background: var(--theme-background) !important
+    color: var(--theme-text-primary) !important
+    
+  .q-icon
+    color: var(--theme-text-primary) !important
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce)
+  *
+    animation-duration: 0.01ms !important
+    animation-iteration-count: 1 !important
+    transition-duration: 0.01ms !important
+    scroll-behavior: auto !important
+
+// Color contrast improvements
+.q-btn
+  &--primary
+    background: #1976d2 !important
+    color: white !important
+    
+  &--secondary
+    background: #26a69a !important
+    color: white !important
+    
+  &--accent
+    background: #9c27b0 !important
+    color: white !important
+
+// Text size and spacing for readability
+.q-field
+  .q-field__native
+    font-size: 16px !important // Prevent zoom on mobile
+    line-height: 1.5
+    
+.q-item
+  min-height: 48px // Touch target size
+  
+.q-btn
+  min-height: 44px // Touch target size
+  min-width: 44px
+  
+.q-tab
+  min-height: 48px // Touch target size
+
+// Screen reader only content
+.sr-only
+  position: absolute
+  width: 1px
+  height: 1px
+  padding: 0
+  margin: -1px
+  overflow: hidden
+  clip: rect(0, 0, 0, 0)
+  white-space: nowrap
+  border: 0
+
+// Keyboard navigation indicators
+.q-focusable
+  &:focus-visible
+    outline: 2px solid var(--q-primary)
+    outline-offset: 2px
+    
+// Error states for form validation
+.q-field--error
+  .q-field__control
+    border-color: #f44336 !important
+    
+  .q-field__messages
+    color: #f44336 !important
+    font-weight: 500
+
+// Loading states accessibility
+.loading-overlay
+  &[aria-hidden="false"]
+    .loading-content
+      &::before
+        content: "Yükleniyor..."
+        position: absolute
+        left: -9999px
+        
+// Better focus indicators for custom components
+.tab
+  &:focus-visible
+    outline: 2px solid var(--q-primary)
+    outline-offset: 2px
+    
+.drawer-item
+  &:focus-visible
+    outline: 2px solid var(--q-primary)
+    outline-offset: -2px
+    
+.header__action-button
+  &:focus-visible
+    outline: 2px solid var(--q-primary)
+    outline-offset: 2px
+
+// Improved color contrast for text
+.theme-light
+  --text-high-contrast: #000000
+  --text-medium-contrast: #333333
+  --text-low-contrast: #666666
+  
+.theme-dark
+  --text-high-contrast: #ffffff
+  --text-medium-contrast: #cccccc
+  --text-low-contrast: #999999
+
+// High contrast text classes
+.text-high-contrast
+  color: var(--text-high-contrast) !important
+  
+.text-medium-contrast
+  color: var(--text-medium-contrast) !important
+  
+.text-low-contrast
+  color: var(--text-low-contrast) !important
+
+// Tooltip accessibility
+.q-tooltip
+  font-size: 14px !important
+  line-height: 1.4 !important
+  max-width: 200px !important
+  
+// Dialog accessibility
+.q-dialog
+  .q-card
+    &[role="dialog"]
+      &:focus
+        outline: none // Remove default focus as dialog manages focus
+        
+// Table accessibility
+.q-table
+  th
+    font-weight: 600 !important
+    
+  td, th
+    border: 1px solid var(--theme-border) !important
+    
+// List accessibility
+.q-list
+  .q-item
+    &[role="option"]
+      &[aria-selected="true"]
+        background: rgba(var(--q-primary-rgb), 0.1) !important
+        
+// Menu accessibility
+.q-menu
+  .q-item
+    &:focus
+      background: rgba(var(--q-primary-rgb), 0.1) !important
+
+// Form accessibility
+.q-field
+  &[aria-invalid="true"]
+    .q-field__control
+      border-color: #f44336 !important
+      
+  &[aria-required="true"]
+    .q-field__label::after
+      content: " *"
+      color: #f44336
+
+// Status indicators
+.status-indicator
+  &--success
+    color: #4caf50 !important
+    
+  &--warning
+    color: #ff9800 !important
+    
+  &--error
+    color: #f44336 !important
+    
+  &--info
+    color: #2196f3 !important
+
+// Print accessibility
+@media print
+  .sr-only
+    position: static !important
+    width: auto !important
+    height: auto !important
+    clip: auto !important
+    overflow: visible !important
+    white-space: normal !important
+    
+  .skip-link
+    display: none !important
+    
+  // Ensure good contrast in print
+  *
+    color: black !important
+    background: white !important
+    
+  .q-btn, .q-card
+    border: 1px solid black !important
+
+// Motion preferences
+@media (prefers-reduced-motion: no-preference)
+  .animate-on-scroll
+    opacity: 0
+    transform: translateY(20px)
+    transition: opacity 0.6s ease, transform 0.6s ease
+    
+    &.in-view
+      opacity: 1
+      transform: translateY(0)
+
+// Language direction support
+[dir="rtl"]
+  .drawer
+    left: auto !important
+    right: 0 !important
+    
+  .header-tabs
+    direction: rtl
+    
+  .tab
+    &::after
+      left: auto
+      right: 0
+      
+  .drawer-item
+    &::before
+      left: auto
+      right: 0
+
+// Forced colors mode (Windows high contrast)
+@media (forced-colors: active)
+  .q-btn
+    border: 1px solid ButtonText !important
+    
+  .q-card
+    border: 1px solid CanvasText !important
+    
+  .q-field
+    .q-field__control
+      border: 1px solid CanvasText !important
+      
+  .tab
+    &--active
+      background: Highlight !important
+      color: HighlightText !important 

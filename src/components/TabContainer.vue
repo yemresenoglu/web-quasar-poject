@@ -33,6 +33,7 @@ const isLastTab = (tab) => {
 const handleTabChange = (tabId) => {
   const tab = tabStore.tabs.find(t => t.id === tabId)
   if (tab) {
+    tabStore.setActiveTab(tabId)
     router.push(tab.route)
   }
 }
@@ -45,6 +46,7 @@ const handleTabChange = (tabId) => {
   display: flex
   align-items: stretch
   padding: 0
+  -webkit-app-region: no-drag // Prevent dragging on tabs
 
   &__container
     width: 100%

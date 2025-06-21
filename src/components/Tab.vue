@@ -1,11 +1,18 @@
 <template>
-  <q-tab :name="tab.id" class="header-tab">
+  <q-tab :name="tab.id" class="header-tab" @click="activateTab">
     <div class="header-tab__content">
       <div class="header-tab__icon">
         <q-icon :name="tab.icon" size="12px" />
       </div>
       <div class="header-tab__title">
         <span class="header-tab__label">{{ tab.title }}</span>
+        <q-icon 
+          v-if="tab.type === 'external'" 
+          name="bi-box-arrow-up-right" 
+          size="10px" 
+          class="header-tab__external-indicator q-ml-xs"
+          color="blue-6"
+        />
       </div>
       <div v-if="tab.closeable" class="header-tab__actions">
         <q-icon 
@@ -21,6 +28,7 @@
 
 <script setup>
 import { useTabStore } from 'src/stores/tab-store'
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   tab: {
@@ -30,7 +38,14 @@ const props = defineProps({
 })
 
 const tabStore = useTabStore()
+const router = useRouter()
+
 const closeTab = () => tabStore.closeTab(props.tab.id)
+
+const activateTab = () => {
+  tabStore.setActiveTab(props.tab.id)
+  router.push(props.tab.route)
+}
 </script>
 
 <style lang="sass">
@@ -61,6 +76,8 @@ $base-color: rgba(255,255,255,0.15)
   margin: 0 1px
   border-radius: $border-radius
   background: $base-color
+  -webkit-app-region: no-drag // Make tabs clickable, not draggable
+  cursor: pointer
 
   &:hover
     background: $hover-color
@@ -112,6 +129,10 @@ $base-color: rgba(255,255,255,0.15)
   text-overflow: ellipsis
   white-space: nowrap
   line-height: $tab-height
+
+.header-tab__external-indicator
+  flex-shrink: 0
+  opacity: 0.7
 
 .header-tab__actions
   @include flex-center

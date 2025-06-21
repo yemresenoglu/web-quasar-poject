@@ -29,15 +29,16 @@
 
       <!-- Chat Messages -->
       <q-card-section class="ai-chat__messages">
+        <!-- AI Welcome Message -->
         <div class="ai-chat__message ai-chat__message--ai">
           <div class="ai-chat__message-avatar">
             <q-icon name="bi-alexa" size="20px" />
           </div>
           <div class="ai-chat__message-content">
             <div class="ai-chat__message-text">
-                Merhaba! Ben Moss, yapay zeka destekli asistanınız. 
-                Hasar operasyonları, müşteri hizmetleri ve sigorta süreçleri konusunda özel olarak eğitildim. 
-                Size hasar bildirimi, eksper atamaları, müşteri talepleri ve operasyonel süreçler gibi konularda yardımcı olabilirim. Nasıl destek olabilirim?
+              Merhaba! Ben Moss, yapay zeka destekli asistanınız. 
+              Hasar operasyonları, müşteri hizmetleri ve sigorta süreçleri konusunda özel olarak eğitildim. 
+              Size hasar bildirimi, eksper atamaları, müşteri talepleri ve operasyonel süreçler gibi konularda yardımcı olabilirim. Nasıl destek olabilirim?
             </div>
             <div class="ai-chat__message-time">14:30</div>
           </div>
@@ -46,7 +47,7 @@
         <div class="ai-chat__message ai-chat__message--user">
           <div class="ai-chat__message-content">
             <div class="ai-chat__message-text">
-                Merhaba! Yeni bir hasar dosyası oluşturmak istiyorum.
+              Merhaba! Yeni bir hasar dosyası oluşturmak istiyorum.
             </div>
             <div class="ai-chat__message-time">14:31</div>
           </div>
@@ -58,8 +59,8 @@
           </div>
           <div class="ai-chat__message-content">
             <div class="ai-chat__message-text">
-                Tabii ki yardımcı olabilirim. Hasar bildirim sürecinde size rehberlik edeyim. 
-                Öncelikle hasarın türü ve detayları hakkında bilgi alabilir miyim?
+              Tabii ki yardımcı olabilirim. Hasar bildirim sürecinde size rehberlik edeyim. 
+              Öncelikle hasarın türü ve detayları hakkında bilgi alabilir miyim?
             </div>
             <div class="ai-chat__message-time">14:31</div>
           </div>
@@ -251,18 +252,4 @@ defineExpose({
       .q-icon
         opacity: 1
 
-  // Scroll bar styling
-  ::-webkit-scrollbar
-    width: 8px
-    height: 8px
-
-  ::-webkit-scrollbar-track
-    background: transparent
-
-  ::-webkit-scrollbar-thumb
-    background: rgba(0,0,0,0.2)
-    border-radius: 4px
-
-    &:hover
-      background: rgba(0,0,0,0.3)
 </style> 

@@ -60,7 +60,13 @@ export default defineConfig((ctx) => {
       // distDir
 
       // extendViteConf (viteConf) {},
-      // viteVuePluginOptions: {},
+      viteVuePluginOptions: {
+        template: {
+          compilerOptions: {
+            isCustomElement: (tag) => tag === 'webview'
+          }
+        }
+      },
       
       vitePlugins: [
         ['@intlify/unplugin-vue-i18n/vite', {
@@ -77,12 +83,12 @@ export default defineConfig((ctx) => {
           include: [ fileURLToPath(new URL('./src/i18n', import.meta.url)) ]
         }],
 
-        ['vite-plugin-checker', {
-          eslint: {
-            lintCommand: 'eslint -c ./eslint.config.js "./src*/**/*.{js,mjs,cjs,vue}"',
-            useFlatConfig: true
-          }
-        }, { server: false }]
+        // ['vite-plugin-checker', {
+        //   eslint: {
+        //     lintCommand: 'eslint -c ./eslint.config.js "./src*/**/*.{js,mjs,cjs,vue}"',
+        //     useFlatConfig: true
+        //   }
+        // }, { server: false }]
       ]
     },
 
@@ -108,7 +114,8 @@ export default defineConfig((ctx) => {
 
       // Quasar plugins
       plugins: [
-        'Notify'
+        'Notify',
+        'Dialog'
       ]
     },
 
@@ -178,11 +185,6 @@ export default defineConfig((ctx) => {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/configuring-electron
     electron: {
-      // extendElectronMainConf (esbuildConf) {},
-      // extendElectronPreloadConf (esbuildConf) {},
-
-      // extendPackageJson (json) {},
-
       // Electron preload scripts (if any) from /src-electron, WITHOUT file extension
       preloadScripts: [ 'electron-preload' ],
 
@@ -193,21 +195,72 @@ export default defineConfig((ctx) => {
 
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
+        name: 'Hasar Yönetim Sistemi',
+        productName: 'Hasar Yönetim Sistemi',
+        platform: 'all',
+        arch: 'x64',
+        out: 'dist/electron',
+        overwrite: true,
+        asar: true,
+        icon: 'src-electron/icons/icon',
+        
+        // Windows metadata
+        win32metadata: {
+          CompanyName: 'Yunus Emre Şenoğlu',
+          ProductName: 'Hasar Yönetim Sistemi',
+          FileDescription: 'Hasar takip ve yönetim uygulaması',
+          InternalName: 'hasar-yonetim',
+          OriginalFilename: 'hasar-yonetim.exe'
+        },
 
-        // OS X / Mac App Store
-        // appBundleId: '',
-        // appCategoryType: '',
-        // osxSign: '',
-        // protocol: 'myapp://path',
-
-        // Windows only
-        // win32metadata: { ... }
+        // macOS options
+        appBundleId: 'com.yunusemre.hasar-yonetim',
+        appCategoryType: 'public.app-category.business',
+        
+        // Linux options
+        genericName: 'Hasar Yönetim Sistemi',
+        categories: 'Office;Finance;'
       },
 
       builder: {
         // https://www.electron.build/configuration/configuration
-
-        appId: 'quasar-project'
+        appId: 'com.yunusemre.hasar-yonetim',
+        productName: 'Hasar Yönetim Sistemi',
+        copyright: 'Copyright © 2025 Yunus Emre Şenoğlu',
+        
+        directories: {
+          output: 'dist/electron-builder'
+        },
+        
+        files: [
+          '**/*',
+          '!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}',
+          '!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}',
+          '!**/node_modules/*.d.ts',
+          '!**/node_modules/.bin',
+          '!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}',
+          '!.editorconfig',
+          '!**/._*',
+          '!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}',
+          '!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}',
+          '!**/{appveyor.yml,.travis.yml,circle.yml}',
+          '!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}'
+        ],
+        
+        win: {
+          target: 'nsis',
+          icon: 'src-electron/icons/icon.ico'
+        },
+        
+        mac: {
+          target: 'dmg',
+          icon: 'src-electron/icons/icon.icns'
+        },
+        
+        linux: {
+          target: 'AppImage',
+          icon: 'src-electron/icons/icon.png'
+        }
       }
     },
 

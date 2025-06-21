@@ -81,20 +81,37 @@ const closeText = computed(() => t('tabs.close'))
     height: 480px
     width: 320px
 
-    .q-scrollarea__thumb
-      width: 3px
-      background: rgba(0, 0, 0, 1)
-      opacity: 0.4
-      transition: all 0.3s ease
+    // Vertical scrollbar
+    .q-scrollarea__thumb--v
+      width: 4px !important
+      right: 4px
+      background: #9e9e9e !important
+      opacity: 0.6 !important
       &:hover
-        opacity: 1
-        background: rgba(0, 0, 0, 1)
-
-    .q-scrollarea__bar
-      width: 4px
-      right: 2px
-      background: transparent
-      opacity: 0
+        opacity: 0.8 !important
+        background: #757575 !important
+    
+    .q-scrollarea__bar--v
+      width: 4px !important
+      right: 4px !important
+      background: transparent !important
+      opacity: 0.4 !important
+    
+    // Horizontal scrollbar
+    .q-scrollarea__thumb--h
+      height: 4px !important
+      bottom: 4px
+      background: #9e9e9e !important
+      opacity: 0.6 !important
+      &:hover
+        opacity: 0.8 !important
+        background: #757575 !important
+    
+    .q-scrollarea__bar--h
+      height: 4px !important
+      bottom: 4px !important
+      background: transparent !important
+      opacity: 0.4 !important
 
   &__container
     background: #fff

@@ -14,17 +14,17 @@
           </q-tooltip>
           <PageTools />
         </q-btn>
-        <q-btn flat round dense icon="bi-dash-lg" class="header__action-button">
+        <q-btn flat round dense icon="bi-dash-lg" class="header__action-button" @click="minimizeWindow">
           <q-tooltip anchor="bottom middle" self="top middle" :offset="[0, 8]">
             {{ $t('header.minimize') }}
           </q-tooltip>
         </q-btn>
-        <q-btn flat round dense icon="bi-square" class="header__action-button">
+        <q-btn flat round dense :icon="isMaximized ? 'bi-back' : 'bi-square'" class="header__action-button" @click="toggleMaximizeWindow">
           <q-tooltip anchor="bottom middle" self="top middle" :offset="[0, 8]">
-            {{ $t('header.maximize') }}
+            {{ isMaximized ? $t('header.restore') : $t('header.maximize') }}
           </q-tooltip>
         </q-btn>
-        <q-btn flat round dense icon="bi-x-lg" class="header__action-button">
+        <q-btn flat round dense icon="bi-x-lg" class="header__action-button" @click="closeWindow">
           <q-tooltip anchor="bottom middle" self="top middle" :offset="[0, 8]">
             {{ $t('header.close') }}
           </q-tooltip>
@@ -39,13 +39,54 @@
 import TabContainer from './TabContainer.vue'
 import PageTools from './PageTools.vue'
 import AIChatView from './AIChatView.vue'
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 const aiChat = ref(null)
+const isMaximized = ref(false)
 
 const openAIChat = () => {
   aiChat.value.isOpen = true
 }
+
+// Window control functions
+const minimizeWindow = () => {
+  if (window.electronAPI) {
+    window.electronAPI.minimizeWindow()
+  }
+}
+
+const toggleMaximizeWindow = () => {
+  if (window.electronAPI) {
+    window.electronAPI.maximizeWindow()
+  }
+}
+
+const closeWindow = () => {
+  if (window.electronAPI) {
+    window.electronAPI.closeWindow()
+  }
+}
+
+// Listen for window events
+const handleWindowEvent = (event, data) => {
+  if (data === 'maximized') {
+    isMaximized.value = true
+  } else if (data === 'unmaximized') {
+    isMaximized.value = false
+  }
+}
+
+onMounted(() => {
+  if (window.electronAPI) {
+    window.electronAPI.onWindowEvent(handleWindowEvent)
+  }
+})
+
+onUnmounted(() => {
+  if (window.electronAPI) {
+    window.electronAPI.removeAllListeners('window-event')
+  }
+})
 </script>
 
 <style lang="sass">
@@ -57,6 +98,11 @@ const openAIChat = () => {
   &__toolbar
     height: 100%
     padding: 2px 2px !important
+    -webkit-app-region: drag // Make header draggable in Electron
+    
+    // Make buttons and tab container non-draggable
+    .q-btn, .alexa_button, .header__action-button, .header-tabs
+      -webkit-app-region: no-drag
 
   .open-tab-menu__button
     width: 24px
