@@ -1,0 +1,1315 @@
+/**
+ * Dark Mode Styles
+ * Base Color: #030514
+ * 
+ * Usage: body.body--dark class'ı ile aktif olur
+ */
+
+@use "sass:color";
+@import './quasar.variables.scss';
+
+// ═══════════════════════════════════════════════════════════
+// DARK MODE - GLOBAL STYLES
+// ═══════════════════════════════════════════════════════════
+
+body.body--dark {
+  background: $dark-background-page !important;  // #030514
+  color: $dark-text-primary !important;
+
+  // ─────────────────────────────────────────────────────────
+  // QUASAR COMPONENTS OVERRIDE
+  // ─────────────────────────────────────────────────────────
+
+  // Q-PAGE - Ana sayfa ile aynı renk
+  .q-page {
+    background: $dark-background-page !important;  // #030514
+    color: $dark-text-primary !important;
+  }
+
+  // Q-PAGE-CONTAINER
+  .q-page-container {
+    background: $dark-background-page !important;  // #030514
+  }
+
+  // Q-LAYOUT
+  .q-layout {
+    background: $dark-background-page !important;  // #030514
+  }
+
+  // Main Content Area - Taskbar gibi (#242735)
+  .main-content {
+    background: transparent !important;
+  }
+
+  .content-scroll {
+    background: $dark-background-card !important;  // #242735 (Light: #fefefe)
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+
+    // Scrollbar
+    .q-scrollarea__thumb--v {
+      background: $dark-text-muted !important;
+      opacity: 0.6 !important;
+
+      &:hover {
+        background: $dark-text-secondary !important;
+        opacity: 0.8 !important;
+      }
+    }
+
+    .q-scrollarea__thumb--h {
+      background: $dark-text-muted !important;
+      opacity: 0.6 !important;
+
+      &:hover {
+        background: $dark-text-secondary !important;
+        opacity: 0.8 !important;
+      }
+    }
+  }
+
+  // Page Container
+  .page-container {
+    background: transparent !important;  // Parent'tan rengi al
+  }
+
+  // Content Flow (içerik alanı)
+  .content-flow {
+    background: transparent !important;  // Parent'tan rengi al
+  }
+
+  // Content Layout
+  .content-layout {
+    background: transparent !important;
+  }
+
+  // Q-CARD & SECTION CARD - İçerik kartları (taskbar ile aynı renk)
+  .q-card,
+  .section-card {
+    background: $dark-background-card !important;  // #242735
+    border-color: $dark-border-light !important;
+    box-shadow: $dark-box-shadow-card !important;
+    color: $dark-text-primary !important;
+
+    &:hover {
+      box-shadow: $dark-box-shadow-card-hover !important;
+    }
+  }
+
+  // Section Header - Card'dan biraz daha koyu
+  .section-header {
+    background: color.adjust($dark-background-card, $lightness: -3%) !important;
+    border-color: $dark-border-lighter !important;
+
+    .section-title {
+      color: $dark-text-primary !important;
+
+      .q-icon,
+      i {
+        color: $dark-text-muted !important;
+      }
+    }
+  }
+
+  // Section Content - Card ile aynı
+  .section-content {
+    background: $dark-background-card !important;
+  }
+
+  // Q-INPUT & Q-SELECT
+  .q-field {
+    .q-field__control {
+      background: $dark-background-input !important;
+      border-color: $dark-border-light !important;
+      color: $dark-text-primary !important;
+
+      &:hover {
+        background: $dark-background-hover !important;
+        border-color: $dark-border-hover !important;
+      }
+
+      &:focus-within {
+        background: $dark-elevated-2 !important;
+        box-shadow: 0 0 0 2px rgba($dark-border-accent, 0.3) !important;
+      }
+
+      &:before,
+      &:after {
+        border-color: $dark-border-light !important;
+      }
+    }
+
+    .q-field__native {
+      color: $dark-text-primary !important;
+
+      &::placeholder {
+        color: $dark-text-muted !important;
+      }
+    }
+
+    .q-field__label {
+      color: $dark-text-secondary !important;
+    }
+
+    .q-field__suffix {
+      color: $dark-text-muted !important;
+    }
+
+    // Readonly inputs
+    &.q-field--readonly {
+      .q-field__control {
+        background: $dark-background-light !important;
+      }
+
+      .q-field__native {
+        color: $dark-text-primary !important;
+      }
+    }
+  }
+
+  // Q-TABLE - Kartlar üzerinde (taskbar rengi)
+  .q-table {
+    background: $dark-background-card !important;  // #242735
+    color: $dark-text-primary !important;
+    border-color: $dark-border-light !important;
+
+    thead {
+      tr {
+        background: $dark-background-page !important;  // #030514 (Light mode'daki #f8fafc karşılığı!)
+
+        th {
+          color: $dark-text-secondary !important;
+          border-color: $dark-border-light !important;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        border-color: $dark-border-lighter !important;
+
+        &:hover {
+          background: $dark-background-page !important;  // #030514 (Light mode'daki #f8fafc karşılığı!)
+        }
+
+        td {
+          color: $dark-text-primary !important;
+          border-color: $dark-border-lighter !important;
+        }
+      }
+    }
+  }
+
+  // Q-BTN - Light mode'daki #f8fafc karşılığı #030514
+  .q-btn {
+    color: $dark-text-secondary !important;
+
+    &:not(.q-btn--flat) {
+      background: $dark-background-page !important;  // #030514 (Light: #f8fafc)
+      border-color: $dark-border-light !important;
+
+      &:hover {
+        background: color.adjust($dark-background-page, $lightness: 5%) !important;
+      }
+    }
+
+    &.q-btn--flat {
+      background: transparent !important;
+
+      &:hover {
+        background: $dark-background-page !important;  // #030514
+      }
+    }
+  }
+
+  // Save Button, Search Button vb.
+  .save-btn,
+  .search-btn,
+  .clear-btn {
+    background: $dark-background-page !important;  // #030514 (Light: #f8fafc)
+
+    &:hover {
+      background: color.adjust($dark-background-page, $lightness: 5%) !important;
+    }
+  }
+
+  // Q-MENU (Dropdowns)
+  .q-menu {
+    background: $dark-background-card !important;
+    border-color: $dark-border-light !important;
+    box-shadow: $dark-box-shadow-dropdown !important;
+
+    .q-item {
+      color: $dark-text-primary !important;
+
+      &:hover {
+        background: $dark-background-hover !important;
+      }
+
+      &.q-manual-focusable--focused {
+        background: $dark-background-hover !important;
+      }
+
+      &[aria-selected="true"] {
+        background: rgba($dark-border-accent, 0.15) !important;
+        color: $dark-border-accent !important;
+      }
+    }
+  }
+
+  // Q-DIALOG
+  .q-dialog__backdrop {
+    background: rgba(3, 5, 20, 0.8) !important;
+  }
+
+  // Q-TOOLTIP
+  .q-tooltip {
+    background: $dark-elevated-3 !important;
+    color: $dark-text-primary !important;
+    box-shadow: $dark-box-shadow-dropdown !important;
+  }
+
+  // Q-HEADER & Q-FOOTER
+  .q-header,
+  .q-footer {
+    background: $dark-background-card !important;
+    border-color: $dark-border-light !important;
+  }
+
+  // Q-DRAWER - Sadece backdrop rengi (layout Taskbar.vue'de)
+  .q-drawer {
+    // Background, border, radius, margin -> Taskbar.vue CSS'inde tanımlı
+    // Sadece dark theme için backdrop override
+    
+    .q-drawer__backdrop {
+      background: rgba(3, 5, 20, 0.7) !important;
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // CUSTOM COMPONENTS
+  // ─────────────────────────────────────────────────────────
+
+  // Page Header - Taskbar ile aynı renk (#242735)
+  .page-header {
+    background: rgba($dark-background-card, 0.95) !important;
+    backdrop-filter: blur(8px) !important;
+    border-color: $dark-border-light !important;
+    color: $dark-text-primary !important;
+
+    &__title {
+      color: $dark-text-primary !important;
+
+      .q-icon {
+        color: $dark-text-muted !important;
+      }
+    }
+
+    &__actions {
+      .q-btn {
+        color: $dark-text-secondary !important;
+
+        &:hover {
+          background: color.adjust($dark-background-card, $lightness: 5%) !important;
+
+          .q-icon {
+            color: $dark-text-primary !important;
+          }
+        }
+      }
+    }
+  }
+
+  // Taskbar - Sadece renkleri override et (layout component'te kalmalı)
+  .taskbar {
+    background-color: $dark-background-taskbar !important;  // #242735
+    border-color: rgba(255, 255, 255, 0.08) !important;
+
+    &__separator {
+      background: rgba(255, 255, 255, 0.1) !important;
+      opacity: 0.3;
+    }
+
+    &__item {
+      color: $dark-text-secondary !important;
+
+      .q-icon,
+      i {
+        color: $dark-text-secondary !important;
+      }
+
+      &:hover {
+        background: $dark-background-page !important;  // #030514 (Light: #f1f5f9)
+        color: $dark-text-primary !important;
+
+        .q-icon,
+        i {
+          color: $dark-text-primary !important;
+        }
+      }
+
+      &--static {
+        .q-item__section--avatar {
+          .q-icon,
+          i {
+            color: $dark-text-secondary !important;
+          }
+        }
+
+        &:hover {
+          background: $dark-background-page !important;  // #030514
+          border-left-color: $dark-border-accent !important;
+
+          .q-icon,
+          i {
+            color: $dark-text-primary !important;
+          }
+        }
+      }
+    }
+
+    &__logo {
+      img {
+        filter: brightness(1.2) grayscale(20%) opacity(0.87);
+
+        &:hover {
+          filter: brightness(1.4) grayscale(0%) opacity(1);
+        }
+      }
+    }
+
+    &__avatar-wrapper {
+      .q-avatar {
+        border-color: rgba(255, 255, 255, 0.1) !important;
+
+        img {
+          filter: brightness(1.1);
+        }
+      }
+
+      &:hover .q-avatar {
+        border-color: rgba(255, 255, 255, 0.2) !important;
+        
+        img {
+          filter: brightness(1.3);
+        }
+      }
+    }
+
+    &__badge {
+      background: $negative !important;
+    }
+  }
+
+  // Form Labels
+  label,
+  .form-label,
+  .form-group label {
+    color: $dark-text-secondary !important;
+  }
+
+  // Search Input
+  .search-input {
+    .q-field__control {
+      background: $dark-background-input !important;
+    }
+  }
+
+  // Readonly Inputs - Light mode'daki #f1f5f9 karşılığı
+  .readonly-input {
+    .q-field__control {
+      background: $dark-background-page !important;  // #030514 (Light: #f1f5f9)
+    }
+
+    .q-field__native {
+      color: $dark-text-primary !important;
+    }
+
+    // Readonly total inputs (biraz farklı vurgu)
+    &--total {
+      .q-field__control {
+        background: color.adjust($dark-background-page, $lightness: 3%) !important;
+      }
+
+      .q-field__native {
+        font-weight: 600 !important;
+        color: $dark-text-primary !important;
+      }
+    }
+  }
+
+  // Info Value
+  .info-value {
+    background: $dark-background-page !important;  // #030514 (Light: #f1f5f9)
+    color: $dark-text-primary !important;
+    border-color: $dark-border-light !important;
+  }
+
+  // Action Buttons
+  .action-btn {
+    color: $dark-text-secondary !important;
+
+    &:hover {
+      background: color.adjust($dark-background-card, $lightness: 5%) !important;
+    }
+
+    &--view {
+      color: $dark-border-accent !important;
+    }
+
+    &--edit {
+      color: $dark-text-success !important;
+    }
+
+    &--new-tab {
+      color: $dark-text-primary !important;
+
+      &:hover {
+        color: $dark-border-accent !important;
+        background: rgba($dark-border-accent, 0.15) !important;
+      }
+    }
+  }
+
+  // Custom Arrows
+  .select-arrow,
+  .table-sort-icon {
+    color: $dark-text-muted !important;
+
+    &.bi-chevron-up,
+    &.bi-chevron-down {
+      color: $dark-border-accent !important;
+    }
+  }
+
+  // Q-Toggle (Dark Mode Switch vb.)
+  .q-toggle {
+    .q-toggle__track {
+      background: rgba(255, 255, 255, 0.2) !important;
+      opacity: 0.5;
+    }
+
+    .q-toggle__thumb {
+      background: $dark-text-secondary !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    &.q-toggle--truthy {
+      .q-toggle__track {
+        background: $dark-text-secondary !important;
+        opacity: 1;
+      }
+
+      .q-toggle__thumb {
+        background: $dark-text-primary !important;
+      }
+    }
+
+    &:hover {
+      .q-toggle__thumb {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+      }
+    }
+  }
+
+  // ═════════════════════════════════════════════════
+  // ACCOUNT COMPONENTS - Full Coverage
+  // ═════════════════════════════════════════════════
+
+  // Account Menu - Main container
+  .account-menu {
+    background: $dark-background-card !important;  // #242735
+    border-color: $dark-border-light !important;
+
+    &__container {
+      background: $dark-background-card !important;  // #242735
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      border-radius: 18px !important;
+    }
+
+    &__header {
+      background: color.adjust($dark-background-card, $lightness: -3%) !important;
+      border-color: $dark-border-lighter !important;
+    }
+
+    &__title {
+      color: $dark-text-primary !important;
+    }
+
+    &__close-btn {
+      color: $dark-text-secondary !important;
+
+      &:hover {
+        background: $dark-background-page !important;  // #030514
+        color: $dark-text-primary !important;
+      }
+    }
+
+    &__scroll-area {
+      background: transparent !important;
+
+      .q-scrollarea__thumb--v {
+        background: $dark-text-muted !important;
+      }
+
+      .q-scrollarea__bar--v {
+        background: transparent !important;
+      }
+    }
+
+    &__content {
+      background: transparent !important;
+    }
+
+    &__section {
+      background: transparent !important;
+    }
+
+    &__section-title {
+      color: $dark-text-secondary !important;
+      opacity: 0.87;
+    }
+
+    &__list {
+      background: transparent !important;
+
+      .q-item {
+        color: $dark-text-secondary !important;
+
+        &:hover {
+          background: $dark-background-page !important;  // #030514 (Light: #f1f5f9)
+          color: $dark-text-primary !important;
+
+          .q-icon,
+          i {
+            color: $dark-text-primary !important;
+          }
+        }
+      }
+    }
+
+    &__item {
+      color: $dark-text-secondary !important;
+
+      &:hover {
+        background: $dark-background-page !important;  // #030514 (Light: #f1f5f9)
+        color: $dark-text-primary !important;
+      }
+
+      &-icon {
+        color: $dark-text-muted !important;
+
+        .q-icon,
+        i {
+          color: $dark-text-muted !important;
+        }
+      }
+
+      &-text {
+        color: $dark-text-secondary !important;
+      }
+    }
+
+    &__divider {
+      background: $dark-border-lighter !important;
+      opacity: 0.5;
+    }
+  }
+
+  // Account Profile
+  .account-profile {
+    background: transparent !important;
+
+    &__avatar-image {
+      border-color: rgba(255, 255, 255, 0.15) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    &__avatar-icon {
+      color: $dark-text-secondary !important;
+    }
+
+    &__fullname {
+      color: $dark-text-primary !important;
+    }
+
+    &__label {
+      color: $dark-text-secondary !important;
+    }
+
+    &__value {
+      color: $dark-text-secondary !important;
+    }
+
+    &__status {
+      border-color: $dark-border-lighter !important;
+    }
+
+    &__status-label {
+      color: $dark-text-secondary !important;
+    }
+
+    &__status-value {
+      color: $dark-text-success !important;
+    }
+
+    &__last-login-label {
+      color: $dark-text-muted !important;
+    }
+
+    &__last-login-value {
+      color: $dark-text-secondary !important;
+    }
+  }
+
+  // Account Actions
+  .account-actions {
+    background: transparent !important;
+
+    &__item {
+      color: $dark-text-secondary !important;
+
+      &:hover {
+        background: $dark-background-page !important;  // #030514
+        color: $dark-text-primary !important;
+
+        .account-actions__icon {
+          color: $dark-text-primary !important;
+        }
+      }
+
+      &--danger {
+        &:hover {
+          background: rgba($negative, 0.1) !important;
+          color: $negative !important;
+
+          .account-actions__icon {
+            color: $negative !important;
+          }
+        }
+      }
+    }
+
+    &__icon {
+      color: $dark-text-muted !important;
+    }
+
+    &__text {
+      color: $dark-text-secondary !important;
+    }
+  }
+
+  // Account Department Selector
+  .account-department-selector {
+    background: transparent !important;
+
+    &__current {
+      background: $dark-background-page !important;  // #030514
+      border-color: $dark-border-light !important;
+
+      &:hover {
+        background: color.adjust($dark-background-page, $lightness: 5%) !important;
+        border-color: $dark-border-hover !important;
+      }
+    }
+
+    &__label {
+      color: $dark-text-muted !important;
+    }
+
+    &__value {
+      color: $dark-text-primary !important;
+    }
+
+    &__icon {
+      color: $dark-text-secondary !important;
+    }
+
+    &__button {
+      color: $dark-text-secondary !important;
+
+      &:hover {
+        background: $dark-background-page !important;
+        color: $dark-border-accent !important;
+      }
+    }
+  }
+
+  // Account Task Selector
+  .account-task-selector {
+    background: transparent !important;
+
+    &__current {
+      background: $dark-background-page !important;  // #030514
+      border-color: $dark-border-light !important;
+
+      &:hover {
+        background: color.adjust($dark-background-page, $lightness: 5%) !important;
+        border-color: $dark-border-hover !important;
+      }
+    }
+
+    &__label {
+      color: $dark-text-muted !important;
+    }
+
+    &__value {
+      color: $dark-text-primary !important;
+    }
+
+    &__icon {
+      color: $dark-text-secondary !important;
+    }
+
+    &__no-task {
+      color: $dark-text-muted !important;
+    }
+
+    &__button {
+      color: $dark-text-secondary !important;
+
+      &:hover {
+        background: $dark-background-page !important;
+        color: $dark-border-accent !important;
+      }
+    }
+
+    &__list {
+      background: $dark-background-card !important;  // #242735
+      border-color: $dark-border-light !important;
+      box-shadow: $dark-box-shadow-dropdown !important;
+    }
+
+    &__task-item {
+      color: $dark-text-secondary !important;
+
+      &:hover {
+        background: $dark-background-page !important;  // #030514
+        color: $dark-text-primary !important;
+      }
+
+      &--selected {
+        background: rgba($dark-border-accent, 0.15) !important;
+        color: $dark-border-accent !important;
+
+        .q-icon::before {
+          color: $dark-text-success !important;
+        }
+      }
+    }
+
+    &__task-title {
+      color: $dark-text-secondary !important;
+    }
+
+    &__task-description {
+      color: $dark-text-muted !important;
+    }
+  }
+
+  // Account Taskbar Settings
+  .account-taskbar-settings {
+    background: transparent !important;
+
+    &__option {
+      background: $dark-background-page !important;  // #030514
+      border-color: $dark-border-light !important;
+
+      &:hover {
+        background: color.adjust($dark-background-page, $lightness: 5%) !important;
+        border-color: $dark-border-hover !important;
+      }
+
+      &--selected {
+        background: rgba($dark-border-accent, 0.15) !important;
+        border-color: $dark-border-accent !important;
+      }
+    }
+
+    &__label {
+      color: $dark-text-secondary !important;
+    }
+
+    &__description {
+      color: $dark-text-muted !important;
+    }
+
+    &__icon {
+      color: $dark-text-secondary !important;
+    }
+  }
+
+  // Account Quick Access Manager
+  .account-quick-access-manager {
+    background: transparent !important;
+
+    &__item {
+      background: $dark-background-page !important;  // #030514
+      border-color: $dark-border-light !important;
+      color: $dark-text-secondary !important;
+
+      &:hover {
+        background: color.adjust($dark-background-page, $lightness: 5%) !important;
+        border-color: $dark-border-hover !important;
+      }
+
+      &--active {
+        background: rgba($dark-border-accent, 0.15) !important;
+        border-color: $dark-border-accent !important;
+
+        .q-icon::before {
+          color: $dark-text-success !important;
+        }
+      }
+    }
+
+    &__icon {
+      color: $dark-text-secondary !important;
+    }
+
+    &__text {
+      color: $dark-text-secondary !important;
+    }
+
+    &__remove-btn {
+      color: $dark-text-muted !important;
+
+      &:hover {
+        color: $negative !important;
+        background: rgba($negative, 0.1) !important;
+      }
+    }
+  }
+
+  // Account Edit Profile Page
+  .account-edit-profile {
+    background: $dark-background-page !important;  // #030514
+
+    &__header {
+      background: $dark-background-card !important;  // #242735
+      border-color: $dark-border-light !important;
+    }
+
+    &__back-btn {
+      color: $dark-text-secondary !important;
+
+      &:hover {
+        background: $dark-background-page !important;
+        color: $dark-text-primary !important;
+      }
+    }
+
+    &__title {
+      color: $dark-text-primary !important;
+    }
+
+    &__section {
+      background: $dark-background-card !important;  // #242735
+      border-color: rgba(255, 255, 255, 0.08) !important;
+      box-shadow: $dark-box-shadow-card !important;
+
+      &:hover {
+        box-shadow: $dark-box-shadow-card-hover !important;
+      }
+    }
+
+    &__section-header {
+      border-color: $dark-border-lighter !important;
+    }
+
+    &__section-icon {
+      color: $dark-text-secondary !important;
+    }
+
+    &__section-title {
+      color: $dark-text-primary !important;
+    }
+
+    &__input {
+      :deep(.q-field__control) {
+        background: $dark-background-input !important;
+        border-color: $dark-border-light !important;
+
+        &:hover {
+          border-color: $dark-border-hover !important;
+        }
+      }
+
+      :deep(.q-field__native) {
+        color: $dark-text-primary !important;
+      }
+
+      :deep(.q-field__label) {
+        color: $dark-text-secondary !important;
+      }
+    }
+  }
+
+  // Account Change Password Page
+  .account-change-password {
+    background: $dark-background-page !important;  // #030514
+
+    &__header {
+      background: $dark-background-card !important;  // #242735
+      border-color: $dark-border-light !important;
+    }
+
+    &__back-btn {
+      color: $dark-text-secondary !important;
+
+      &:hover {
+        background: $dark-background-page !important;
+        color: $dark-text-primary !important;
+      }
+    }
+
+    &__title {
+      color: $dark-text-primary !important;
+    }
+
+    &__section {
+      background: $dark-background-card !important;  // #242735
+      border-color: rgba(255, 255, 255, 0.08) !important;
+      box-shadow: $dark-box-shadow-card !important;
+    }
+
+    &__section-header {
+      border-color: $dark-border-lighter !important;
+    }
+
+    &__section-icon {
+      color: $dark-text-secondary !important;
+    }
+
+    &__section-title {
+      color: $dark-text-primary !important;
+    }
+
+    &__input {
+      :deep(.q-field__control) {
+        background: $dark-background-input !important;
+        border-color: $dark-border-light !important;
+
+        &:hover {
+          border-color: $dark-border-hover !important;
+        }
+      }
+
+      :deep(.q-field__native) {
+        color: $dark-text-primary !important;
+      }
+
+      :deep(.q-field__label) {
+        color: $dark-text-secondary !important;
+      }
+    }
+
+    &__security-tips {
+      background: $dark-background-page !important;  // #030514
+      border-color: $dark-border-light !important;
+    }
+
+    &__tips-title {
+      color: $dark-text-secondary !important;
+    }
+
+    &__tip {
+      color: $dark-text-secondary !important;
+
+      &::before {
+        color: $dark-text-success !important;
+      }
+    }
+  }
+
+  // Dashboard - Kartlar taskbar ile aynı renk (#242735)
+  .dashboard {
+    &__card {
+      background: $dark-background-card !important;  // #242735
+      border-color: $dark-border-light !important;
+
+      &-title {
+        color: $dark-text-secondary !important;
+      }
+
+      &-value {
+        color: $dark-text-primary !important;
+      }
+
+      &-icon {
+        color: $dark-text-muted !important;
+      }
+
+      &:hover {
+        background: color.adjust($dark-background-card, $lightness: 3%) !important;
+        border-color: $dark-border-hover !important;
+      }
+    }
+
+    &__chart {
+      background: $dark-background-card !important;
+      border-color: $dark-border-light !important;
+    }
+  }
+
+  // MenuPage - Category kartları taskbar ile aynı renk (#242735)
+  .menu-page {
+    background: $dark-background-page !important;  // #030514
+    
+    &__search-container {
+      background: transparent !important;
+    }
+
+    &__search-input {
+      :deep(.q-field__control) {
+        background: $dark-background-input !important;  // #111827
+        border-color: $dark-border-light !important;
+
+        &:hover {
+          border-color: $dark-border-hover !important;
+          box-shadow: $dark-box-shadow-input-hover !important;
+        }
+      }
+
+      :deep(.q-field__native) {
+        color: $dark-text-primary !important;
+
+        &::placeholder {
+          color: $dark-text-muted !important;
+        }
+      }
+
+      :deep(.q-field__prepend),
+      :deep(.q-field__append) {
+        .q-icon, i {
+          color: $dark-text-secondary !important;
+        }
+      }
+
+      &.q-field--focused {
+        :deep(.q-field__control) {
+          border-color: $dark-border-accent !important;
+          box-shadow: 0 0 0 2px rgba($dark-border-accent, 0.25) !important;
+        }
+      }
+    }
+
+    &__container {
+      background: transparent !important;
+    }
+
+    &__category {
+      background: $dark-background-card !important;  // #242735 (Light: white)
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      border-radius: 12px !important;
+      box-shadow: $dark-box-shadow-card !important;
+
+      &:hover {
+        box-shadow: $dark-box-shadow-card-hover !important;
+        border-color: rgba(255, 255, 255, 0.12) !important;
+      }
+    }
+
+    &__category-header {
+      border-color: $dark-border-lighter !important;
+
+      .q-icon, i {
+        color: $dark-text-secondary !important;
+      }
+    }
+
+    &__category-title {
+      color: $dark-text-primary !important;
+    }
+
+    &__list {
+      background: transparent !important;
+    }
+
+    &__item {
+      color: $dark-text-secondary !important;
+
+      :deep(.q-item__section--avatar) {
+        .q-icon, i {
+          color: $dark-text-secondary !important;
+        }
+      }
+
+      &:hover {
+        background: $dark-background-page !important;  // #030514 (Light: #f1f5f9)
+        border-left: 2px solid $dark-border-accent !important;
+
+        :deep(.q-item__section--avatar .q-icon),
+        :deep(.q-item__section--avatar i) {
+          opacity: 1 !important;
+          color: $dark-text-primary !important;
+        }
+      }
+
+      &:active {
+        background: $dark-background-page !important;
+      }
+    }
+
+    &__item-text {
+      color: $dark-text-secondary !important;
+    }
+
+    &__chip {
+      background: $dark-background-page !important;  // #030514 (Light: #f1f5f9)
+      color: $dark-text-secondary !important;
+      border-color: $dark-border-light !important;
+
+      :deep(.q-icon), :deep(i) {
+        color: $dark-text-secondary !important;
+      }
+    }
+
+    &__context-menu {
+      background: $dark-background-card !important;  // #242735
+      border-color: $dark-border-light !important;
+      box-shadow: $dark-box-shadow-dropdown !important;
+    }
+
+    &__context-menu-item {
+      color: $dark-text-secondary !important;
+
+      .q-icon, i {
+        color: $dark-text-secondary !important;
+      }
+
+      &:hover {
+        background: $dark-background-page !important;  // #030514
+        color: $dark-text-primary !important;
+
+        .q-icon, i {
+          color: $dark-text-primary !important;
+        }
+      }
+    }
+
+    &__context-menu-icon--active {
+      color: $dark-text-success !important;
+    }
+
+    &__context-menu-text {
+      color: $dark-text-secondary !important;
+    }
+  }
+
+  // Empty State
+  .empty-state {
+    color: $dark-text-secondary !important;
+
+    i {
+      color: $dark-text-muted !important;
+    }
+
+    &__title {
+      color: $dark-text-primary !important;
+    }
+
+    &__description {
+      color: $dark-text-secondary !important;
+    }
+  }
+
+  // Q-Skeleton (Loading state)
+  .q-skeleton {
+    background: rgba(255, 255, 255, 0.05) !important;
+
+    &::before {
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.08),
+        transparent
+      ) !important;
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // TEXT COLORS
+  // ─────────────────────────────────────────────────────────
+
+  h1, h2, h3, h4, h5, h6 {
+    color: $dark-text-primary !important;
+  }
+
+  p, span, div {
+    color: inherit;
+  }
+
+  a {
+    color: $dark-border-accent !important;
+
+    &:hover {
+      color: color.adjust($dark-border-accent, $lightness: 10%) !important;
+    }
+  }
+
+  // Text Utilities
+  .text-primary {
+    color: $dark-text-primary !important;
+  }
+
+  .text-secondary {
+    color: $dark-text-secondary !important;
+  }
+
+  .text-muted {
+    color: $dark-text-muted !important;
+  }
+
+  .text-success {
+    color: $dark-text-success !important;
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // BORDERS
+  // ─────────────────────────────────────────────────────────
+
+  .border,
+  .border-light {
+    border-color: $dark-border-light !important;
+  }
+
+  .border-lighter {
+    border-color: $dark-border-lighter !important;
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // SCROLLBAR
+  // ─────────────────────────────────────────────────────────
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: $dark-background-light;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $dark-elevated-3;
+    border-radius: 4px;
+
+    &:hover {
+      background: color.adjust($dark-elevated-3, $lightness: 10%);
+    }
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // TRANSITIONS
+  // ─────────────────────────────────────────────────────────
+
+  * {
+    transition-property: background-color, border-color, color, box-shadow;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+  }
+}
+

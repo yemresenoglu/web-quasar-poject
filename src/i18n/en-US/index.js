@@ -1,423 +1,129 @@
-// This is just an example,
-// so you can safely delete all default props below
-
 export default {
-  // Common
-  failed: 'Action failed',
-  success: 'Action was successful',
-
-  // Navigation
-  menu: {
+  // Page Titles (for browser tab)
+  pageTitles: {
     home: 'Home',
     menu: 'Menu',
-    settings: 'Settings',
-    account: 'Account',
-    more: 'More'
+    login: 'Login',
+    hasarSorgulaArabulucu: 'Damage File Search',
+    hasarDosyaArabulucu: 'Damage File Detail',
+    accountEditProfile: 'Edit Profile',
+    accountChangePassword: 'Change Password',
+    notFound: 'Page Not Found'
   },
 
-  // Integrated Service
-  integratedService: {
-    add: 'Add Integrated Service',
-    icon: 'Icon',
-    name: 'Service Name',
-    url: 'Service URL',
-    cancel: 'Cancel',
-    addButton: 'Add',
-    errors: {
-      required: 'Please fill in all fields',
-      creation: 'An error occurred while adding the service'
+  // Page Header
+  pageHeader: {
+    actions: {
+      print: 'Print',
+      download: 'Download',
+      share: 'Share'
     },
-    success: 'Integrated service added successfully'
+    messages: {
+      printing: 'Printing...',
+      downloading: 'Downloading...',
+      shareFeature: 'Share feature coming soon'
+    }
   },
 
-  // Service View
-  serviceView: {
-    loading: 'Loading...',
-    pin: 'Pin',
-    unpin: 'Unpin',
-    reload: 'Reload',
-    close: 'Close'
-  },
-
-  // Tabs
-  tabs: {
-    search: 'Search Tabs',
-    openTabs: 'Open Tabs',
-    close: 'Close Tab'
-  },
-
-  // Workspace
-  workspace: {
-    create: 'Create Workspace',
-    icon: 'Icon',
-    name: 'Workspace Name',
+  // Common actions
+  common: {
     cancel: 'Cancel',
-    createButton: 'Create',
-    errors: {
-      required: 'Please fill in both icon and name fields',
-      creation: 'An error occurred while creating the workspace'
-    },
-    success: 'Workspace created successfully'
+    save: 'Save',
+    close: 'Close',
+    confirm: 'Confirm',
+    delete: 'Delete',
+    edit: 'Edit',
+    add: 'Add',
+    addMore: 'Add more',
+    back: 'Back',
+    result: 'result',
+    found: 'found'
   },
 
-  // Header
-  header: {
-    openMenu: 'Open Menu',
-    tools: 'Page Tools',
-    minimize: 'Minimize',
-    maximize: 'Maximize',
-    restore: 'Restore',
-    close: 'Close'
+  // Login page
+  login: {
+    title: 'SOMPO Damage Operations',
+    subtitle: 'Damage Management System',
+    userCode: 'User Code',
+    password: 'Password',
+    captcha: 'Security Code',
+    loginButton: 'Sign In',
+    forgotPassword: 'Forgot Password',
+    forgotPasswordTitle: 'Password Reset',
+    forgotPasswordDescription: 'Enter your email address and we will send you a password reset link.',
+    email: 'Email Address',
+    sendResetLink: 'Send Link',
+    refreshCaptcha: 'Refresh Code',
+    invalidCaptcha: 'Security code is incorrect',
+    successMessage: 'Successfully signed in',
+    errorMessage: 'Invalid user code or password',
+    resetLinkSent: 'Password reset link has been sent to your email address',
+    resetLinkError: 'Failed to send password reset link',
+    footer: 'For secure login, do not share your password with anyone',
+    help: 'Help',
+    contact: 'Contact'
   },
 
-  // Sidebar
-  sidebar: {
-    workspaces: 'Workspaces',
-    services: 'Services',
-    tools: 'Tools',
+  // Validation messages
+  validation: {
+    required: 'This field is required',
+    email: 'Please enter a valid email address',
+    minLength: 'Must be at least {min} characters',
+    maxLength: 'Must be at most {max} characters',
+    passwordMismatch: 'Passwords do not match',
+    invalidFormat: 'Invalid format',
+    userCodeFormat: 'User code must contain only uppercase letters and numbers',
+    phoneFormat: 'Please enter a valid phone number'
+  },
+
+  // Notification types
+  notification: {
+    success: 'Success',
+    error: 'Error',
+    info: 'Information',
+    warning: 'Warning'
+  },
+
+  // Taskbar
+  taskbar: {
     start: 'Start',
     menu: 'Menu',
-    more: 'More',
     account: 'My Account'
   },
 
-  // Drawer
-  drawer: {
-    tools: {
-      favorites: 'My Favorites',
-      pinboards: 'My Pinboards',
-      history: 'History',
-      notifications: 'Notifications',
-      account: 'My Account',
-      settings: 'Application Settings'
-    }
+  // Quick Access (in AccountMenu)
+  quickAccess: {
+    title: 'Quick Access',
+    empty: 'No quick access items yet',
+    pinToTaskbar: 'Pin to taskbar',
+    unpinFromTaskbar: 'Unpin from taskbar',
+    addToQuickAccess: 'Add to Quick Access',
+    removeFromQuickAccess: 'Remove from Quick Access'
   },
 
-  // Favorites
-  favorites: {
-    title: 'Favorites',
-    pages: 'Pages',
-    quickAccess: 'Quick Access',
-    settings: 'Settings',
-    addPage: 'Add Page',
-    remove: 'Remove from Favorites',
-    showInSidebar: 'Show in sidebar',
-    autoAdd: 'Auto add',
-    empty: {
-      title: 'No favorites yet',
-      subtitle: 'You can add frequently used pages here'
-    },
-    dialog: {
-      title: 'Add Favorite',
-      titleField: 'Title',
-      routeField: 'Page Route',
-      iconField: 'Icon',
-      cancel: 'Cancel',
-      add: 'Add'
-    }
+  // Taskbar Settings (in AccountMenu)
+  taskbarSettings: {
+    title: 'Taskbar',
+    autoHide: 'Auto Hide',
+    position: 'Position',
+    showLeft: 'Show on Left',
+    showBottom: 'Show on Bottom',
+    showRight: 'Show on Right'
   },
 
-  // Notifications
-  notifications: {
-    title: 'Notifications',
-    recent: 'Recent Notifications',
-    filters: 'Filters',
-    settings: 'Settings',
-    markAsRead: 'Mark as read',
-    markAsUnread: 'Mark as unread',
-    delete: 'Delete',
-    markAllAsRead: 'Mark all as read',
-    clearAll: 'Clear all',
-    clearRead: 'Clear read',
-    enableSound: 'Sound notifications',
-    enableDesktop: 'Desktop notifications',
-    empty: {
-      title: 'No notifications yet',
-      subtitle: 'New notifications will appear here'
-    },
-    filterOptions: {
-      all: 'All',
-      unread: 'Unread',
-      system: 'System',
-      damage: 'Damage',
-      payment: 'Payment',
-      info: 'Info',
-      success: 'Success',
-      warning: 'Warning',
-      error: 'Error'
-    },
-    types: {
-      damage: 'Damage Report',
-      payment: 'Payment',
-      system: 'System',
-      info: 'Info',
-      success: 'Success',
-      warning: 'Warning',
-      error: 'Error'
-    },
-    timeAgo: {
-      now: 'Now',
-      minute: 'minute ago',
-      minutes: 'minutes ago',
-      hour: 'hour ago',
-      hours: 'hours ago',
-      day: 'day ago',
-      days: 'days ago'
-    }
+  // Quick Menu (used in MenuPage)
+  quickMenu: {
+    title: 'Quick Menu',
+    addToQuickAccess: 'Add to Quick Access',
+    removeFromQuickAccess: 'Remove from Quick Access'
   },
-
-  // Pinboards
-  pinboards: {
-    title: 'Pinboards',
-    myPinboards: 'My Pinboards',
-    recent: 'Recent Pinboards',
-    pinned: 'Pinned',
-    categories: 'Categories',
-    settings: 'Settings',
-    addPinboard: 'Add Pinboard',
-    viewPinboard: 'View Pinboard',
-    editPinboard: 'Edit Pinboard',
-    deletePinboard: 'Delete Pinboard',
-    duplicatePinboard: 'Duplicate Pinboard',
-    togglePin: 'Toggle Pin',
-    exportPinboards: 'Export Pinboards',
-    importPinboards: 'Import Pinboards',
-    clearAll: 'Clear All',
-    clearCompleted: 'Clear Completed',
-    autoSave: 'Auto save',
-    showInSidebar: 'Show in sidebar',
-    pin: 'Pin',
-    unpin: 'Unpin',
-    delete: 'Delete',
-    export: 'Export',
-    empty: {
-      title: 'No pinboards yet',
-      subtitle: 'You can add your notes, tasks, and important information here'
-    },
-    dialog: {
-      add: {
-        title: 'Add New Pinboard',
-        titleField: 'Title',
-        titleLabel: 'Title',
-        contentField: 'Content',
-        contentLabel: 'Content',
-        typeField: 'Type',
-        typeLabel: 'Type',
-        priorityField: 'Priority',
-        priorityLabel: 'Priority',
-        pinnedField: 'Pin',
-        cancel: 'Cancel',
-        add: 'Add'
-      },
-      view: {
-        title: 'Pinboard Details',
-        createdAt: 'Created',
-        updatedAt: 'Updated',
-        close: 'Close'
-      }
-    },
-    types: {
-      note: 'Note',
-      task: 'Task',
-      reminder: 'Reminder',
-      link: 'Link',
-      damage_note: 'Damage Note',
-      expert_task: 'Expert Task',
-      customer_reminder: 'Customer Reminder',
-      payment_tracking: 'Payment Tracking',
-      document_request: 'Document Request',
-      service_coordination: 'Service Coordination'
-    },
-    priorities: {
-      urgent: 'Urgent',
-      high: 'High',
-      normal: 'Normal',
-      low: 'Low'
-    },
-    priority: {
-      urgent: 'Urgent',
-      high: 'High',
-      normal: 'Normal',
-      low: 'Low'
-    },
-    filters: {
-      all: 'All',
-      notes: 'Notes',
-      tasks: 'Tasks',
-      reminders: 'Reminders',
-      links: 'Links',
-      damage_notes: 'Damage Notes',
-      expert_tasks: 'Expert Tasks',
-      customer_reminders: 'Customer Reminders',
-      payment_tracking: 'Payment Tracking',
-      document_requests: 'Document Requests',
-      service_coordination: 'Service Coordination',
-      pinned: 'Pinned',
-      urgent: 'Urgent',
-      high: 'High Priority'
-    },
-    actions: {
-      pin: 'Pin',
-      unpin: 'Unpin',
-      edit: 'Edit',
-      duplicate: 'Duplicate',
-      delete: 'Delete',
-      export: 'Export',
-      import: 'Import'
-    },
-    timeAgo: {
-      now: 'Now',
-      minute: 'minute ago',
-      minutes: 'minutes ago',
-      hour: 'hour ago',
-      hours: 'hours ago',
-      day: 'day ago',
-      days: 'days ago'
-    }
-  },
-
-  // Page Titles
-  pages: {
-    index: 'Home',
-    menu: 'Menu',
-    splitView: 'Split View',
-    hasarBildirimi: 'Damage Report'
-  },
-
-  // Actions
-  actions: {
-    add: 'Add',
-    addMore: 'Add more',
-    edit: 'Edit',
-    delete: 'Delete',
-    save: 'Save',
-    cancel: 'Cancel',
-    close: 'Close',
-    confirm: 'Confirm'
-  },
-
-  // Messages
-  messages: {
-    confirmDelete: 'Are you sure you want to delete?',
-    saved: 'Successfully saved',
-    error: 'An error occurred'
-  },
-
-  // Settings
-  settings: {
-    title: 'Application Settings',
-    language: 'Language',
-    theme: 'Theme',
-    general: {
-      title: 'General Settings'
-    },
-    performance: {
-      title: 'Performance Mode',
-      subtitle: 'Enable for faster performance'
-    },
-    notificationSettings: {
-      title: 'Notification Settings',
-      sound: 'Sound Notifications',
-      desktop: 'Desktop Notifications',
-      email: 'Email Notifications'
-    },
-    privacySettings: {
-      title: 'Privacy & Security',
-      dataCollection: 'Data Collection',
-      historyTracking: 'History Tracking',
-      autoLogin: 'Auto Login'
-    },
-    data: {
-      title: 'Data Management',
-      export: 'Export Data',
-      import: 'Import Data',
-      clear: 'Clear All Data',
-      clearConfirm: {
-        title: 'Clear Data',
-        message: 'All application data will be deleted. This action cannot be undone. Do you want to continue?'
-      }
-    },
-    aboutSection: {
-      title: 'About',
-      version: 'Version',
-      help: 'Help',
-      feedback: 'Feedback'
-    },
-    messages: {
-      languageChanged: 'Language changed successfully',
-      themeChanged: 'Theme changed successfully',
-      dataExported: 'Data exported successfully',
-      dataImported: 'Data imported successfully',
-      dataCleared: 'All data cleared',
-      importError: 'Error occurred while importing data'
-    },
-    sidebar: {
-      title: 'Sidebar Settings',
-      workspaces: 'Workspaces',
-      services: 'Integrated Services',
-      tools: 'Tools',
-      settings: 'Sidebar Settings',
-      show: 'Show sidebar',
-      hide: 'Auto-hide sidebar'
-    },
-    appearance: {
-      title: 'Appearance',
-      theme: 'Theme',
-      accentColor: 'Accent Color',
-      highContrast: 'High Contrast'
-    }
-  },
-
-  // History
-  history: {
-    title: 'History',
-    search: 'Search in history...',
-    recent: 'Recent History',
-    mostVisited: 'Most Visited',
-    quickActions: 'Quick Actions',
-    settings: 'Settings',
-    clearCategory: 'Clear Category',
-    addToFavorites: 'Add to Favorites',
-    remove: 'Remove',
-    enableTracking: 'Enable history tracking',
-    autoCleanup: 'Auto cleanup',
-    empty: {
-      title: 'No history yet',
-      subtitle: 'Pages you visit and operations you perform will appear here'
-    },
-    categories: {
-      all: 'All',
-      page: 'Pages',
-      file: 'Files',
-      operation: 'Operations',
-      search: 'Searches'
-    },
-    types: {
-      page: 'Page',
-      file: 'File',
-      operation: 'Operation',
-      search: 'Search',
-      damage: 'Damage',
-      payment: 'Payment',
-      customer: 'Customer',
-      expert: 'Expert',
-      service: 'Service'
-    },
-    timeAgo: {
-      now: 'Now',
-      minute: 'minute ago',
-      minutes: 'minutes ago',
-      hour: 'hour ago',
-      hours: 'hours ago',
-      day: 'day ago',
-      days: 'days ago'
-    }
-  },
-
     
     // Menu Page
     menuPage: {
       search: 'Search in menu...',
+      noResults: 'No Results Found',
+      tryDifferentSearch: 'Try a different search term',
+      clearSearch: 'Clear Search',
       categories: {
         damageOperations: 'Damage Operations',
         customerOperations: 'Customer Operations',
@@ -430,9 +136,9 @@ export default {
       },
       items: {
         // Damage Operations
-        damageReport: 'Damage Report',
         damageTracking: 'Damage Tracking',
-        damageFiles: 'Damage Files',
+        damageQuery: 'Damage File Query',
+      damageQueryMediator: 'Damage File Query (Mediator)',
         expertAssignments: 'Expert Assignments',
         serviceAssignments: 'Service Assignments',
         paymentApprovals: 'Payment Approvals',
@@ -442,7 +148,6 @@ export default {
         policyQuery: 'Policy Query',
         communicationHistory: 'Communication History',
         customerRequests: 'Customer Requests',
-        notifications: 'SMS/Email Notifications',
         
         // Expert Operations
         expertList: 'Expert List',
@@ -450,7 +155,6 @@ export default {
         performanceTracking: 'Performance Tracking',
         fieldTasks: 'Field Tasks',
         expertPayments: 'Expert Payments',
-        youtubeTest: 'YouTube Test',
         
         // Service Operations
         contractedServices: 'Contracted Services',
@@ -492,53 +196,444 @@ export default {
     // Account
     account: {
       title: 'My Account',
-      statistics: 'Statistics',
-      recentActivities: 'Recent Activities',
-      refreshActivities: 'Refresh Activities',
-      accountActions: 'Account Actions',
+    menuDescription: 'User account information, department selection, tasks and account operations menu',
+    profile: 'Profile',
+      actions: 'Account Actions',
       editProfile: 'Edit Profile',
       changePassword: 'Change Password',
-      security: 'Security',
-      exportData: 'Export Data',
       logout: 'Logout',
+      active: 'Active',
+    lastLogin: 'Last Login',
+      editDepartment: 'Edit Department',
+      selectDepartment: 'Select Department',
+      departmentSelected: 'Department Selected',
+      myTasks: 'My Tasks',
+      taskSelected: 'Task Selected',
+      selectTask: 'Select Task',
+      noTasks: 'No tasks available',
       
       // Profile fields
       firstName: 'First Name',
       lastName: 'Last Name',
+      userCode: 'User Code',
+      department: 'Department',
       email: 'Email',
       phone: 'Phone',
+      position: 'Position',
+      defaultUser: 'User',
+      defaultFullName: 'Yunus Emre Şenoğlu',
+      defaultUserCode: 'YUNUSEMRE',
+      defaultDepartment: 'Mediation',
+      defaultEmail: 'user@example.com',
+      defaultPhone: '+90 555 123 45 67',
+      defaultPosition: 'No Task Selected',
       
       // Password fields
       currentPassword: 'Current Password',
       newPassword: 'New Password',
       confirmPassword: 'Confirm Password',
       
-      // Security settings
-      twoFactorAuth: 'Two-Factor Authentication',
-      twoFactorAuthDesc: 'Protect your account with an extra layer of security',
-      sessionTimeout: 'Session Timeout',
-      sessionTimeoutDesc: 'Automatic logout time',
+      // Profile page specific
+      profileInfo: 'Profile Information',
+      profileUpdatedSuccessfully: 'Profile updated successfully',
+      profileUpdateFailed: 'Error occurred while updating profile',
+      passwordChangedSuccessfully: 'Password changed successfully',
+      passwordChangeFailed: 'Password change failed',
+      passwordChangeError: 'Password change error',
       
-      // Statistics
-      stats: {
-        damageFiles: 'Damage Files',
-        completedTasks: 'Completed Tasks',
-        pendingApprovals: 'Pending Approvals'
-      },
+      // Password security tips
+      passwordSecurityTips: 'Security Tips',
+      passwordTip1: 'Must be at least 6 characters long',
+      passwordTip2: 'Should contain uppercase, lowercase, numbers and special characters',
+      passwordTip3: 'Avoid easily guessable words',
+      passwordTip4: 'Change your password regularly',
       
-      // Time ago
-      timeAgo: {
-        now: 'Now',
-        minutes: 'minutes ago',
-        hours: 'hours ago',
-        days: 'days ago'
-      },
-      
-      // Empty state
-      empty: {
-        title: 'No activities yet',
-        subtitle: 'Your recent activities will appear here'
+      notifications: {
+        profileUpdated: 'Profile updated successfully',
+        passwordChanged: 'Password changed successfully',
+        passwordChangeFailed: 'Password change failed',
+        securityUpdated: 'Security settings updated successfully',
+        departmentChanged: 'Department changed successfully',
+        taskCompleted: 'Task completed',
+        taskReopened: 'Task reopened',
+        updateFailed: 'Update failed'
       }
-    }
+  },
 
+  // Dashboard
+  dashboard: {
+    // Top info cards
+    pendingJobs: 'Pending Jobs',
+    myJobs: 'My Jobs',
+    sentJobs: 'Sent Jobs',
+    
+    // Detailed job counts
+    detailedJobCounts: 'Detailed Job Counts',
+    pending: 'Pending',
+    assigned: 'Assigned',
+    sent: 'Sent',
+    
+    // Process types
+    processes: {
+      valueLossMediation: 'Value Loss Mediation',
+      severeDamagePertMediation: 'Severe Damage Pert Mediation',
+      bodilyDamageVoluntaryMediation: 'Bodily Damage Voluntary Mediation'
+    },
+    
+    // Job status
+    jobStatus: 'Job Status',
+    todaySent: 'Today Sent',
+    todayReceived: 'Today Received',
+    pendingApproval: 'Pending Approval',
+    completed: 'Completed',
+    activeFiles: 'Active Files',
+    expertAssignments: 'Expert Assignments',
+    
+    // Charts
+    charts: {
+      workStatusDistribution: 'Work Status Distribution',
+      weeklyWorkTrend: 'Weekly Work Trend',
+      processBasedWorkload: 'Process-Based Workload',
+      pending: 'Pending',
+      inProgress: 'In Progress',
+      completed: 'Completed',
+      completedJobs: 'Completed Jobs',
+      newJobs: 'New Jobs'
+    },
+    
+    // Status messages
+    status: {
+      lastUpdate: 'Last update: 5 min ago',
+      systemActive: 'System active',
+      detailedReport: 'Detailed Report'
+    },
+    
+    // Location messages
+    location: {
+      gettingLocation: 'Getting location...',
+      permissionDenied: 'Location permission denied',
+      locationUnavailable: 'Location unavailable',
+      locationTimeout: 'Location request timeout',
+      locationServiceUnavailable: 'Location service unavailable'
+    },
+    
+    // Announcement list
+    announcements: {
+      title: 'Announcement List',
+      empty: 'No announcements available',
+      noAnnouncements: 'No announcements available',
+      viewAll: 'View All',
+      readMore: 'Read More',
+      showLess: 'Show Less',
+      categories: {
+        system: 'System',
+        maintenance: 'Maintenance',
+        security: 'Security',
+        update: 'Update',
+        general: 'General'
+      },
+      priorities: {
+        high: 'High',
+        medium: 'Medium',
+        low: 'Low'
+      },
+      items: {
+        maintenance: {
+          title: 'System Maintenance Announcement',
+          description: 'Planned system maintenance will be performed this weekend.'
+        },
+        security: {
+          title: 'Security Update',
+          description: 'New security measures have been implemented.'
+        },
+        update: {
+          title: 'New Feature: Report Module',
+          description: 'Advanced reporting features are now available.'
+        }
+      },
+      testNotification: 'Dashboard Loaded - Custom Notification Test',
+      unknownLocation: 'Unknown'
+    }
+  },
+
+  // Damage File Query (Mediator)
+  damageQueryMediator: {
+    title: 'Damage File Query (Mediator)',
+    refresh: 'Refresh',
+    exportResults: 'Export Results',
+    
+    // Tab labels
+    tabs: {
+      damage: 'Damage'
+    },
+    
+    // Section titles
+    sections: {
+      damageInfo: 'Damage Information'
+    },
+    
+    searchForm: {
+      fileNumber: 'File Number',
+      victimNumber: 'Victim Number',
+      searchButton: 'Search',
+      clearButton: 'Clear'
+    },
+    results: {
+      title: 'Search Results',
+      noResults: 'No results found',
+      fileNumber: 'File Number',
+      policyNumber: 'Policy Number',
+      insuredName: 'Insured',
+      insuredPlate: 'Insured Plate',
+      insuredFaultRate: 'Fault Rate',
+      victimName: 'Victim',
+      victimPlate: 'Victim Plate',
+      subBranch: 'Sub Branch',
+      damageReason: 'Damage Reason',
+      subDamageReason: 'Sub Damage Reason',
+      reportDate: 'Report Date',
+      damageDate: 'Damage Date',
+      actions: 'Actions'
+    }
+  },
+
+  // Damage File Query
+  damageQuery: {
+    title: 'Damage File Query',
+    refresh: 'Refresh',
+    exportResults: 'Export Results',
+    
+    // Tab labels
+    tabs: {
+      damage: 'Damage',
+      insured: 'Insured',
+      victim: 'Victim',
+      responsible: 'Responsible Person'
+    },
+    
+    // Form labels
+    form: {
+      fileNumber: 'File Number',
+      reportNumber: 'Report Number',
+      fileStatus: 'File General Status',
+      subBranch: 'Sub Branch',
+      productCode: 'Product Code',
+      damageReason: 'Damage Reason',
+      preReportStartDate: 'Pre-Report Start Date',
+      preReportEndDate: 'Pre-Report End Date',
+      reportStartDate: 'Report Start Date',
+      reportEndDate: 'Report End Date',
+      damageStartDate: 'Damage Start Date',
+      damageEndDate: 'Damage End Date',
+      sideFile: 'Side File',
+      fileType: 'File Type',
+      priority: 'Priority',
+      status: 'Status',
+      policyNumber: 'Policy Number',
+      insuredName: 'Insured Name',
+      insuredSurname: 'Insured Surname',
+      insuredPlate: 'Insured Plate',
+      victimName: 'Victim Name',
+      victimPlate: 'Victim Plate',
+      legalNumber: 'Legal Number',
+      hasRecourse: 'Has Recourse?',
+      subDamageReason: 'Sub Damage Reason'
+    },
+    
+    // Table columns
+    table: {
+      priority: 'Priority',
+      status: 'Status',
+      fileNumber: 'File Number',
+      reportNumber: 'Report Number',
+      sideFile: 'Side File',
+      preReportReason: 'Pre-Report Reason',
+      fileType: 'File Type',
+      policyNumber: 'Policy Number',
+      insuredName: 'Insured Name',
+      insuredPlate: 'Insured Plate',
+      insuredSurname: 'Insured Surname',
+      victimName: 'Victim Name',
+      victimPlate: 'Victim Plate',
+      legalNumber: 'Legal Number',
+      hasRecourse: 'Has Recourse?',
+      subBranch: 'Sub Branch',
+      damageReason: 'Damage Reason',
+      subDamageReason: 'Sub Damage Reason',
+      actions: 'Actions'
+    },
+    
+    // Actions
+    actions: {
+      search: 'Search',
+      clear: 'Clear',
+      viewDetails: 'View Details',
+      edit: 'Edit',
+      delete: 'Delete'
+    },
+    
+    // Messages
+    messages: {
+      noResults: 'No results found',
+      searchResults: 'Search Results',
+      loading: 'Loading...'
+    }
+  },
+
+  // Validation
+  validation: {
+    required: 'This field is required',
+    email: 'Please enter a valid email address',
+    minLength: 'Must be at least {min} characters',
+    passwordMismatch: 'Passwords do not match'
+  },
+
+  // Error pages
+  error: {
+    notFound: {
+      title: 'Page Not Found',
+      message: 'The page you are looking for could not be found or may have been moved.',
+      homeButton: 'Go to Home',
+      menuButton: 'Go to Menu'
+    }
+  },
+
+  // Hasar Dosya page
+  hasarDosya: {
+    title: 'Damage Files',
+    actions: {
+      print: 'Print',
+      download: 'Download',
+      share: 'Share',
+      upload: 'Upload',
+      addNote: 'Add Note'
+    },
+    sections: {
+      reportInfo: 'Report Information',
+      eventInfo: 'Event Information',
+      policyInfo: 'Policy Information',
+      coverageInfo: 'Coverage',
+      victimInfo: 'Victim Information',
+      expertInfo: 'Expert Information',
+      paymentInfo: 'Payment Information',
+      documents: 'Documents',
+      notesAndProcess: 'Notes and Process',
+      expertResults: 'Expert Results'
+    },
+    labels: {
+      reportDate: 'Report Date',
+      reportTime: 'Report Time',
+      reporter: 'Reporter',
+      contact: 'Contact',
+      reportType: 'Report Type',
+      reportDescription: 'Report Description',
+      eventDate: 'Event Date',
+      eventTime: 'Event Time',
+      eventLocation: 'Event Location',
+      city: 'City / District',
+      eventDescription: 'Event Description',
+      policyNumber: 'Policy Number',
+      policyHolder: 'Policy Holder',
+      policyStartDate: 'Start Date',
+      policyEndDate: 'End Date',
+      premium: 'Premium',
+      coverageType: 'Coverage Type',
+      coverageLimit: 'Coverage Limit',
+      victimName: 'Name Surname',
+      victimId: 'ID Number',
+      victimPhone: 'Phone',
+      victimEmail: 'Email',
+      estimatedDamage: 'Estimated Damage',
+      address: 'Address',
+      expertName: 'Expert Name',
+      expertCompany: 'Company',
+      expertContact: 'Contact',
+      assignmentDate: 'Assignment Date',
+      reportDate: 'Report Date',
+      approvedAmount: 'Approved Amount',
+      deductible: 'Deductible',
+      netPayment: 'Net Payment',
+      paymentType: 'Payment Type',
+      paymentDate: 'Payment Date',
+      paymentAmount: 'Payment Amount',
+      paymentStatus: 'Payment Status',
+      paymentDescription: 'Payment Description',
+      documentCategory: 'Category',
+      documentName: 'Document Name',
+      documentDate: 'Document Date',
+      documentSize: 'Document Size',
+      noteTitle: 'Note Title',
+      noteDate: 'Note Date',
+      noteAuthor: 'Note Author',
+      noteContent: 'Note Content'
+    },
+    messages: {
+      printing: 'File is being printed...',
+      downloading: 'File is being downloaded...',
+      shareFeature: 'Share feature will be available soon',
+      selectDocumentType: 'Please select document type',
+      documentRequestSent: '{type} document request sent',
+      uploadFeature: 'Document upload feature will be available soon',
+      viewingDocument: '{name} is being viewed...',
+      downloadingDocument: '{name} is being downloaded...',
+      addNoteFeature: 'Add note feature will be available soon',
+      editNoteFeature: 'Edit note feature will be available soon',
+      deleteNoteFeature: 'Delete note feature will be available soon',
+      loadingFile: '{fileNumber} file is being loaded...',
+      searchPlaceholder: 'Search file...'
+    },
+    fileTitle: 'Damage File - {fileNumber}'
+  },
+
+  // Hasar Dosya Arabulucu page
+  hasarDosyaArabulucu: {
+    title: 'Damage File (Mediator)',
+    actions: {
+      print: 'Print',
+      download: 'Download',
+      share: 'Share'
+    },
+    sections: {
+      dosyaOzet: 'File Summary Information',
+      ihbarVeren: 'Notifier Information',
+      degerKaybiArabuluculuk: 'Value Loss Mediation Process',
+      evrak: 'Document Information'
+    },
+    labels: {
+      dosyaNo: 'File Number',
+      policeNo: 'Policy Number',
+      sigortaliAdSoyad: 'Insured Name',
+      sigortaliPlaka: 'Insured Plate',
+      magdurAdSoyad: 'Victim Name',
+      magdurAracPlaka: 'Victim Vehicle Plate',
+      hasarNedeni: 'Damage Reason',
+      hasarTarihi: 'Damage Date',
+      ihbarYapanAdSoyad: 'Notifier Name',
+      gsm: 'GSM',
+      teklifEdilenTutar: 'Offered Amount',
+      vekaletTutari: 'Power of Attorney Fee',
+      toplamTutar: 'Total Amount',
+      anlasmaYapilacakIslem: 'Action to be Agreed Upon',
+      anlasmaDurum: 'Agreement Status',
+      talepEdilenRevizeTutar: 'Requested Revised Amount',
+      onaylananRevizeTutar: 'Approved Revised Amount',
+      anlasmaSaglananTutar: 'Agreed Amount',
+      anlasmaSaglananVekaletTutari: 'Agreed Power of Attorney Fee',
+      anlasmaSaglananToplamTutar: 'Agreed Total Amount',
+      actions: 'Actions'
+    },
+    messages: {
+      printing: 'File is being printed...',
+      downloading: 'File is being downloaded...',
+      shareFeature: 'Share feature will be available soon',
+      selectDocumentType: 'Please select document type',
+      documentRequestSent: '{type} document request sent',
+      viewingDocument: 'View',
+      degerKaybiSaved: 'Value loss mediation information saved'
+    },
+    evrak: {
+      selectType: 'Document type',
+      requestDocument: 'Request Document'
+    }
+  }
 }

@@ -1,0 +1,19 @@
+# PWA Icons Directory
+
+PWA iconlarını oluşturmak için:
+```bash
+npm run generate:icons
+```
+
+Veya manuel olarak şu siteleri kullan:
+- https://realfavicongenerator.net/
+- https://www.pwabuilder.com/imageGenerator
+- https://favicon.io/
+
+Gerekli boyutlar:
+- icon-128x128.png
+- icon-192x192.png
+- icon-256x256.png
+- icon-384x384.png
+- icon-512x512.png
+

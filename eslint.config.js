@@ -47,13 +47,9 @@ export default [
 
       globals: {
         ...globals.browser,
-        ...globals.node, // SSR, Electron, config files
+        ...globals.node, // config files
         process: 'readonly', // process.env.*
-        ga: 'readonly', // Google Analytics
-        cordova: 'readonly',
-        Capacitor: 'readonly',
-        chrome: 'readonly', // BEX related
-        browser: 'readonly' // BEX related
+        ga: 'readonly' // Google Analytics
       }
     },
 
@@ -63,15 +59,6 @@ export default [
 
       // allow debugger during development only
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-    }
-  },
-
-  {
-    files: [ 'src-pwa/custom-service-worker.js' ],
-    languageOptions: {
-      globals: {
-        ...globals.serviceworker
-      }
     }
   },
 

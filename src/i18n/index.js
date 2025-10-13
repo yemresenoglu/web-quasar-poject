@@ -5,4 +5,3 @@ export default {
   'en-US': enUS,
   'tr-TR': trTR
 }
-

@@ -4,6 +4,7 @@
 // Breakpoints
 $mobile: 480px
 $tablet: 768px
+$tablet-large: 1024px
 $desktop: 1024px
 $large: 1440px
 
@@ -16,12 +17,21 @@ $large: 1440px
   @media (min-width: #{$mobile}) and (max-width: #{$tablet - 1px})
     @content
 
+@mixin tablet-large
+  @media (min-width: #{$tablet}) and (max-width: #{$tablet-large - 1px})
+    @content
+
 @mixin desktop
-  @media (min-width: #{$tablet})
+  @media (min-width: #{$tablet-large})
     @content
 
 @mixin large
-  @media (min-width: #{$desktop})
+  @media (min-width: #{$large})
+    @content
+
+// Utility mixin for tablet range (768px-1024px)
+@mixin tablet-range
+  @media (min-width: #{$tablet}) and (max-width: #{$tablet-large - 1px})
     @content
 
 // Layout Responsive Rules
@@ -31,46 +41,8 @@ $large: 1440px
       width: 100% !important
       max-width: 280px
       
-    .q-header
-      .header__toolbar
-        padding: 2px 8px !important
-        
-      .header__actions
-        gap: 1px
-        
-      .header__action-button
-        width: 20px
-        height: 20px
-        .q-icon
-          font-size: 10px
 
-// Header Responsive
-.header
-  @include mobile
-    height: 40px !important
-    
-    &__toolbar
-      height: 100%
-      padding: 1px 4px !important
-      
-    &__actions
-      gap: 1px
-      
-    &__action-button
-      width: 20px
-      height: 20px
-      
-      .q-icon
-        font-size: 10px
-        
-    .alexa_button
-      width: 24px
-      height: 24px
-      
-      .q-icon
-        font-size: 16px !important
-
-// Sidebar Responsive  
+// Taskbar Responsive  
 .drawer
   @include mobile
     width: 280px !important
@@ -89,39 +61,6 @@ $large: 1440px
       .q-item-section
         min-width: auto
 
-// Tab Container Responsive
-.header-tabs
-  @include mobile
-    height: 32px
-    
-    &__container
-      height: 32px
-      padding-left: 2px
-      padding-right: 4px
-
-// Tab Responsive
-.tab
-  @include mobile
-    min-width: 80px !important
-    max-width: 120px !important
-    height: 28px !important
-    
-    &__content
-      padding: 0 6px !important
-      gap: 4px
-      
-    &__icon
-      font-size: 12px !important
-      
-    &__text
-      font-size: 11px !important
-      
-    &__close
-      width: 16px !important
-      height: 16px !important
-      
-      .q-icon
-        font-size: 10px !important
 
 // Content Responsive
 .content-view
@@ -147,48 +86,6 @@ $large: 1440px
   @include desktop
     margin: 16px 0
     border-radius: 18px
-
-// Menu Responsive
-.settings-menu, .favorites-menu, .notifications-menu, .history-menu, .account-menu, .pinboards-menu
-  .q-menu
-    @include mobile
-      max-width: calc(100vw - 32px) !important
-      max-height: calc(100vh - 100px) !important
-      
-    @include tablet
-      max-width: 400px !important
-      max-height: calc(100vh - 120px) !important
-
-// Performance Dashboard Responsive
-.performance-dashboard
-  @include mobile
-    padding: 8px
-    
-    .performance-grid
-      grid-template-columns: 1fr !important
-      gap: 8px
-      
-    .performance-widget
-      padding: 12px
-      
-      h3
-        font-size: 14px
-        
-    .stat-item
-      flex-direction: column
-      text-align: center
-      gap: 4px
-      
-      .stat-label
-        font-size: 11px
-        
-      .stat-value
-        font-size: 16px
-        
-  @include tablet
-    .performance-grid
-      grid-template-columns: repeat(2, 1fr) !important
-      gap: 12px
 
 // Tables Responsive
 .q-table
@@ -225,19 +122,8 @@ $large: 1440px
   @include tablet
     margin-bottom: 16px
 
-// Buttons Responsive
-.q-btn
-  @include mobile
-    min-height: 44px // Touch-friendly height
-    padding: 0 16px
-    
-    &.q-btn--small
-      min-height: 36px
-      padding: 0 12px
-      
-    &.q-btn--large
-      min-height: 52px
-      padding: 0 24px
+// REMOVED: Global button responsive rules - Moved to component-specific CSS
+// Bu kurallar artık component dosyalarında yönetiliyor
 
 // Dialog Responsive
 .q-dialog
@@ -256,104 +142,8 @@ $large: 1440px
   @include mobile
     display: none !important // Hide tooltips on mobile
 
-// Loading States Responsive
-.loading-overlay
-  @include mobile
-    .loading-content
-      .loading-message
-        font-size: 12px
-        max-width: 150px
-
-// Empty State Responsive
-.empty-state
-  @include mobile
-    min-height: 150px
-    padding: 16px 8px
-    
-    &__content
-      max-width: 250px
-      
-    &__title
-      font-size: 16px
-      
-    &__description
-      font-size: 12px
-      
-    &__icon .q-icon
-      font-size: 48px !important
-
-// Error State Responsive
-.error-state
-  @include mobile
-    min-height: 200px
-    padding: 16px 8px
-    
-    &__content
-      max-width: 280px
-      
-    &__title
-      font-size: 18px
-      
-    &__message
-      font-size: 13px
-      
-    &__actions
-      flex-direction: column
-      gap: 8px
-      
-      .q-btn
-        width: 100%
-        max-width: 200px
-
-// Utility Classes
-.mobile-only
-  @include tablet
-    display: none !important
-    
-  @include desktop
-    display: none !important
-
-.tablet-only
-  @include mobile
-    display: none !important
-    
-  @include desktop
-    display: none !important
-
-.desktop-only
-  @include mobile
-    display: none !important
-    
-  @include tablet
-    display: none !important
-
-.mobile-hidden
-  @include mobile
-    display: none !important
-
-.tablet-hidden
-  @include tablet
-    display: none !important
-
-.desktop-hidden
-  @include desktop
-    display: none !important
-
-// Touch-friendly improvements
-@media (hover: none) and (pointer: coarse)
-  // This targets touch devices
-  .q-btn, .q-item, .q-tab
-    min-height: 44px
-    
-  .q-field__control
-    min-height: 44px
-    
-  .drawer-item
-    min-height: 48px
-    
-  // Remove hover effects on touch devices
-  .q-btn:hover, .q-item:hover, .q-tab:hover
-    background: transparent !important
+// REMOVED: Global touch-friendly button rules - Moved to component-specific CSS
+// Bu kurallar artık component dosyalarında yönetiliyor
 
 // High DPI displays
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
@@ -364,6 +154,52 @@ $large: 1440px
   img
     image-rendering: -webkit-optimize-contrast
     image-rendering: crisp-edges
+
+// Touch target optimization for touch devices (WCAG 2.1 Level AAA: min 44px)
+@media (pointer: coarse)
+  .menu-item
+    min-height: 44px !important
+    padding: 8px !important
+  
+  .drawer-item
+    min-height: 44px !important
+    
+  .q-btn
+    min-height: 44px !important
+    min-width: 44px !important
+  
+  .account-menu__item
+    min-height: 44px !important
+  
+  .q-item
+    min-height: 44px !important
+
+// Tablet-specific optimizations (768px-1024px)
+@media (min-width: 768px) and (max-width: 1023px)
+  // IndexPage Dashboard
+  .index-page
+    .row .col-md-8
+      width: 100% !important
+    
+    .row .col-md-4
+      width: 100% !important
+    
+    .index-page__job-status-grid
+      grid-template-columns: repeat(2, 1fr) !important
+  
+  // MenuPage
+  .menu-container
+    grid-template-columns: repeat(2, 1fr) !important
+  
+  // Process stats
+  .process-stat__numbers
+    flex-direction: row !important
+    justify-content: space-around
+  
+  // Announcements
+  .announcements
+    max-width: 600px
+    margin: 0 auto
 
 // Print styles
 @media print

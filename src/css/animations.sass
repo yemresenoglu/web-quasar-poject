@@ -1,51 +1,18 @@
-// Animation and Visual Feedback System
-// Smooth micro-interactions and visual feedback
 
-// Animation Variables
 $animation-duration-fast: 0.15s
 $animation-duration-normal: 0.3s
 $animation-duration-slow: 0.5s
 $animation-easing: cubic-bezier(0.4, 0, 0.2, 1)
 $animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55)
 
-// Base Transitions
 *
   transition-property: background-color, border-color, color, opacity, transform, box-shadow
   transition-duration: $animation-duration-fast
   transition-timing-function: $animation-easing
 
-// Button Animations
-.q-btn
-  position: relative
-  overflow: hidden
-  transform: translateZ(0) // Enable hardware acceleration
-  
-  &:hover:not(:disabled)
-    transform: translateY(-1px)
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
-    
-  &:active:not(:disabled)
-    transform: translateY(0)
-    transition-duration: $animation-duration-fast
-    
-  // Ripple effect enhancement
-  &::before
-    content: ''
-    position: absolute
-    top: 50%
-    left: 50%
-    width: 0
-    height: 0
-    border-radius: 50%
-    background: rgba(255, 255, 255, 0.3)
-    transform: translate(-50%, -50%)
-    transition: width 0.6s, height 0.6s
-    
-  &:active::before
-    width: 300px
-    height: 300px
+// REMOVED: Global button animations - Moved to component-specific CSS
+// Bu kurallar artık component dosyalarında yönetiliyor
 
-// Card Animations
 .q-card
   transform: translateZ(0)
   transition: transform $animation-duration-normal $animation-easing, box-shadow $animation-duration-normal $animation-easing
@@ -54,36 +21,7 @@ $animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55)
     transform: translateY(-2px)
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15)
 
-// Tab Animations
-.tab
-  position: relative
-  
-  &::after
-    content: ''
-    position: absolute
-    bottom: 0
-    left: 0
-    width: 0
-    height: 2px
-    background: var(--q-primary)
-    transition: width $animation-duration-normal $animation-easing
-    
-  &--active::after
-    width: 100%
-    
-  &:hover:not(.tab--active)
-    background: rgba(0, 0, 0, 0.04)
-    
-  &__close
-    opacity: 0
-    transform: scale(0.8)
-    transition: opacity $animation-duration-normal $animation-easing, transform $animation-duration-normal $animation-easing
-    
-  &:hover &__close
-    opacity: 1
-    transform: scale(1)
-
-// Sidebar Animations
+// Taskbar Animations
 .drawer
   .drawer-item
     position: relative
@@ -110,23 +48,6 @@ $animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55)
       
     &:hover .q-icon
       transform: scale(1.1)
-
-// Header Animations
-.header
-  &__action-button
-    transition: all $animation-duration-normal $animation-easing
-    
-    &:hover
-      transform: scale(1.1)
-      background: rgba(0, 0, 0, 0.1)
-      
-  .alexa_button
-    .q-icon
-      transition: all $animation-duration-normal $animation-easing
-      
-    &:hover .q-icon
-      transform: rotate(180deg) scale(1.2)
-      color: #9c27b0 !important
 
 // Menu Animations
 .q-menu
@@ -236,59 +157,6 @@ $animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55)
   to
     transform: rotate(360deg)
 
-// Utility Animation Classes
-.animate-pulse
-  animation: pulse 2s infinite
-
-.animate-bounce
-  animation: bounce 1s infinite
-
-.animate-shake
-  animation: shake 0.5s
-
-.animate-fade-in-up
-  animation: fadeInUp $animation-duration-normal $animation-easing
-
-.animate-fade-in-down
-  animation: fadeInDown $animation-duration-normal $animation-easing
-
-.animate-fade-in-left
-  animation: fadeInLeft $animation-duration-normal $animation-easing
-
-.animate-fade-in-right
-  animation: fadeInRight $animation-duration-normal $animation-easing
-
-.animate-slide-in-up
-  animation: slideInUp $animation-duration-normal $animation-easing
-
-.animate-slide-in-down
-  animation: slideInDown $animation-duration-normal $animation-easing
-
-.animate-zoom-in
-  animation: zoomIn $animation-duration-normal $animation-easing
-
-.animate-rotate
-  animation: rotate 1s linear infinite
-
-// Hover Effects
-.hover-lift
-  transition: transform $animation-duration-normal $animation-easing
-  
-  &:hover
-    transform: translateY(-2px)
-
-.hover-scale
-  transition: transform $animation-duration-normal $animation-easing
-  
-  &:hover
-    transform: scale(1.05)
-
-.hover-glow
-  transition: box-shadow $animation-duration-normal $animation-easing
-  
-  &:hover
-    box-shadow: 0 0 20px rgba(var(--q-primary-rgb), 0.3)
-
 // Focus Animations
 .q-field
   .q-field__control
@@ -320,48 +188,9 @@ $animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55)
 .list-move
   transition: transform $animation-duration-normal $animation-easing
 
-// Stagger Animation for Lists
-.stagger-item
-  animation: fadeInUp $animation-duration-normal $animation-easing
-  
-  &:nth-child(1)
-    animation-delay: 0.1s
-  &:nth-child(2)
-    animation-delay: 0.2s
-  &:nth-child(3)
-    animation-delay: 0.3s
-  &:nth-child(4)
-    animation-delay: 0.4s
-  &:nth-child(5)
-    animation-delay: 0.5s
-
-// Performance Optimizations
-.will-change-transform
-  will-change: transform
-
-.will-change-opacity
-  will-change: opacity
-
-.will-change-auto
-  will-change: auto
-
 // Reduced Motion Support
 @media (prefers-reduced-motion: reduce)
   *
     animation-duration: 0.01ms !important
     animation-iteration-count: 1 !important
-    transition-duration: 0.01ms !important
-    
-  .animate-pulse, .animate-bounce, .animate-rotate
-    animation: none !important
-
-// Dark Theme Adjustments
-.theme-dark
-  .q-btn:hover:not(:disabled)
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3)
-    
-  .q-card:hover
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3)
-    
-  .hover-glow:hover
-    box-shadow: 0 0 20px rgba(var(--q-primary-rgb), 0.5) 
+    transition-duration: 0.01ms !important 

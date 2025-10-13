@@ -1,22 +1,171 @@
-// app global css in Sass form
 
-@import 'themes.sass'
+@import 'fonts.scss'
+@import 'utilities.scss'
+@import 'responsive.sass'
+@import 'animations.sass'
+@import 'accessibility.sass'
+@import 'focus-indicators.scss'
+@import 'dark-mode.scss'
 
-// Electron masaüstü uygulaması için optimizasyonlar
-.electron
-  .main-layout
-    .header-toolbar
-      -webkit-app-region: drag
-      .q-btn, .q-toggle, .q-input, .q-select
-        -webkit-app-region: no-drag
+// Bootstrap Icons CSS import
+@import 'bootstrap-icons/font/bootstrap-icons.css'
+
+// Bootstrap Icons için Quasar uyumluluğu (Notification'lar hariç)
+.q-icon[class*="bi-"]:not(.q-notification__icon)
+  font-family: 'bootstrap-icons' !important
+  font-style: normal !important
+  font-variant: normal !important
+  text-transform: none !important
+  line-height: 1 !important
+  -webkit-font-smoothing: antialiased !important
+  -moz-osx-font-smoothing: grayscale !important
+
+// Icon font fallback (Notification'lar hariç)
+.bi:not(.q-notification__icon), 
+.bi:not(.q-notification__icon):before
+  font-family: 'bootstrap-icons' !important
+  font-style: normal !important
+  font-variant: normal !important
+  text-transform: none !important
+  line-height: 1 !important
+
+// Notification icon'ları için Material Icons zorlaması
+.q-notification .q-notification__icon,
+.q-notification .q-icon,
+.q-notification i[class*="material-icons"]
+  font-family: 'Material Icons', 'Roboto', sans-serif !important
+  font-weight: normal !important
+  font-style: normal !important
+  font-size: 20px !important
+  line-height: 1 !important
+  letter-spacing: normal !important
+  text-transform: none !important
+  display: inline-block !important
+  white-space: nowrap !important
+  word-wrap: normal !important
+  direction: ltr !important
+  -webkit-font-feature-settings: 'liga' !important
+  -webkit-font-smoothing: antialiased !important
+  font-variant: normal !important
+  text-rendering: optimizeLegibility !important
+
+// ===== Q-INPUT ERROR ICON FIXES =====
+// Q-Input error state'lerinde tek icon sağda
+.q-field--error
+  // Input içindeki tüm icon'ları gizle
+  .q-field__control
+    .q-field__prepend,
+    .q-field__append
+      .q-icon
+        display: none !important
     
-    .sidebar-drawer
-      -webkit-app-region: no-drag
+    // Sadece sağda tek icon göster
+    &::after
+      content: "⚠" !important
+      position: absolute !important
+      right: 12px !important
+      top: 50% !important
+      transform: translateY(-50%) !important
+      font-size: 16px !important
+      color: #f56565 !important
+      z-index: 1 !important
+      pointer-events: none !important
+  
+  // Border'ı düzelt - tam oturması için
+  .q-field__control:before
+    border: 2px solid #f56565 !important
+    border-radius: 4px !important
+  
+  // Alt mesajdaki error icon'unu tamamen gizle
+  .q-field__messages
+    .q-icon
+      display: none !important
     
-    .content-layout
-      -webkit-app-region: no-drag
+    // Icon'u tamamen kaldır
+    &::before
+      display: none !important
 
-// Scrollbar optimization for desktop
+// Güçlü selector ile tüm error elementlerini hedefle
+.q-field--error .q-field__control
+  // Soldaki tüm icon'ları gizle
+  .q-field__prepend,
+  .q-field__append,
+  .q-field__native
+    .q-icon,
+    i,
+    [class*="bi-"]
+      display: none !important
+  
+  // Sadece sağda tek icon göster
+  &::after
+    content: "⚠" !important
+    position: absolute !important
+    right: 12px !important
+    top: 50% !important
+    transform: translateY(-50%) !important
+    font-size: 16px !important
+    color: #f56565 !important
+    z-index: 10 !important
+    pointer-events: none !important
+    display: block !important
+
+// Quasar'ın default error icon'unu özellikle hedefle
+.q-field--error .q-field__append
+  .q-icon.material-icons,
+  i.material-icons,
+  .q-icon[class*="material-icons"]
+    display: none !important
+    visibility: hidden !important
+    opacity: 0 !important
+    width: 0 !important
+    height: 0 !important
+    font-size: 0 !important
+
+// Tüm error icon'larını gizle
+.q-field--error .q-field__append .q-icon,
+.q-field--error .q-field__append i,
+.q-field--error .q-field__append [class*="material-icons"]
+  display: none !important
+  visibility: hidden !important
+  opacity: 0 !important
+  width: 0 !important
+  height: 0 !important
+  font-size: 0 !important
+  margin: 0 !important
+  padding: 0 !important
+
+// Kırmızı alt çizgiyi kaldır
+.q-field--error .q-field__native
+  text-decoration: none !important
+  border-bottom: none !important
+  box-shadow: none !important
+
+// Q-Input prepend/append icon'ları için Bootstrap Icons desteği
+.q-field__prepend,
+.q-field__append
+  .q-icon
+    font-family: 'bootstrap-icons' !important
+    font-style: normal !important
+    font-variant: normal !important
+    text-transform: none !important
+    line-height: 1 !important
+    -webkit-font-smoothing: antialiased !important
+    -moz-osx-font-smoothing: grayscale !important
+
+// Q-Input'ların genel Bootstrap Icons desteği
+.q-input,
+.q-field
+  .q-icon[class*="bi-"]
+    font-family: 'bootstrap-icons' !important
+    font-style: normal !important
+    font-variant: normal !important
+    text-transform: none !important
+    line-height: 1 !important
+    -webkit-font-smoothing: antialiased !important
+    -moz-osx-font-smoothing: grayscale !important
+
+
+
 ::-webkit-scrollbar
   width: 4px
   height: 4px
@@ -32,25 +181,260 @@
 ::-webkit-scrollbar-thumb:hover
   background: #757575
 
-// Custom window controls (managed by Header.vue)
-// No extra spacing needed since we control the window controls ourselves
 
-// Better text rendering
 body
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
-  font-rendering: optimizeLegibility
+  text-rendering: optimizeLegibility
 
-// Prevent text selection in non-content areas
 .q-layout-header, .q-drawer, .q-btn, .q-tab
   -webkit-user-select: none
   -moz-user-select: none
   -ms-user-select: none
   user-select: none
 
-// Content areas should allow text selection
 .q-page-container, .q-card-section, .q-input, .q-field
   -webkit-user-select: text
   -moz-user-select: text
   -ms-user-select: text
   user-select: text
+
+// ===== QUASAR NOTIFY CUSTOM STYLES =====
+.q-notification
+  background: #fefefe !important
+  border: 1px solid rgba(0, 0, 0, 0.12) !important
+  border-radius: 18px !important
+  transition: all 0.15s ease-out !important
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important
+  backdrop-filter: blur(10px) !important
+  
+  .q-notification__message
+    font-weight: 500 !important
+    color: #202124 !important
+    line-height: 1.4 !important
+  
+  .q-notification__actions
+    .q-btn
+      border-radius: 50% !important
+      width: 24px !important
+      height: 24px !important
+      min-height: 24px !important
+      
+      &:hover
+        background: rgba(0, 0, 0, 0.08) !important
+
+  // Material Icons için font-family düzeltmesi
+  .q-notification__icon
+    font-family: 'Material Icons', 'Roboto', sans-serif !important
+    font-weight: normal !important
+    font-style: normal !important
+    font-size: 20px !important
+    line-height: 1 !important
+    letter-spacing: normal !important
+    text-transform: none !important
+    display: inline-block !important
+    white-space: nowrap !important
+    word-wrap: normal !important
+    direction: ltr !important
+    -webkit-font-feature-settings: 'liga' !important
+    -webkit-font-smoothing: antialiased !important
+    font-variant: normal !important
+    text-rendering: optimizeLegibility !important
+
+// Success notification
+.q-notification--positive
+  border-left: 4px solid #4caf50 !important
+  
+  .q-notification__icon
+    color: #4caf50 !important
+    background: rgba(76, 175, 80, 0.1) !important
+    border-radius: 50% !important
+    width: 24px !important
+    height: 24px !important
+
+// Error notification
+.q-notification--negative
+  border-left: 4px solid #d32f2f !important
+  
+  .q-notification__icon
+    color: #d32f2f !important
+    background: rgba(211, 47, 47, 0.1) !important
+    border-radius: 50% !important
+    width: 24px !important
+    height: 24px !important
+
+// Info notification
+.q-notification--info
+  border-left: 4px solid #1976d2 !important
+  
+  .q-notification__icon
+    color: #1976d2 !important
+    background: rgba(25, 118, 210, 0.1) !important
+    border-radius: 50% !important
+    width: 24px !important
+    height: 24px !important
+
+// Warning notification
+.q-notification--warning
+  border-left: 4px solid #ff9800 !important
+  
+  .q-notification__icon
+    color: #ff9800 !important
+    background: rgba(255, 152, 0, 0.1) !important
+    border-radius: 50% !important
+    width: 24px !important
+    height: 24px !important
+
+// Notification container positioning
+.q-notifications
+  top: 20px !important
+  right: 20px !important
+  z-index: 9999 !important
+  
+  .q-notification
+    margin-bottom: 12px !important
+    animation: slideInRight 0.15s ease-out !important
+
+// Animation
+@keyframes slideInRight
+  from
+    opacity: 0
+    transform: translateX(100%)
+  to
+    opacity: 1
+    transform: translateX(0)
+
+// Mobile responsive
+@media (max-width: 768px)
+  .q-notification
+    margin: 0 16px !important
+    border-radius: 12px !important
+    
+    .q-notification__message
+      font-size: 13px !important
+      
+  .q-notifications
+    top: 16px !important
+    right: 16px !important
+    left: 16px !important
+
+// REMOVED: UPPERCASE TEXT RULES - Moved to component-specific CSS
+// Bu kurallar artık component dosyalarında yönetiliyor
+
+// ===== GLOBAL TABLE & DROPDOWN OVERRIDES =====
+// Quasar default stillerini override etmek için güçlü selector'lar
+
+// Table Row Hover (KAYDET button colors)
+.q-table tbody tr:hover
+  background: #f8fafc !important
+  cursor: pointer !important
+  transition: all 0.2s ease !important
+
+// Dropdown Menu Items (q-select options - Table row referansı)
+.q-menu .q-item
+  min-height: 32px !important
+  padding: 4px 8px !important
+  background: white !important
+  transition: all 0.2s ease !important
+  cursor: pointer !important
+
+.q-menu .q-item:hover,
+.q-menu .q-item.q-manual-focusable--focused,
+.q-menu .q-item.q-router-link--active
+  background: #f8fafc !important
+  cursor: pointer !important
+  transition: all 0.2s ease !important
+
+.q-menu .q-item__label
+  font-size: 11px !important
+  font-weight: 500 !important
+  text-transform: uppercase !important
+
+.q-menu .q-item__section
+  text-transform: uppercase !important
+
+// AccountMenu dropdown'ları için istisna (uppercase OLMAYACAK)
+.account-menu .q-menu .q-item__label,
+.account-menu .q-menu .q-item__section
+  text-transform: none !important
+
+// ===== TOGGLE (SLIDER) GLOBAL OVERRIDES =====
+// AccountMenu içindeki toggle'ları check icon rengi ile aynı yap (#64748b)
+.account-menu .q-toggle__thumb,
+.account-menu .q-toggle__thumb::before,
+.account-menu .q-toggle__thumb::after
+  background-color: #64748b !important
+  background: #64748b !important
+  color: #64748b !important
+  border-radius: 50% !important
+  width: 16px !important
+  height: 16px !important
+
+.account-menu .q-toggle__track,
+.account-menu .q-toggle__track::before,
+.account-menu .q-toggle__track::after
+  background-color: #64748b !important
+  background: #64748b !important
+  opacity: 0.3 !important
+  border-radius: 12px !important
+  height: 12px !important
+
+// Active (Açık) durum
+.account-menu .q-toggle.q-toggle--truthy .q-toggle__thumb,
+.account-menu .q-toggle.q-toggle--truthy .q-toggle__thumb::before,
+.account-menu .q-toggle.q-toggle--truthy .q-toggle__thumb::after
+  background-color: #64748b !important
+  background: #64748b !important
+  border-radius: 50% !important
+
+.account-menu .q-toggle.q-toggle--truthy .q-toggle__track,
+.account-menu .q-toggle.q-toggle--truthy .q-toggle__track::before,
+.account-menu .q-toggle.q-toggle--truthy .q-toggle__track::after
+  background-color: #64748b !important
+  background: #64748b !important
+  opacity: 1 !important
+  border-radius: 12px !important
+
+// Disabled durum
+.account-menu .q-toggle.q-toggle--disabled
+  opacity: 0.4 !important
+
+.account-menu .q-toggle.q-toggle--disabled .q-toggle__thumb,
+.account-menu .q-toggle.q-toggle--disabled .q-toggle__track
+  background-color: #64748b !important
+  background: #64748b !important
+
+.account-menu .q-toggle.q-toggle--disabled .q-toggle__thumb
+  border-radius: 50% !important
+
+.account-menu .q-toggle.q-toggle--disabled .q-toggle__track
+  border-radius: 12px !important
+
+// Quasar'ın primary color override'ını bypass et
+.account-menu .q-toggle.text-primary .q-toggle__thumb,
+.account-menu .q-toggle.text-primary .q-toggle__track
+  background-color: #64748b !important
+  background: #64748b !important
+
+.account-menu .q-toggle.text-primary .q-toggle__thumb
+  border-radius: 50% !important
+
+.account-menu .q-toggle.text-primary .q-toggle__track
+  border-radius: 12px !important
+
+// Hover state
+.account-menu .q-toggle:hover .q-toggle__thumb
+  background-color: #64748b !important
+  opacity: 0.9 !important
+  border-radius: 50% !important
+
+.account-menu .q-toggle:hover .q-toggle__track
+  background-color: #64748b !important
+  border-radius: 12px !important
+
+// Focus state
+.account-menu .q-toggle:focus .q-toggle__thumb,
+.account-menu .q-toggle:focus-within .q-toggle__thumb
+  background-color: #64748b !important
+  box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.2) !important
+  border-radius: 50% !important

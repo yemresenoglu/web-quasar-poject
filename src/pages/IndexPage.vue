@@ -1,629 +1,471 @@
 <template>
-  <q-page class="dashboard">
-    <!-- Üst Bilgi Kartları -->
-    <div class="row q-col-gutter-md q-mb-md">
-      <div class="col-12 col-md-3">
-        <q-card class="dashboard-card">
-          <q-card-section class="text-center">
-            <div class="location-info">
-              <q-icon name="bi-geo-alt" size="16px" class="q-mr-xs" color="primary" />
-              <span class="text-subtitle2">{{ userLocation }}</span>
-            </div>
-            <div class="text-h6 q-mt-sm">{{ currentDateTime }}</div>
-            <div class="text-subtitle2">{{ currentDate }}</div>
-          </q-card-section>
-        </q-card>
+  <q-page class="index-page">
+    <!-- Skeleton Loading State -->
+    <template v-if="isLoading">
+      <div class="row q-col-gutter-md q-mb-md">
+        <div v-for="n in 4" :key="n" class="col-12 col-md-3">
+          <q-card class="index-page__card">
+            <q-card-section>
+              <q-skeleton type="text" width="60%" />
+              <q-skeleton type="text" width="80%" height="40px" class="q-mt-sm" />
+              <q-skeleton type="text" width="50%" />
+            </q-card-section>
+          </q-card>
+        </div>
       </div>
-      <div class="col-12 col-md-3">
-        <q-card class="dashboard-card">
-          <q-card-section>
-            <div class="text-subtitle2">Bekleyen İşler</div>
-            <div class="text-h4 text-primary q-mt-sm">24</div>
-            <div class="text-caption text-grey">12 Acil / 12 Normal</div>
-          </q-card-section>
-        </q-card>
+      
+      <div class="row q-col-gutter-md">
+        <div class="col-12 col-md-8">
+          <q-card class="index-page__card q-mb-md">
+            <q-card-section>
+              <q-skeleton type="rect" height="300px" />
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col-12 col-md-4">
+          <q-card class="index-page__card">
+            <q-card-section>
+              <q-skeleton type="rect" height="600px" />
+            </q-card-section>
+          </q-card>
+        </div>
       </div>
-      <div class="col-12 col-md-3">
-        <q-card class="dashboard-card">
-          <q-card-section>
-            <div class="text-subtitle2">Günlük Tamamlanan</div>
-            <div class="text-h4 text-positive q-mt-sm">18</div>
-            <div class="text-caption text-grey">8 Hasar / 10 Müşteri</div>
-          </q-card-section>
-        </q-card>
+    </template>
+
+    <!-- Actual Content -->
+    <template v-else>
+      <!-- Üst Bilgi Kartları -->
+      <div class="row q-col-gutter-md q-mb-md">
+        <div class="col-12 col-md-3">
+          <q-card class="index-page__card">
+            <q-card-section>
+              <div class="text-subtitle2">
+                <i class="bi bi-geo-alt q-mr-xs" style="font-size: 16px;"></i>
+                {{ userLocation }}
+              </div>
+              <div class="text-h4 q-mt-sm index-page__clock-time">{{ currentDateTime }}</div>
+              <div class="text-caption">{{ currentDate }}</div>
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col-12 col-md-3">
+          <q-card class="index-page__card">
+            <q-card-section>
+              <div class="text-subtitle2">{{ t('dashboard.pendingJobs') }}</div>
+              <div class="text-h4 index-page__stat-number q-mt-sm">{{ summaryStats.pendingJobs }}</div>
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col-12 col-md-3">
+          <q-card class="index-page__card">
+            <q-card-section>
+              <div class="text-subtitle2">{{ t('dashboard.myJobs') }}</div>
+              <div class="text-h4 index-page__stat-number q-mt-sm">{{ summaryStats.myJobs }}</div>
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col-12 col-md-3">
+          <q-card class="index-page__card">
+            <q-card-section>
+              <div class="text-subtitle2">{{ t('dashboard.sentJobs') }}</div>
+              <div class="text-h4 index-page__stat-number q-mt-sm">{{ summaryStats.sentJobs }}</div>
+            </q-card-section>
+          </q-card>
+        </div>
       </div>
-      <div class="col-12 col-md-3">
-        <q-card class="dashboard-card">
-          <q-card-section>
-            <div class="text-subtitle2">Bekleyen Bildirimler</div>
-            <div class="text-h4 text-negative q-mt-sm">7</div>
-            <div class="text-caption text-grey">3 Önemli / 4 Normal</div>
-          </q-card-section>
-        </q-card>
-      </div>
-    </div>
 
-    <div class="row q-col-gutter-md">
-      <!-- Sol Taraf - İş Havuzu, Grafikler ve Bölgesel Dağılım -->
-      <div class="col-12 col-md-8">
-        <!-- İş Havuzu -->
-        <q-card class="dashboard-card q-mb-md">
-          <q-card-section>
-            <div class="text-h6">İş Havuzu</div>
-            <q-tabs
-              v-model="activeTab"
-              dense
-              class="text-grey"
-              active-color="primary"
-              indicator-color="primary"
-              align="left"
-              narrow-indicator
-            >
-              <q-tab name="pending" label="Bekleyen İşler" />
-              <q-tab name="inProgress" label="Devam Eden" />
-              <q-tab name="completed" label="Tamamlanan" />
-            </q-tabs>
-
-            <q-separator class="q-my-md" />
-
-            <q-list separator>
-              <q-item v-for="task in tasks" :key="task.id" clickable v-ripple>
-                <q-item-section avatar>
-                  <q-icon :name="task.icon" :color="task.color" />
-                </q-item-section>
-
-                <q-item-section>
-                  <q-item-label>{{ task.title }}</q-item-label>
-                  <q-item-label caption>{{ task.description }}</q-item-label>
-                </q-item-section>
-
-                <q-item-section side>
-                  <q-badge :color="task.priority === 'Acil' ? 'negative' : 'grey'">
-                    {{ task.priority }}
-                  </q-badge>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-card-section>
-        </q-card>
-
-        <!-- Grafikler -->
-        <DashboardCharts />
-
-        <!-- Bölgesel Dağılım -->
-        <q-card class="dashboard-card q-mt-md">
-          <q-card-section>
-            <div class="text-h6">Bölgesel Dağılım</div>
-            <div class="row q-col-gutter-md q-mt-sm">
-              <div v-for="location in locationStats" :key="location.region" class="col-12 col-md-4">
-                <div class="location-stat-card">
-                  <div class="location-stat-info">
-                    <div class="location-stat-title">{{ location.region }}</div>
-                    <div class="location-stat-count">{{ location.count }} aktif iş</div>
+      <div class="row q-col-gutter-md">
+        <!-- Sol Taraf - Detaylı İş Sayıları ve Grafikler -->
+        <div class="col-12 col-md-8">
+          <!-- Detaylı İş Sayıları -->
+          <q-card class="index-page__card q-mb-md">
+            <q-card-section>
+              <div class="text-h6">{{ t('dashboard.detailedJobCounts') }}</div>
+              <div class="row q-col-gutter-md q-mt-sm">
+                <div v-for="stat in processStats" :key="stat.id" class="col-12 col-md-4">
+                  <div class="index-page__process-stat">
+                    <div class="index-page__process-stat-header">
+                      <i :class="stat.icon"></i>
+                      <span class="index-page__process-stat-name">{{ stat.name }}</span>
+                    </div>
+                    <div class="index-page__process-stat-numbers">
+                      <div class="index-page__stat-item">
+                        <span class="index-page__stat-label">{{ t('dashboard.pending') }}</span>
+                        <span class="index-page__stat-value">{{ stat.pending }}</span>
+                      </div>
+                      <div class="index-page__stat-item">
+                        <span class="index-page__stat-label">{{ t('dashboard.assigned') }}</span>
+                        <span class="index-page__stat-value">{{ stat.assigned }}</span>
+                      </div>
+                      <div class="index-page__stat-item">
+                        <span class="index-page__stat-label">{{ t('dashboard.sent') }}</span>
+                        <span class="index-page__stat-value">{{ stat.sent }}</span>
+                      </div>
+                    </div>
                   </div>
-                  <q-circular-progress
-                    :value="location.percentage"
-                    size="50px"
-                    :thickness="0.2"
-                    color="primary"
-                    track-color="grey-3"
-                    class="q-ml-sm"
-                  >
-                    <div class="location-stat-percentage">{{ location.percentage }}%</div>
-                  </q-circular-progress>
                 </div>
               </div>
-            </div>
-          </q-card-section>
-        </q-card>
+            </q-card-section>
+          </q-card>
+
+          <!-- Grafikler -->
+          <DashboardCharts />
+        </div>
+
+        <!-- Sağ Taraf - İş Durumu ve Duyurular -->
+        <div class="col-12 col-md-4">
+          <!-- İş Durumu İstatistikleri -->
+          <q-card class="index-page__card q-mb-md">
+            <q-card-section>
+              <div class="text-h6">{{ t('dashboard.jobStatus') }}</div>
+              <div class="index-page__job-status-grid">
+                <div v-for="stat in jobStatusStats" :key="stat.label" class="index-page__job-status-item">
+                  <div class="index-page__job-status-icon" :class="`bg-${stat.color}`">
+                    <i :class="stat.icon" style="font-size: 16px; color: white;"></i>
+                  </div>
+                  <div class="index-page__job-status-content">
+                    <div class="index-page__job-status-count">{{ stat.count }}</div>
+                    <div class="index-page__job-status-label">{{ stat.label }}</div>
+                  </div>
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+
+          <!-- Duyurular -->
+          <q-card class="index-page__card">
+            <q-card-section>
+              <div class="text-h6">{{ t('dashboard.announcements.title') }}</div>
+              
+              <!-- Empty State -->
+              <div v-if="announcementList.length === 0" class="announcements-empty">
+                <i class="bi bi-megaphone" style="font-size: 48px; color: grey;"></i>
+                <p class="announcements-empty__text">{{ t('dashboard.announcements.noAnnouncements') }}</p>
+              </div>
+              
+              <!-- Announcements List -->
+              <div v-else class="announcements">
+                <div v-for="announcement in announcementList" :key="announcement.id" class="announcement">
+                  <div class="announcement__item">
+                    <div class="announcement__header">
+                      <div class="announcement__icon" :class="`announcement__icon--${announcement.category}`">
+                        <i :class="announcement.icon" style="font-size: 16px;"></i>
+                      </div>
+                      <div class="announcement__priority" :class="`announcement__priority--${announcement.priority}`">
+                        {{ t(`dashboard.announcements.priorities.${announcement.priority}`) }}
+                      </div>
+                    </div>
+                    <div class="announcement__content">
+                      <h4 class="announcement__title">{{ announcement.title }}</h4>
+                      <p class="announcement__description" :class="{ 'announcement__description--expanded': announcement.expanded }">
+                        {{ announcement.description }}
+                      </p>
+                      <q-btn 
+                        v-if="announcement.description && announcement.description.length > 100"
+                        flat 
+                        dense 
+                        size="sm" 
+                        :label="announcement.expanded ? t('dashboard.announcements.showLess') : t('dashboard.announcements.readMore')"
+                        :aria-label="announcement.expanded ? t('dashboard.announcements.showLess') : t('dashboard.announcements.readMore')"
+                        color="primary"
+                        class="announcement__read-more"
+                        @click="toggleAnnouncementExpand(announcement.id)"
+                      />
+                    </div>
+                    <div class="announcement__footer">
+                      <div class="announcement__date">
+                        <i class="bi bi-calendar-event q-mr-xs" style="font-size: 12px;"></i>
+                        {{ announcement.date }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
       </div>
-
-      <!-- Sağ Taraf - Bildirimler ve Hızlı İşlemler -->
-      <div class="col-12 col-md-4">
-        <!-- Bildirimler -->
-        <q-card class="dashboard-card q-mb-md">
-          <q-card-section>
-            <div class="text-h6">Bildirimler</div>
-            <q-list separator>
-              <q-item v-for="notification in notifications" :key="notification.id" clickable v-ripple>
-                <q-item-section avatar>
-                  <q-icon :name="notification.icon" :color="notification.color" />
-                </q-item-section>
-
-                <q-item-section>
-                  <q-item-label>{{ notification.title }}</q-item-label>
-                  <q-item-label caption>{{ notification.time }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-card-section>
-        </q-card>
-
-        <!-- Hızlı İşlemler -->
-        <q-card class="dashboard-card q-mb-md">
-          <q-card-section>
-            <div class="text-h6">Hızlı İşlemler</div>
-            <div class="row q-col-gutter-sm q-mt-sm">
-              <div class="col-6" v-for="action in quickActions" :key="action.title">
-                <q-btn 
-                  :color="action.color" 
-                  class="full-width"
-                  :icon="action.icon"
-                  :label="action.title"
-                  no-caps
-                  unelevated
-                />
-              </div>
-            </div>
-          </q-card-section>
-        </q-card>
-
-        <!-- Performans Özeti -->
-        <q-card class="dashboard-card q-mb-md">
-          <q-card-section>
-            <div class="text-h6">Performans Özeti</div>
-            <div class="performance-stats q-mt-md">
-              <div class="performance-item" v-for="(stat, index) in performanceStats" :key="index">
-                <div class="performance-info">
-                  <div class="performance-label">{{ stat.label }}</div>
-                  <div class="performance-value">{{ stat.value }}</div>
-                </div>
-                <q-linear-progress
-                  :value="stat.progress"
-                  :color="stat.color"
-                  class="q-mt-sm"
-                  size="4px"
-                  rounded
-                />
-              </div>
-            </div>
-          </q-card-section>
-        </q-card>
-
-        <!-- Operasyon Özeti -->
-        <q-card class="dashboard-card operation-card">
-          <q-card-section class="operation-content">
-            <div class="operation-header">
-              <div class="operation-title">
-                <q-icon name="bi-clipboard2-pulse" size="18px" class="q-mr-sm" color="primary"/>
-                <span>Operasyon Durumu</span>
-              </div>
-              <q-btn-group flat>
-                <q-btn flat dense size="sm" icon="bi-arrow-left" color="grey-7"/>
-                <q-btn flat dense size="sm" icon="bi-arrow-right" color="grey-7"/>
-              </q-btn-group>
-            </div>
-            
-            <div class="operation-grid q-mt-md">
-              <div v-for="(op, index) in operationStats" :key="index" class="operation-item">
-                <q-icon :name="op.icon" :color="op.color" size="18px" class="q-mb-sm"/>
-                <div class="operation-item-count">{{ op.count }}</div>
-                <div class="operation-item-label">{{ op.label }}</div>
-              </div>
-            </div>
-
-            <q-separator class="q-my-md"/>
-
-            <div class="operation-footer">
-              <div class="operation-status">
-                <div class="status-item">
-                  <q-icon name="bi-clock-history" size="14px" color="grey-7" class="q-mr-xs"/>
-                  <span class="text-grey-7">Son güncelleme: 5 dk önce</span>
-                </div>
-                <div class="status-item q-ml-md">
-                  <q-icon name="bi-activity" size="14px" color="positive" class="q-mr-xs"/>
-                  <span class="text-positive">Sistem aktif</span>
-                </div>
-              </div>
-              <q-btn flat dense color="primary" icon-right="bi-box-arrow-up-right" label="Detaylı Rapor" no-caps/>
-            </div>
-          </q-card-section>
-        </q-card>
-      </div>
-    </div>
+    </template>
   </q-page>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import DashboardCharts from 'src/components/DashboardCharts.vue'
+import { ref, computed, onMounted, onBeforeUnmount, defineAsyncComponent } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useDashboardStore } from 'src/stores/dashboard-store'
+import { useUIStore } from 'src/stores/ui-store'
 
-const activeTab = ref('pending')
-const currentDateTime = ref('')
-const currentDate = ref('')
-const userLocation = ref('Konum alınıyor...')
+// Lazy load DashboardCharts component for better performance
+const DashboardCharts = defineAsyncComponent(() => import('src/components/DashboardCharts.vue'))
 
-// Saat ve tarih güncelleme
-const updateDateTime = () => {
-  const now = new Date()
-  currentDateTime.value = now.toLocaleTimeString('tr-TR')
-  currentDate.value = now.toLocaleDateString('tr-TR', { 
-    weekday: 'long', 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
-  })
-}
+// Composables
+const { t } = useI18n()
+const dashboardStore = useDashboardStore()
+const uiStore = useUIStore()
 
-const getUserLocation = () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        try {
-          const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}&accept-language=tr`
-          )
-          const data = await response.json()
-          userLocation.value = data.address.city || data.address.town || data.address.county || data.address.state || 'Bilinmiyor'
-        } catch (error) {
-          console.error('Konum bilgisi alınırken hata oluştu:', error)
-          userLocation.value = 'Konum alınamadı'
-        }
-      },
-      () => {
-        userLocation.value = 'Konum alınamadı'
-      }
-    )
-  } else {
-    userLocation.value = 'Konum servisi desteklenmiyor'
+// Loading state
+const isLoading = ref(true)
+
+// Computed properties from store
+const currentDateTime = computed(() => dashboardStore.currentDateTime)
+const currentDate = computed(() => dashboardStore.currentDate)
+const userLocation = computed(() => dashboardStore.userLocation)
+const processStats = computed(() => dashboardStore.processStats)
+const jobStatusStats = computed(() => dashboardStore.jobStatusStats)
+const announcementList = computed(() => dashboardStore.announcementList)
+const summaryStats = computed(() => dashboardStore.summaryStats)
+
+// Methods
+const toggleAnnouncementExpand = (announcementId) => {
+  const announcement = announcementList.value.find(a => a.id === announcementId)
+  if (announcement) {
+    announcement.expanded = !announcement.expanded
   }
 }
 
-let timer
-onMounted(() => {
-  updateDateTime()
-  timer = setInterval(updateDateTime, 1000)
-  getUserLocation()
+// Lifecycle hooks
+onMounted(async () => {
+  dashboardStore.startRealTimeUpdates()
+  
+  // Simulate initial data loading
+  setTimeout(() => {
+    isLoading.value = false
+  }, 800)
+  
+  // Test notification - Custom CSS'i görmek için
+  setTimeout(() => {
+    uiStore.showSuccess(t('dashboard.announcements.testNotification'))
+  }, 1200)
 })
 
 onBeforeUnmount(() => {
-  clearInterval(timer)
+  dashboardStore.stopRealTimeUpdates()
 })
-
-// Örnek veriler
-const tasks = [
-  {
-    id: 1,
-    title: 'Trafik Kazası Hasarı',
-    description: 'İstanbul/Kadıköy - 2 Araçlı Maddi Hasarlı Kaza',
-    priority: 'Acil',
-    icon: 'bi-car-front',
-    color: 'red'
-  },
-  {
-    id: 2,
-    title: 'Müşteri Görüşmesi',
-    description: 'Hasar Dosyası Güncelleme Talebi',
-    priority: 'Normal',
-    icon: 'bi-person',
-    color: 'blue'
-  },
-  {
-    id: 3,
-    title: 'Eksper Raporu İnceleme',
-            description: 'Hasar Sorgulama - Aktif',
-    priority: 'Acil',
-    icon: 'bi-file-text',
-    color: 'orange'
-  },
-  {
-    id: 4,
-    title: 'Servis Anlaşması',
-    description: 'Yeni Servis Başvurusu Değerlendirme',
-    priority: 'Normal',
-    icon: 'bi-tools',
-    color: 'grey'
-  }
-]
-
-const notifications = [
-  {
-    id: 1,
-    title: 'Yeni Hasar Kaydı',
-    time: '5 dakika önce',
-    icon: 'bi-exclamation-triangle',
-    color: 'red'
-  },
-  {
-    id: 2,
-    title: 'Eksper Raporu Hazır',
-    time: '15 dakika önce',
-    icon: 'bi-file-text',
-    color: 'green'
-  },
-  {
-    id: 3,
-    title: 'Müşteri Mesajı',
-    time: '1 saat önce',
-    icon: 'bi-chat',
-    color: 'blue'
-  }
-]
-
-const quickActions = [
-  {
-    title: 'Yeni Hasar',
-    icon: 'bi-plus-lg',
-    color: 'primary'
-  },
-  {
-    title: 'Eksper Ata',
-    icon: 'bi-person-plus',
-    color: 'secondary'
-  },
-  {
-    title: 'Rapor Oluştur',
-    icon: 'bi-file-text',
-    color: 'accent'
-  },
-  {
-    title: 'Servis Ara',
-    icon: 'bi-tools',
-    color: 'dark'
-  }
-]
-
-// Konum verileri
-const locationStats = [
-  {
-    region: 'İstanbul',
-    count: 45,
-    percentage: 35
-  },
-  {
-    region: 'Ankara',
-    count: 28,
-    percentage: 22
-  },
-  {
-    region: 'İzmir',
-    count: 20,
-    percentage: 16
-  },
-  {
-    region: 'Bursa',
-    count: 15,
-    percentage: 12
-  },
-  {
-    region: 'Antalya',
-    count: 12,
-    percentage: 9
-  },
-  {
-    region: 'Diğer',
-    count: 8,
-    percentage: 6
-  }
-]
-
-// Performans istatistikleri
-const performanceStats = [
-  {
-    label: 'Ortalama Yanıt Süresi',
-    value: '2.5 saat',
-    progress: 0.85,
-    color: 'primary'
-  },
-  {
-    label: 'Müşteri Memnuniyeti',
-    value: '92%',
-    progress: 0.92,
-    color: 'positive'
-  },
-  {
-    label: 'Zamanında Tamamlama',
-    value: '88%',
-    progress: 0.88,
-    color: 'secondary'
-  },
-  {
-    label: 'Kaynak Kullanımı',
-    value: '75%',
-    progress: 0.75,
-    color: 'accent'
-  }
-]
-
-// Operasyon istatistikleri
-const operationStats = [
-  {
-    icon: 'bi-file-earmark-text',
-    color: 'primary',
-    count: '156',
-    label: 'Aktif Dosya'
-  },
-  {
-    icon: 'bi-exclamation-triangle',
-    color: 'negative',
-    count: '23',
-    label: 'Acil Hasar'
-  },
-  {
-    icon: 'bi-person-lines-fill',
-    color: 'secondary',
-    count: '45',
-    label: 'Eksper Atama'
-  },
-  {
-    icon: 'bi-currency-dollar',
-    color: 'positive',
-    count: '89',
-    label: 'Ödeme Onayı'
-  },
-  {
-    icon: 'bi-briefcase',
-    color: 'warning',
-    count: '34',
-    label: 'Rücu Takip'
-  },
-  {
-    icon: 'bi-shield-check',
-    color: 'info',
-    count: '78',
-    label: 'Poliçe Kontrol'
-  }
-]
 </script>
 
-<style lang="sass">
-.dashboard
-  width: 100%
-  height: 100%
-  background: #f9f9f9
-  padding: 24px
-  min-height: 100vh
+<style lang="sass" scoped>
+.index-page
+  padding: 16px
 
-  .dashboard-card
-    background: #fff
+  &__card
     border-radius: 12px
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12)
-    transition: all 0.2s ease
-    border: 1px solid rgba(0,0,0,0.06)
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
+    transition: all 0.3s ease
+    
     &:hover
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1)
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15)
+      transform: translateY(-2px)
 
-  .text-h6
-    font-size: 16px
-    font-weight: 500
-    color: #202124
-    margin: 0
-    letter-spacing: 0.25px
+  &__clock-time
+    font-family: var(--font-monospace)
+    font-weight: 400
+    color: #5f6368
+    letter-spacing: -0.5px
 
-  .text-h4
-    font-weight: 500
-    letter-spacing: 0.25px
+  &__stat-number
+    font-weight: 600
+    color: #1976d2
 
-  .text-subtitle2
-    color: #424242
-    font-size: 14px
+  &__process-stat
+    padding: 12px
+    border-radius: 4px
+    background: #ffffff
+    border: 1px solid #e9ecef
 
-  .text-caption
-    color: #616161
-    font-size: 12px
-
-  .location-info
-    .q-icon
-      color: #1976d2
-      opacity: 0.9
-
-  .q-tab
-    font-size: 14px
-    font-weight: 500
-    padding: 0 16px
-    min-height: 36px
-    color: #424242
-    &--active
-      color: #1976d2
-
-  .q-item
-    border-radius: 8px
-    margin-bottom: 4px
-    transition: all 0.2s ease
-    &:hover
-      background: rgba(25, 118, 210, 0.04)
-    .q-icon
-      font-size: 18px
-      opacity: 0.8
-
-  .q-badge
-    font-size: 12px
-    padding: 4px 8px
-    font-weight: 500
-
-  .location-stat-card
-    background: #fff
-    border-radius: 8px
-    padding: 16px
+  &__process-stat-header
     display: flex
     align-items: center
+    margin-bottom: 16px
+
+    i
+      font-size: 18px
+      color: #495057
+
+  &__process-stat-name
+    margin-left: 8px
+    font-weight: 600
+    font-size: 14px
+    color: #495057
+
+  &__process-stat-numbers
+    display: flex
     justify-content: space-between
-    transition: all 0.2s ease
-    border: 1px solid rgba(0,0,0,0.06)
-    &:hover
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1)
+    gap: 8px
 
-    .location-stat-title
-      font-size: 14px
-      font-weight: 500
-      color: #202124
+  &__stat-item
+    text-align: center
+    flex: 1
+    padding: 8px
+    border-radius: 4px
+    background: #f8f9fa
+    border: 1px solid #e9ecef
 
-    .location-stat-count
-      font-size: 12px
-      color: #616161
-      margin-top: 4px
-
-    .location-stat-percentage
-      font-size: 12px
-      font-weight: 500
-      color: #1976d2
-
-  .performance-stats
-    .performance-item
-      margin-bottom: 16px
-      .performance-label
-        font-size: 14px
-        color: #424242
-      .performance-value
-        font-size: 16px
-        font-weight: 500
-        color: #202124
-        margin-top: 4px
-
-  .operation-card
-    .operation-header
-      display: flex
-      justify-content: space-between
-      align-items: center
-      .operation-title
-        display: flex
-        align-items: center
-        font-size: 16px
-        font-weight: 500
-        color: #202124
-        .q-icon
-          color: #1976d2
-          opacity: 0.9
-
-    .operation-grid
-      display: grid
-      grid-template-columns: repeat(2, 1fr)
-      gap: 16px
-      .operation-item
-        text-align: center
-        padding: 16px
-        background: rgba(25, 118, 210, 0.04)
-        border-radius: 8px
-        transition: all 0.2s ease
-        &:hover
-          background: rgba(25, 118, 210, 0.08)
-        .operation-item-count
-          font-size: 24px
-          font-weight: 500
-          color: #202124
-          margin: 8px 0
-        .operation-item-label
-          font-size: 12px
-          color: #616161
-
-    .operation-footer
-      display: flex
-      justify-content: space-between
-      align-items: center
-      .operation-status
-        display: flex
-        align-items: center
-        .status-item
-          display: flex
-          align-items: center
-          font-size: 12px
-
-  .q-btn
-    border-radius: 8px
+  &__stat-label
+    display: block
+    font-size: 11px
+    color: #6c757d
+    margin-bottom: 4px
     font-weight: 500
-    transition: all 0.2s ease
-    &.q-btn--unelevated
-      &:hover
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1)
-        transform: translateY(-1px)
+
+  &__stat-value
+    display: block
+    font-size: 16px
+    font-weight: 600
+    color: #495057
+
+  &__job-status-grid
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    gap: 12px
+    margin-top: 16px
+
+  &__job-status-item
+    display: flex
+    align-items: center
+    padding: 12px
+    border-radius: 8px
+    background: #f8f9fa
+    border: 1px solid #e9ecef
+
+  &__job-status-icon
+    width: 32px
+    height: 32px
+    border-radius: 50%
+    display: flex
+    align-items: center
+    justify-content: center
+    margin-right: 12px
+
+  &__job-status-content
+    flex: 1
+
+  &__job-status-count
+    font-size: 18px
+    font-weight: 600
+    color: #495057
+    line-height: 1
+
+  &__job-status-label
+    font-size: 12px
+    color: #6c757d
+    margin-top: 2px
+
+.announcements
+  margin-top: 16px
+
+.announcement
+  &__item
+    padding: 16px
+    border-radius: 8px
+    background: #f8f9fa
+    border: 1px solid #e9ecef
+    margin-bottom: 12px
+    
+    &:last-child
+      margin-bottom: 0
+      
+  &__header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin-bottom: 12px
+    
+  &__icon
+    width: 24px
+    height: 24px
+    border-radius: 50%
+    display: flex
+    align-items: center
+    justify-content: center
+    
+    &--maintenance
+      background: rgba(244, 67, 54, 0.1)
+      color: #d32f2f
+      
+    &--security
+      background: rgba(255, 152, 0, 0.1)
+      color: #f57c00
+      
+    &--update
+      background: rgba(76, 175, 80, 0.1)
+      color: #388e3c
+      
+    &--info
+      background: rgba(33, 150, 243, 0.1)
+      color: #1976d2
+      
+  &__priority
+    padding: 2px 6px
+    border-radius: 8px
+    font-size: 10px
+    font-weight: 600
+    
+    &--high
+      background: rgba(244, 67, 54, 0.15)
+      color: #d32f2f
+      
+    &--medium
+      background: rgba(255, 152, 0, 0.15)
+      color: #f57c00
+      
+    &--low
+      background: rgba(76, 175, 80, 0.15)
+      color: #388e3c
+      
+  &__content
+    margin-bottom: 12px
+    
+  &__title
+    font-size: 14px
+    font-weight: 600
+    color: #202124
+    margin: 0 0 6px 0
+    line-height: 1.4
+    
+  &__description
+    font-size: 12px
+    color: #5f6368
+    margin: 0
+    line-height: 1.4
+    display: -webkit-box
+    -webkit-line-clamp: 2
+    -webkit-box-orient: vertical
+    overflow: hidden
+    
+    &--expanded
+      display: block
+      -webkit-line-clamp: unset
+      overflow: visible
+  
+  &__read-more
+    margin-top: 8px
+    font-size: 11px
+    text-transform: none
+    padding: 0
+    min-height: auto
+    
+  &__footer
+    display: flex
+    justify-content: space-between
+    align-items: center
+    
+  &__date
+    display: flex
+    align-items: center
+    font-size: 11px
+
+// Mobile responsive
+@media (max-width: 768px)
+  .dashboard
+    padding: 12px
+    
+  .job-status-grid
+    grid-template-columns: 1fr
+    
+  .process-stat__numbers
+    flex-direction: column
+    gap: 8px
+    
+  .announcement__item
+    padding: 12px
 </style>

@@ -4,22 +4,24 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import { useThemeStore } from 'src/stores/theme-store'
-import { useAppDataStore } from 'src/stores/app-data-store'
+import { createLogger } from './utils/logger.js'
+import { initPerformanceMonitoring } from './utils/performance.js'
 
-const themeStore = useThemeStore()
-const appDataStore = useAppDataStore()
+// Bootstrap Icons CSS'i yükle - CDN alternatifi
+// import 'bootstrap-icons/font/bootstrap-icons.css'
+
+const logger = createLogger('App')
 
 onMounted(() => {
-  // Initialize app data store
-  appDataStore.initialize()
+  logger.info('🚀 Application started successfully')
   
-  // Initialize theme system
-  themeStore.initializeTheme()
+  // Initialize performance monitoring
+  initPerformanceMonitoring()
 })
+
 </script>
 
-<style>
+<style lang="css">
 body, html {
   margin: 0;
   padding: 0;

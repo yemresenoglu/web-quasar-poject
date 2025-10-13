@@ -12,14 +12,101 @@
 // to match your app's branding.
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
 
-$primary   : #1976D2;
+// ===== PRIMARY COLORS (Button Base) =====
+$primary   : #f8fafc;        // Açık gri - Button background
+$primary-dark: #e2e8f0;      // Orta gri - Button hover state
+
+// ===== QUASAR DEFAULT COLORS =====
 $secondary : #26A69A;
 $accent    : #9C27B0;
-
-$dark      : #1D1D1D;
-$dark-page : #121212;
 
 $positive  : #21BA45;
 $negative  : #C10015;
 $info      : #31CCEC;
 $warning   : #F2C037;
+
+// ═══════════════════════════════════════════════════════════
+// LIGHT MODE - DEFAULT THEME
+// ═══════════════════════════════════════════════════════════
+
+// Text Colors (Light Mode)
+$text-primary: #1e293b;      // Koyu lacivert - Başlıklar, info-value
+$text-secondary: #64748b;    // Koyu gri - Labels, button text, table headers
+$text-tertiary: #374151;     // Orta koyu gri - Description text
+$text-muted: #6b7280;        // Orta gri - İkincil yazılar
+$text-white: white;          // Beyaz - Button text (primary state)
+$text-success: #059669;      // Yeşil - Success states, amount values
+
+// Border Colors (Light Mode)
+$border-light: #e2e8f0;      // Açık gri - Input borders, card borders, table borders
+$border-lighter: #f1f5f9;    // Çok açık gri - Section borders, subtle dividers
+$border-hover: #cbd5e1;      // Orta gri - Hover borders
+$border-accent: #3b82f6;     // Mavi - Button left border accent
+
+// Background Colors (Light Mode)
+$background-page: #f8fafc;   // Açık gri - Main page background
+$background-light: #f1f5f9;  // Çok açık gri - Secondary background
+$background-hover: #f9fafb;  // Çok açık gri - Table row hover
+$background-card: white;     // Beyaz - Card background
+$background-input: white;    // Beyaz - Input background
+$background-button: #f8fafc; // Açık gri - Button background (same as $primary)
+$background-table-header: #f8fafc; // Açık gri - Table header background
+
+// Shadow Colors (Light Mode)
+$shadow-xs: rgba(0, 0, 0, 0.04);  // Extra small shadow - Card default
+$shadow-sm: rgba(0, 0, 0, 0.05);  // Small shadow - Hover effects
+$shadow-md: rgba(0, 0, 0, 0.06);  // Medium shadow - Card hover
+
+// Box Shadow Presets (Light Mode)
+$box-shadow-card: 0 1px 3px $shadow-xs;
+$box-shadow-card-hover: 0 2px 6px $shadow-md;
+$box-shadow-input-hover: 0 1px 3px $shadow-sm;
+$box-shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.08);
+$box-shadow-button: 0 1px 2px rgba(0, 0, 0, 0.04);
+$box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.06);
+
+// ═══════════════════════════════════════════════════════════
+// DARK MODE - THEME (#030514 Base)
+// ═══════════════════════════════════════════════════════════
+
+// Base Dark Colors
+$dark-base: #030514;         // Ana dark background
+$dark-elevated: #0a0f1e;     // Yükseltilmiş elementler (cards, modals)
+$dark-elevated-2: #111827;   // Daha yüksek elementler
+$dark-elevated-3: #1e293b;   // En yüksek elementler
+
+// Text Colors (Dark Mode)
+$dark-text-primary: #f1f5f9;    // Çok açık gri - Ana yazılar
+$dark-text-secondary: #94a3b8;  // Orta açık gri - Labels, secondary text
+$dark-text-tertiary: #64748b;   // Orta gri - Tertiary text
+$dark-text-muted: #475569;      // Koyu gri - Muted text
+$dark-text-success: #10b981;    // Yeşil - Success states
+
+// Border Colors (Dark Mode)
+$dark-border-light: #1e293b;    // Koyu gri - Borders
+$dark-border-lighter: #0f172a;  // Çok koyu gri - Subtle borders
+$dark-border-hover: #334155;    // Orta koyu gri - Hover borders
+$dark-border-accent: #3b82f6;   // Mavi - Accent (aynı kalıyor)
+
+// Background Colors (Dark Mode)
+$dark-background-page: #030514;     // Ana sayfa background
+$dark-background-light: #0a0f1e;    // Secondary background
+$dark-background-hover: #0f1729;    // Hover background
+$dark-background-card: #242735;     // Card background (Taskbar ile aynı!)
+$dark-background-input: #111827;    // Input background
+$dark-background-button: #1e293b;   // Button background
+$dark-background-table-header: #0f172a; // Table header
+$dark-background-taskbar: #242735;  // Taskbar background (Card ile aynı!)
+
+// Shadow Colors (Dark Mode) - Daha yumuşak gölgeler
+$dark-shadow-xs: rgba(0, 0, 0, 0.3);
+$dark-shadow-sm: rgba(0, 0, 0, 0.4);
+$dark-shadow-md: rgba(0, 0, 0, 0.5);
+
+// Box Shadow Presets (Dark Mode)
+$dark-box-shadow-card: 0 1px 3px $dark-shadow-xs, 0 0 0 1px rgba(255, 255, 255, 0.02);
+$dark-box-shadow-card-hover: 0 2px 6px $dark-shadow-md, 0 0 0 1px rgba(255, 255, 255, 0.05);
+$dark-box-shadow-input-hover: 0 1px 3px $dark-shadow-sm;
+$dark-box-shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+$dark-box-shadow-button: 0 1px 2px rgba(0, 0, 0, 0.3);
+$dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);

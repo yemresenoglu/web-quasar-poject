@@ -1,127 +1,205 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { createLogger } from 'src/utils/logger.js'
+import menuDataJson from '/menu-data.json'
+
+const logger = createLogger('MenuPageStore')
+
+// menu-data.json'dan menü yapısını oluştur
+const buildMenuFromData = () => {
+  const categories = []
+  
+  // Yeni JSON yapısından kategorileri al
+  menuDataJson.categories.forEach(category => {
+    const categoryData = {
+      id: category.id,
+      text: category.title,
+      icon: category.icon,
+      items: []
+    }
+    
+    // Alt kategorilerden tüm öğeleri düzleştir
+    category.subCategories.forEach(subCat => {
+      subCat.items.forEach(item => {
+        categoryData.items.push({
+          id: item.id,
+          text: item.title,
+          icon: 'bi bi-file-text',
+          route: item.route || `/${item.id}`,
+          quickAccess: false,
+          description: item.description,
+          subCategory: subCat.title // Alt kategori bilgisini koru
+        })
+      })
+    })
+    
+    // Elemanları A-Z'ye göre sırala
+    categoryData.items.sort((a, b) => {
+      return a.text.localeCompare(b.text, 'tr', { sensitivity: 'base' })
+    })
+    
+    if (categoryData.items.length > 0) {
+      categories.push(categoryData)
+    }
+  })
+  
+  // Kategorileri A-Z'ye göre sırala
+  categories.sort((a, b) => {
+    return a.text.localeCompare(b.text, 'tr', { sensitivity: 'base' })
+  })
+  
+  return categories
+}
 
 export const useMenuPageStore = defineStore('menu-page-store', () => {
   const { t } = useI18n()
 
-  const originalMenuData = ref({
-    menu: [
-      {
-        id: 'damage-operations',
-        translationKey: 'menuPage.categories.damageOperations',
-        icon: "bi-exclamation-triangle-fill",
-        items: [
-          { id: 'damage-report', translationKey: 'menuPage.items.damageReport', icon: "bi-exclamation-triangle-fill", route: '/hasar-bildirimi', type: 'internal' },
-          { id: 'damage-tracking', translationKey: 'menuPage.items.damageTracking', icon: "bi-search", route: '/hasar-takibi', type: 'internal' },
-          { id: 'damage-files', translationKey: 'menuPage.items.damageFiles', icon: "bi-folder-fill", route: '/hasar-dosyalari', type: 'internal' },
-          { id: 'expert-assignments', translationKey: 'menuPage.items.expertAssignments', icon: "bi-person-fill", url: 'https://eksper-demo.sirketim.com.tr', type: 'external' },
-          { id: 'service-assignments', translationKey: 'menuPage.items.serviceAssignments', icon: "bi-tools", url: 'https://google.com/search?q=service+management', type: 'external' },
-          { id: 'payment-approvals', translationKey: 'menuPage.items.paymentApprovals', icon: "bi-cash", url: 'https://github.com', type: 'external' }
-        ]
-      },
-      {
-        id: 'customer-operations',
-        translationKey: 'menuPage.categories.customerOperations',
-        icon: "bi-people-fill",
-        items: [
-          { id: 'customer-info', translationKey: 'menuPage.items.customerInfo', icon: "bi-person-fill", route: '/musteri-bilgileri', type: 'internal' },
-          { id: 'policy-query', translationKey: 'menuPage.items.policyQuery', icon: "bi-shield-fill-check", route: '/police-sorgulama', type: 'internal' },
-          { id: 'communication-history', translationKey: 'menuPage.items.communicationHistory', icon: "bi-clock-history", route: '/iletisim-gecmisi', type: 'internal' },
-          { id: 'customer-requests', translationKey: 'menuPage.items.customerRequests', icon: "bi-chat-left-text-fill", route: '/musteri-talepleri', type: 'internal' },
-          { id: 'notifications', translationKey: 'menuPage.items.notifications', icon: "bi-bell-fill", route: '/bildirimler', type: 'internal' }
-        ]
-      },
-      {
-        id: 'expert-operations',
-        translationKey: 'menuPage.categories.expertOperations',
-        icon: "bi-tools",
-        items: [
-          { id: 'expert-list', translationKey: 'menuPage.items.expertList', icon: "bi-file-text-fill", route: '/eksper-listesi', type: 'internal' },
-          { id: 'expert-reports', translationKey: 'menuPage.items.expertReports', icon: "bi-file-text-fill", url: 'https://docs.google.com/spreadsheets', type: 'external' },
-          { id: 'performance-tracking', translationKey: 'menuPage.items.performanceTracking', icon: "bi-graph-up", url: 'https://analytics.google.com', type: 'external' },
-          { id: 'field-tasks', translationKey: 'menuPage.items.fieldTasks', icon: "bi-geo-alt-fill", url: 'https://maps.google.com', type: 'external' },
-          { id: 'expert-payments', translationKey: 'menuPage.items.expertPayments', icon: "bi-wallet2", url: 'https://stripe.com/dashboard', type: 'external' },
-          { id: 'youtube-test', translationKey: 'menuPage.items.youtubeTest', icon: "bi-youtube", url: 'https://www.youtube.com/', type: 'external' }
-        ]
-      },
-      {
-        id: 'service-operations',
-        translationKey: 'menuPage.categories.serviceOperations',
-        icon: "bi-wrench",
-        items: [
-          { id: 'contracted-services', translationKey: 'menuPage.items.contractedServices', icon: "bi-wrench", route: '/servisler', type: 'internal' },
-          { id: 'service-reports', translationKey: 'menuPage.items.serviceReports', icon: "bi-file-text-fill", route: '/servis-raporlari', type: 'internal' },
-          { id: 'part-requests', translationKey: 'menuPage.items.partRequests', icon: "bi-gear-fill", route: '/parca-talepleri', type: 'internal' },
-          { id: 'invoice-operations', translationKey: 'menuPage.items.invoiceOperations', icon: "bi-receipt", route: '/fatura-islemleri', type: 'internal' },
-          { id: 'quality-control', translationKey: 'menuPage.items.qualityControl', icon: "bi-check-circle-fill", route: '/kalite-kontrol', type: 'internal' }
-        ]
-      },
-      {
-        id: 'financial-operations',
-        translationKey: 'menuPage.categories.financialOperations',
-        icon: "bi-bank",
-        items: [
-          { id: 'damage-payments', translationKey: 'menuPage.items.damagePayments', icon: "bi-cash", route: '/hasar-odemeleri', type: 'internal' },
-          { id: 'expense-management', translationKey: 'menuPage.items.expenseManagement', icon: "bi-bank", route: '/masraf-yonetimi', type: 'internal' },
-          { id: 'invoice-approvals', translationKey: 'menuPage.items.invoiceApprovals', icon: "bi-check-square-fill", route: '/fatura-onaylari', type: 'internal' },
-          { id: 'recourse-operations', translationKey: 'menuPage.items.recourseOperations', icon: "bi-arrow-left-right", route: '/rucu-islemleri', type: 'internal' },
-          { id: 'accounting-records', translationKey: 'menuPage.items.accountingRecords', icon: "bi-journal-text", route: '/muhasebe', type: 'internal' }
-        ]
-      },
-      {
-        id: 'reports-analytics',
-        translationKey: 'menuPage.categories.reportsAnalytics',
-        icon: "bi-graph-up",
-        items: [
-          { id: 'damage-statistics', translationKey: 'menuPage.items.damageStatistics', icon: "bi-bar-chart-fill", route: '/hasar-istatistikleri', type: 'internal' },
-          { id: 'performance-reports', translationKey: 'menuPage.items.performanceReports', icon: "bi-graph-up", route: '/performans-raporlari', type: 'internal' },
-          { id: 'risk-analysis', translationKey: 'menuPage.items.riskAnalysis', icon: "bi-exclamation-triangle-fill", route: '/risk-analizleri', type: 'internal' },
-          { id: 'cost-analysis', translationKey: 'menuPage.items.costAnalysis', icon: "bi-arrow-up-right", route: '/maliyet-analizleri', type: 'internal' },
-          { id: 'periodic-reports', translationKey: 'menuPage.items.periodicReports', icon: "bi-calendar-range", route: '/donemsel-raporlar', type: 'internal' }
-        ]
-      },
-      {
-        id: 'system-management',
-        translationKey: 'menuPage.categories.systemManagement',
-        icon: "bi-gear-fill",
-        items: [
-          { id: 'user-management', translationKey: 'menuPage.items.userManagement', icon: "bi-people-fill", route: '/kullanici-yonetimi', type: 'internal' },
-          { id: 'roles-permissions', translationKey: 'menuPage.items.rolesPermissions', icon: "bi-shield-lock-fill", route: '/rol-yetkiler', type: 'internal' },
-          { id: 'system-settings', translationKey: 'menuPage.items.systemSettings', icon: "bi-sliders", route: '/sistem-ayarlari', type: 'internal' },
-          { id: 'log-records', translationKey: 'menuPage.items.logRecords', icon: "bi-journal-text", route: '/log-kayitlari', type: 'internal' },
-          { id: 'backup', translationKey: 'menuPage.items.backup', icon: "bi-cloud-arrow-up-fill", route: '/yedekleme', type: 'internal' }
-        ]
-      },
-      {
-        id: 'help-support',
-        translationKey: 'menuPage.categories.helpSupport',
-        icon: "bi-question-circle-fill",
-        items: [
-          { id: 'user-guide', translationKey: 'menuPage.items.userGuide', icon: "bi-book-fill", route: '/kullanim-kilavuzu', type: 'internal' },
-          { id: 'faq', translationKey: 'menuPage.items.faq', icon: "bi-question-circle", route: '/sss', type: 'internal' },
-          { id: 'support-requests', translationKey: 'menuPage.items.supportRequests', icon: "bi-headset", route: '/destek-talepleri', type: 'internal' },
-          { id: 'training-videos', translationKey: 'menuPage.items.trainingVideos', icon: "bi-play-circle-fill", route: '/egitim-videolari', type: 'internal' },
-          { id: 'contact', translationKey: 'menuPage.items.contact', icon: "bi-envelope-fill", route: '/iletisim', type: 'internal' }
-        ]
+  const pinnedQuickAccessIds = ref([])
+
+  const loadPinnedItems = () => {
+    try {
+      const stored = localStorage.getItem('pinned-quick-access')
+      if (stored) {
+        pinnedQuickAccessIds.value = JSON.parse(stored)
       }
+    } catch (error) {
+      logger.error('Error loading pinned items:', error)
+    }
+  }
+
+  loadPinnedItems()
+
+  watch(pinnedQuickAccessIds, (newValue) => {
+    try {
+      localStorage.setItem('pinned-quick-access', JSON.stringify(newValue))
+    } catch (error) {
+      logger.error('Error saving pinned items:', error)
+    }
+  }, { deep: true })
+
+  // menu-data.json'dan menüyü oluştur
+  const dynamicMenu = buildMenuFromData()
+  
+  // Yardım ve Destek kategorisini manuel ekle
+  const helpSupportCategory = {
+    id: 'help-support',
+    translationKey: 'menuPage.categories.helpSupport',
+    icon: "bi bi-question-circle",
+    items: [
+      { id: 'user-guide', translationKey: 'menuPage.items.userGuide', icon: "bi bi-book", route: '/kullanim-kilavuzu', quickAccess: false },
+      { id: 'faq', translationKey: 'menuPage.items.faq', icon: "bi bi-question-circle-fill", route: '/sss', quickAccess: false },
+      { id: 'support-requests', translationKey: 'menuPage.items.supportRequests', icon: "bi bi-headset", route: '/destek-talepleri', quickAccess: false },
+      { id: 'training-videos', translationKey: 'menuPage.items.trainingVideos', icon: "bi bi-play-circle", route: '/egitim-videolari', quickAccess: false },
+      { id: 'contact', translationKey: 'menuPage.items.contact', icon: "bi bi-envelope", route: '/iletisim', quickAccess: false }
     ]
+  }
+
+  const originalMenuData = ref({
+    menu: [...dynamicMenu, helpSupportCategory]
   })
 
-  // Computed property to get translated menu data
   const translatedMenuData = computed(() => {
     return originalMenuData.value.menu.map(category => ({
       ...category,
-      text: t(category.translationKey),
+      // Eğer translationKey varsa çevir, yoksa text'i kullan
+      text: category.translationKey ? t(category.translationKey) : category.text,
       items: category.items.map(item => ({
         ...item,
-        text: t(item.translationKey)
+        // Eğer translationKey varsa çevir, yoksa text'i kullan
+        text: item.translationKey ? t(item.translationKey) : item.text
       }))
     }))
   })
 
+  const quickAccessItems = computed(() => {
+    const allItems = []
+    originalMenuData.value.menu.forEach(category => {
+      category.items.forEach(item => {
+        if (item.quickAccess === true) {
+          allItems.push({
+            ...item,
+            text: item.translationKey ? t(item.translationKey) : item.text,
+            pinned: pinnedQuickAccessIds.value.includes(item.id)
+          })
+        }
+      })
+    })
+    return allItems
+  })
+
+  const pinnedQuickAccessItems = computed(() => {
+    return quickAccessItems.value.filter(item => item.pinned)
+  })
+
+  const togglePinQuickAccess = (itemId) => {
+    const index = pinnedQuickAccessIds.value.indexOf(itemId)
+    if (index > -1) {
+      pinnedQuickAccessIds.value.splice(index, 1)
+    } else {
+      pinnedQuickAccessIds.value.push(itemId)
+    }
+  }
+
+  const isItemPinned = (itemId) => {
+    return pinnedQuickAccessIds.value.includes(itemId)
+  }
+
+  const toggleQuickAccess = (itemId) => {
+    for (const category of originalMenuData.value.menu) {
+      const item = category.items.find(i => i.id === itemId)
+      if (item) {
+        item.quickAccess = !item.quickAccess
+        
+        if (!item.quickAccess && pinnedQuickAccessIds.value.includes(itemId)) {
+          const index = pinnedQuickAccessIds.value.indexOf(itemId)
+          pinnedQuickAccessIds.value.splice(index, 1)
+        }
+        
+        try {
+          localStorage.setItem('menu-quick-access', JSON.stringify(
+            originalMenuData.value.menu.flatMap(cat => 
+              cat.items
+                .filter(i => i.quickAccess)
+                .map(i => i.id)
+            )
+          ))
+        } catch (error) {
+          logger.error('Error saving quick access items:', error)
+        }
+        
+        break
+      }
+    }
+  }
+
+  const loadQuickAccessState = () => {
+    try {
+      const stored = localStorage.getItem('menu-quick-access')
+      if (stored) {
+        const quickAccessIds = JSON.parse(stored)
+        
+      }
+    } catch (error) {
+      logger.error('Error loading quick access state:', error)
+    }
+  }
+
+  loadQuickAccessState()
+
   return {
     originalMenuData,
-    translatedMenuData
+    translatedMenuData,
+    quickAccessItems,
+    pinnedQuickAccessItems,
+    togglePinQuickAccess,
+    isItemPinned,
+    toggleQuickAccess
+  }
+}, {
+  persist: {
+    key: 'sompo-menu-page',
+    storage: localStorage,
+    paths: ['quickAccessItems', 'pinnedQuickAccessItems']
   }
 })

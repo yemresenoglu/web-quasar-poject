@@ -1,10 +1,11 @@
 <template>
   <div class="row q-col-gutter-md">
+    <!-- İlk Satır -->
     <div class="col-12 col-md-6">
-      <q-card class="dashboard-card">
+      <q-card class="dashboard-charts__card">
         <q-card-section>
-          <div class="text-h6">İş Durumu Dağılımı</div>
-          <div class="chart-container">
+          <div class="text-h6">{{ t('dashboard.charts.workStatusDistribution') }}</div>
+          <div class="dashboard-charts__container">
             <Pie :data="workStatusData" :options="pieChartOptions" />
           </div>
         </q-card-section>
@@ -12,33 +13,23 @@
     </div>
 
     <div class="col-12 col-md-6">
-      <q-card class="dashboard-card">
+      <q-card class="dashboard-charts__card">
         <q-card-section>
-          <div class="text-h6">Haftalık İş Trendi</div>
-          <div class="chart-container">
+          <div class="text-h6">{{ t('dashboard.charts.weeklyWorkTrend') }}</div>
+          <div class="dashboard-charts__container">
             <Line :data="weeklyTrendData" :options="lineChartOptions" />
           </div>
         </q-card-section>
       </q-card>
     </div>
 
-    <div class="col-12 col-md-6">
-      <q-card class="dashboard-card">
+    <!-- İkinci Satır -->
+    <div class="col-12">
+      <q-card class="dashboard-charts__card dashboard-charts__card--horizontal">
         <q-card-section>
-          <div class="text-h6">Aylık Performans</div>
-          <div class="chart-container">
-            <Bar :data="monthlyPerformanceData" :options="barChartOptions" />
-          </div>
-        </q-card-section>
-      </q-card>
-    </div>
-
-    <div class="col-12 col-md-6">
-      <q-card class="dashboard-card">
-        <q-card-section>
-          <div class="text-h6">Müşteri Memnuniyeti Trendi</div>
-          <div class="chart-container">
-            <Line :data="satisfactionTrendData" :options="areaChartOptions" />
+          <div class="text-h6">{{ t('dashboard.charts.processBasedWorkload') }}</div>
+          <div class="dashboard-charts__container dashboard-charts__container--horizontal">
+            <Bar :data="workloadByProcessData" :options="horizontalBarOptions" />
           </div>
         </q-card-section>
       </q-card>
@@ -48,6 +39,9 @@
 
 <script setup>
 import { Line, Pie, Bar } from 'vue-chartjs'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useDashboardStore } from 'src/stores/dashboard-store'
 import {
   Chart as ChartJS,
   Title,
@@ -61,6 +55,10 @@ import {
   BarElement,
   Filler
 } from 'chart.js'
+
+// Composables
+const { t } = useI18n()
+const dashboardStore = useDashboardStore()
 
 ChartJS.register(
   Title,
@@ -89,8 +87,8 @@ const commonOptions = {
   responsive: true,
   maintainAspectRatio: false,
   interaction: {
-    intersect: false,
-    mode: 'index'
+    intersect: true,
+    mode: 'nearest'
   },
   plugins: {
     legend: {
@@ -111,87 +109,22 @@ const commonOptions = {
       borderWidth: 1,
       padding: 12,
       boxPadding: 6,
-      usePointStyle: true
+      usePointStyle: true,
+      animation: {
+        duration: 0
+      },
+      enabled: true,
+      external: null
     }
   }
 }
 
-const workStatusData = {
-  labels: ['Bekleyen', 'Devam Eden', 'Tamamlanan'],
-  datasets: [{
-    data: [24, 15, 18],
-    backgroundColor: [colors.warning, colors.primary, colors.success],
-    borderWidth: 0,
-    hoverOffset: 4
-  }]
-}
+// Computed properties from store
+const workStatusData = computed(() => dashboardStore.chartData.workStatus)
+const weeklyTrendData = computed(() => dashboardStore.chartData.weeklyTrend)
+const workloadByProcessData = computed(() => dashboardStore.chartData.workloadByProcess)
 
-const weeklyTrendData = {
-  labels: ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'],
-  datasets: [{
-    label: 'Tamamlanan İşler',
-    data: [12, 15, 18, 14, 20, 8, 5],
-    borderColor: colors.primary,
-    tension: 0.4,
-    borderWidth: 2,
-    pointBackgroundColor: colors.primary,
-    pointBorderColor: '#fff',
-    pointBorderWidth: 2,
-    pointRadius: 4,
-    pointHoverRadius: 6
-  }, {
-    label: 'Yeni İşler',
-    data: [10, 13, 16, 12, 18, 6, 8],
-    borderColor: colors.secondary,
-    tension: 0.4,
-    borderWidth: 2,
-    pointBackgroundColor: colors.secondary,
-    pointBorderColor: '#fff',
-    pointBorderWidth: 2,
-    pointRadius: 4,
-    pointHoverRadius: 6
-  }]
-}
-
-const monthlyPerformanceData = {
-  labels: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz'],
-  datasets: [{
-    label: 'Hedef',
-    data: [80, 85, 90, 85, 95, 100],
-    backgroundColor: colors.info + '40',
-    borderColor: colors.info,
-    borderWidth: 2,
-    borderRadius: 4,
-    barThickness: 12
-  }, {
-    label: 'Gerçekleşen',
-    data: [75, 82, 88, 83, 92, 97],
-    backgroundColor: colors.success + '40',
-    borderColor: colors.success,
-    borderWidth: 2,
-    borderRadius: 4,
-    barThickness: 12
-  }]
-}
-
-const satisfactionTrendData = {
-  labels: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz'],
-  datasets: [{
-    label: 'Memnuniyet Oranı',
-    data: [85, 88, 87, 90, 92, 95],
-    borderColor: colors.success,
-    backgroundColor: colors.success + '20',
-    tension: 0.4,
-    fill: true,
-    pointBackgroundColor: colors.success,
-    pointBorderColor: '#fff',
-    pointBorderWidth: 2,
-    pointRadius: 4,
-    pointHoverRadius: 6
-  }]
-}
-
-const pieChartOptions = {
+const pieChartOptions = computed(() => ({
   ...commonOptions,
   cutout: '60%',
   plugins: {
@@ -201,9 +134,9 @@ const pieChartOptions = {
       position: 'bottom'
     }
   }
-}
+}))
 
-const lineChartOptions = {
+const lineChartOptions = computed(() => ({
   ...commonOptions,
   scales: {
     y: {
@@ -219,69 +152,164 @@ const lineChartOptions = {
       }
     }
   }
-}
+}))
 
-const barChartOptions = {
-  ...commonOptions,
-  scales: {
-    y: {
-      beginAtZero: true,
-      grid: {
-        display: true,
-        color: '#f0f0f0'
+const horizontalBarOptions = computed(() => ({
+  indexAxis: 'y',
+  responsive: true,
+  maintainAspectRatio: false,
+  layout: {
+    padding: {
+      left: 10,
+      right: 30,
+      top: 10,
+      bottom: 10
+    }
+  },
+  interaction: {
+    mode: 'nearest',
+    intersect: false,
+    axis: 'y'
+  },
+  plugins: {
+    legend: {
+      display: true,
+      position: 'top',
+      align: 'end',
+      labels: {
+        usePointStyle: true,
+        pointStyle: 'circle',
+        padding: 15,
+        font: {
+          size: 11,
+          family: "var(--font-primary)",
+          weight: '500'
+        },
+        color: '#5f6368',
+        boxWidth: 8,
+        boxHeight: 8
       }
     },
-    x: {
-      grid: {
-        display: false
-      }
-    }
-  }
-}
-
-const areaChartOptions = {
-  ...commonOptions,
-  scales: {
-    y: {
-      beginAtZero: true,
-      grid: {
-        display: true,
-        color: '#f0f0f0'
+    tooltip: {
+      enabled: true,
+      backgroundColor: 'rgba(255, 255, 255, 0.98)',
+      titleColor: '#202124',
+      bodyColor: '#5f6368',
+      borderColor: '#e8eaed',
+      borderWidth: 1,
+      padding: 12,
+      boxPadding: 6,
+      usePointStyle: true,
+      titleFont: {
+        size: 13,
+        weight: '600',
+        family: "var(--font-primary)"
       },
-      min: 60,
-      max: 100
-    },
+      bodyFont: {
+        size: 12,
+        family: "var(--font-primary)"
+      },
+      displayColors: true,
+      callbacks: {
+        label: function(context) {
+          const label = context.dataset.label || ''
+          const value = context.parsed.x || 0
+          const processName = context.label || ''
+          return `${processName} - ${label}: ${value} iş`
+        }
+      }
+    }
+  },
+  scales: {
     x: {
+      stacked: false,
+      beginAtZero: true,
+      max: 35,
+      ticks: {
+        stepSize: 5,
+        font: {
+          size: 11,
+          family: "var(--font-primary)"
+        },
+        color: '#80868b',
+        padding: 8
+      },
       grid: {
+        display: true,
+        color: 'rgba(0, 0, 0, 0.04)',
+        lineWidth: 1,
+        drawBorder: false,
+        drawTicks: false
+      },
+      border: {
+        display: false
+      }
+    },
+    y: {
+      stacked: false,
+      ticks: {
+        font: {
+          size: 11.5,
+          family: "var(--font-primary)",
+          weight: '500'
+        },
+        color: '#3c4043',
+        padding: 10,
+        crossAlign: 'far',
+        autoSkip: false
+      },
+      grid: {
+        display: false,
+        drawBorder: false
+      },
+      border: {
         display: false
       }
     }
-  }
-}
+  },
+  barThickness: 16,
+  categoryPercentage: 0.85,
+  barPercentage: 0.75,
+  borderRadius: 4,
+  borderSkipped: false
+}))
 </script>
 
-<style lang="sass">
-.chart-container
-  height: 300px
-  position: relative
-  margin-top: 16px
-  transition: all 0.3s ease
+<style lang="sass" scoped>
+.dashboard-charts
+  &__card
+    border-radius: 12px
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
+    transition: all 0.3s ease
+    
+    &:hover
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15)
+      transform: translateY(-2px)
+    
+    &--horizontal
+      background: linear-gradient(135deg, #fafbfc 0%, #ffffff 100%)
+      border: 1px solid rgba(0, 0, 0, 0.06)
+      
+      .text-h6
+        font-size: 15px
+        font-weight: 600
+        color: #202124
+        letter-spacing: -0.2px
+      
+  &__container
+    height: 300px
+    position: relative
+    margin-top: 16px
+    
+    &--horizontal
+      height: 360px
 
-.dashboard-card
-  background: #fff
-  border-radius: 12px
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12)
-  transition: all 0.3s ease
-  overflow: hidden
-
-  &:hover
-    box-shadow: 0 4px 8px rgba(0,0,0,0.16)
-    transform: translateY(-2px)
-
-  .text-h6
-    font-size: 16px
-    font-weight: 500
-    color: #202124
-    margin-bottom: 8px
-    padding: 0 8px
-</style> 
+// Mobile responsive
+@media (max-width: 768px)
+  .dashboard-charts
+    &__container
+      height: 250px
+      
+      &--horizontal
+        height: 320px
+</style>

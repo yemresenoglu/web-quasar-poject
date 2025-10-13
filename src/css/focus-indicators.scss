@@ -1,0 +1,82 @@
+// Focus Indicators for Accessibility (WCAG 2.1 Compliant)
+// =========================================================
+
+@import './quasar.variables.scss';
+
+// Focus ring mixin
+@mixin focus-ring($color: $border-accent, $offset: 2px, $width: 2px) {
+  outline: $width solid $color;
+  outline-offset: $offset;
+  border-radius: 4px;
+}
+
+// Global focus-visible styles
+*:focus-visible {
+  @include focus-ring();
+}
+
+// Specific component focus styles
+.q-btn:focus-visible {
+  @include focus-ring($border-accent, 2px, 2px);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.q-input:focus-within {
+  .q-field__control {
+    border-color: $border-accent !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+  }
+}
+
+.menu-item:focus-visible {
+  @include focus-ring($border-accent, 2px, 2px);
+  background: $background-light;
+}
+
+.drawer-item:focus-visible {
+  @include focus-ring($border-accent, 2px, 2px);
+}
+
+.q-item:focus-visible {
+  @include focus-ring($border-accent, 1px, 2px);
+  background: $background-light;
+}
+
+.account-menu__item:focus-visible {
+  @include focus-ring($border-accent, 1px, 2px);
+  background: $background-light;
+}
+
+// Card focus
+.dashboard__card:focus-visible,
+.menu-category:focus-visible {
+  @include focus-ring($border-accent, 2px, 2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+// Link focus
+a:focus-visible {
+  @include focus-ring($border-accent, 2px, 2px);
+  text-decoration: underline;
+}
+
+// Remove default focus outline when focus-visible is supported
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  *:focus-visible {
+    outline-width: 3px;
+    outline-color: currentColor;
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  *:focus-visible {
+    transition: none;
+  }
+}
+

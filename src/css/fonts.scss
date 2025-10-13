@@ -1,0 +1,185 @@
+// ============================================================================
+// FONT MANAGEMENT - Merkezi Font Yönetimi
+// ============================================================================
+// Modern Frontend Standards:
+// - NPM-based font management (@fontsource)
+// - No CDN dependency (offline-first)
+// - Optimized loading (only needed weights)
+// - CSS Custom Properties for easy switching
+// - Performance-focused (font-display: swap)
+// ============================================================================
+
+// ===== MONTSERRAT FONT IMPORT =====
+// Import with Latin-Extended support for Turkish characters (ğ, ü, ş, ı, ö, ç)
+@import '@fontsource/montserrat/latin-ext-300.css';  // Light + Turkish
+@import '@fontsource/montserrat/latin-ext-400.css';  // Regular + Turkish
+@import '@fontsource/montserrat/latin-ext-500.css';  // Medium + Turkish
+@import '@fontsource/montserrat/latin-ext-600.css';  // SemiBold + Turkish
+@import '@fontsource/montserrat/latin-ext-700.css';  // Bold + Turkish
+
+// ===== FONT FAMILY VARIABLES =====
+// CSS Custom Properties for centralized font management
+:root {
+  // Primary font stack (Sans-serif)
+  --font-primary: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 
+                  'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  
+  // Monospace font stack (Code/Technical)
+  --font-monospace: 'Courier New', 'Courier', 'Monaco', 'Menlo', monospace;
+  
+  // Font weights
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+}
+
+// ===== GLOBAL FONT APPLICATION =====
+// Apply Montserrat to body and all elements
+* {
+  font-family: var(--font-primary) !important;
+}
+
+body,
+html {
+  font-family: var(--font-primary) !important;
+  font-weight: var(--font-weight-regular);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+// ===== QUASAR COMPONENT OVERRIDES =====
+// Ensure Montserrat is used in all Quasar components
+.q-btn,
+.q-field,
+.q-input,
+.q-select,
+.q-card,
+.q-item,
+.q-list,
+.q-table,
+.q-menu,
+.q-dialog,
+.q-drawer,
+.q-header,
+.q-footer,
+.q-page,
+.q-toolbar,
+.q-tab,
+.q-badge,
+.q-chip,
+.q-banner,
+.q-tooltip,
+.q-notification,
+.q-breadcrumbs,
+.q-pagination,
+.q-tree,
+.q-expansion-item,
+.q-stepper,
+.q-timeline,
+.q-virtual-scroll,
+.q-form,
+.q-checkbox,
+.q-radio,
+.q-toggle,
+.q-slider,
+.q-range,
+.q-date,
+.q-time,
+.q-color,
+.q-uploader,
+.q-linear-progress,
+.q-circular-progress,
+.q-knob,
+.q-rating,
+.q-separator,
+.q-space,
+.q-avatar,
+.q-skeleton,
+.q-slide-transition,
+.q-scroll-area,
+.q-virtual-scroll,
+.q-intersection,
+.q-infinite-scroll {
+  font-family: var(--font-primary) !important;
+}
+
+// ===== HEADING STYLES =====
+h1, h2, h3, h4, h5, h6,
+.text-h1, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6 {
+  font-family: var(--font-primary) !important;
+  font-weight: var(--font-weight-semibold);
+}
+
+// ===== FORM ELEMENTS =====
+// Ensure form elements use Montserrat
+input,
+textarea,
+select,
+button,
+label,
+option {
+  font-family: var(--font-primary) !important;
+}
+
+// ===== TABLE & LIST ELEMENTS =====
+table,
+th,
+td,
+ul,
+ol,
+li,
+dl,
+dt,
+dd,
+p,
+span,
+div,
+a {
+  font-family: var(--font-primary) !important;
+}
+
+// ===== MONOSPACE UTILITY CLASS =====
+// Use for technical content (codes, timestamps, etc.)
+.font-mono,
+.monospace {
+  font-family: var(--font-monospace) !important;
+}
+
+// ===== FONT WEIGHT UTILITY CLASSES =====
+.font-light { font-weight: var(--font-weight-light) !important; }
+.font-regular { font-weight: var(--font-weight-regular) !important; }
+.font-medium { font-weight: var(--font-weight-medium) !important; }
+.font-semibold { font-weight: var(--font-weight-semibold) !important; }
+.font-bold { font-weight: var(--font-weight-bold) !important; }
+
+// ===== LEGACY SUPPORT =====
+// Override any remaining Roboto references
+.roboto,
+[class*="roboto"] {
+  font-family: var(--font-primary) !important;
+}
+
+// ===== QUASAR INTERNAL CLASSES =====
+// Override Quasar's internal font settings
+[class*="q-"],
+[class^="q-"] {
+  font-family: var(--font-primary) !important;
+}
+
+// ===== PSEUDO ELEMENTS =====
+// Ensure pseudo elements also use Montserrat
+*::before,
+*::after {
+  font-family: var(--font-primary) !important;
+}
+
+// ===== NOTES =====
+// 1. To change font: Update @fontsource import and --font-primary variable
+// 2. To add weights: Import new weight files from @fontsource/montserrat
+// 3. For custom fonts: Add new @font-face rules and update variables
+// 4. Performance tip: Only import weights you actually use
+// ============================================================================
+

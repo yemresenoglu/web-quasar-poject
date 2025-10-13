@@ -1,52 +1,88 @@
 const routes = [
   {
+    path: '/login',
+    component: () => import('layouts/LoginLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: 'login',
+        component: () => import('pages/LoginPage.vue'),
+        meta: { 
+          title: 'Giriş Yap',
+          titleKey: 'pageTitles.login',
+          requiresAuth: false,
+          hideFromMenu: true 
+        }
+      }
+    ]
+  },
+  {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { 
         path: '', 
         name: 'home',
-        component: () => import('pages/IndexPage.vue')
+        component: () => import('pages/IndexPage.vue'),
+        meta: { 
+          title: 'Başlangıç',
+          titleKey: 'pageTitles.home',
+          icon: 'house' 
+        }
       },
       { 
         path: 'menu', 
         name: 'menu',
-        component: () => import('pages/MenuPage.vue')
+        component: () => import('pages/MenuPage.vue'),
+        meta: { 
+          title: 'Menü',
+          titleKey: 'pageTitles.menu',
+          icon: 'grid-3x3-gap' 
+        }
       },
       { 
-        path: 'hasar-bildirimi', 
-        name: 'hasar-bildirimi',
-        component: () => import('src/pages/HasarBildirimiPage.vue')
+        path: 'hasar-sorgula-arabulucu', 
+        name: 'hasar-sorgula-arabulucu',
+        component: () => import('src/pages/HasarDosyaSorgulaArabulucu.vue'),
+        meta: { 
+          title: 'Hasar Dosya Sorgula (Arabulucu)',
+          titleKey: 'pageTitles.hasarSorgulaArabulucu',
+          icon: 'scales' 
+        }
       },
       { 
-        path: 'hasar-takibi', 
-        name: 'hasar-takibi',
-        component: () => import('src/pages/HasarTakibiPage.vue')
+        path: 'hasar-dosya-arabulucu/:dosyaNo', 
+        name: 'hasar-dosya-arabulucu',
+        component: () => import('src/pages/HasarDosyaArabulucu.vue'),
+        meta: { 
+          title: 'Hasar Dosya (Arabulucu)',
+          titleKey: 'pageTitles.hasarDosyaArabulucu',
+          icon: 'scales' 
+        }
       },
       { 
-        path: 'hasar-dosyalari', 
-        name: 'hasar-dosyalari',
-        component: () => import('src/pages/HasarDosyalariPage.vue')
+        path: 'account/edit-profile', 
+        name: 'account-edit-profile',
+        component: () => import('src/pages/AccountEditProfile.vue'),
+        meta: { 
+          title: 'Profil Düzenle',
+          titleKey: 'pageTitles.accountEditProfile',
+          icon: 'person',
+          requiresAuth: true,
+          hideFromMenu: true
+        }
       },
       { 
-        path: 'musteri-bilgileri', 
-        name: 'musteri-bilgileri',
-        component: () => import('src/pages/IndexPage.vue')
-      },
-      { 
-        path: 'police-sorgulama', 
-        name: 'police-sorgulama',
-        component: () => import('src/pages/IndexPage.vue')
-      },
-      { 
-        path: 'webapp/:appId', 
-        name: 'webapp',
-        component: () => import('src/pages/EmptyPage.vue')
-      },
-      { 
-        path: 'performance', 
-        name: 'performance',
-        component: () => import('src/pages/PerformancePage.vue')
+        path: 'account/change-password', 
+        name: 'account-change-password',
+        component: () => import('src/pages/AccountChangePassword.vue'),
+        meta: { 
+          title: 'Şifre Değiştir',
+          titleKey: 'pageTitles.accountChangePassword',
+          icon: 'key',
+          requiresAuth: true,
+          hideFromMenu: true
+        }
       }
     ]
   },
@@ -55,7 +91,10 @@ const routes = [
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue')
+    component: () => import('pages/ErrorNotFound.vue'),
+    meta: {
+      titleKey: 'pageTitles.notFound'
+    }
   }
 ]
 
