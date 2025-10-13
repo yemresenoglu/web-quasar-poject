@@ -485,12 +485,13 @@ export default {
 - ✅ **DRY** (Don't Repeat Yourself)
 - ✅ **Component Modularity**
 
-### Git Hooks (Husky)
+### Git Hooks (Husky v9)
 ```bash
 pre-commit:
-  - ESLint auto-fix
-  - Prettier format
+  - ESLint auto-fix (*.js, *.vue)
+  - Prettier format (*.css, *.scss)
   - Lint-staged checks
+  - Note: .sass files excluded (indented syntax not supported by prettier)
 ```
 
 ---
@@ -617,6 +618,7 @@ Private - All rights reserved
 
 ---
 
-**Son Güncelleme:** 12 Ekim 2025  
+**Son Güncelleme:** 13 Ekim 2025  
 **Durum:** ✅ Production Ready  
-**Kalite:** ⭐⭐⭐⭐⭐ (5/5)
+**Kalite:** ⭐⭐⭐⭐⭐ (5/5)  
+**Git Hooks:** ✅ Configured (Husky v9)
