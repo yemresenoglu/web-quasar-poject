@@ -1,0 +1,29 @@
+# Dependencies
+node_modules
+.quasar
+dist
+/dist
+.cache
+
+# Build files
+/build
+/public/build
+
+# IDE
+.vscode
+.idea
+
+# Test coverage
+coverage
+
+# Sass indented syntax (prettier doesn't support .sass)
+*.sass
+
+# Generated files
+*.min.js
+*.min.css
+package-lock.json
+
+# Logs
+*.log
+
