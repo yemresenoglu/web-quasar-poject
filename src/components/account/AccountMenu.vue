@@ -16,11 +16,11 @@
       <!-- Sabit header -->
       <div class="account-menu__header">
         <div id="account-menu-title" class="account-menu__title">{{ $t('account.title') }}</div>
-        <q-btn 
-          flat 
-          round 
-          dense 
-          class="account-menu__close-btn" 
+        <q-btn
+          flat
+          round
+          dense
+          class="account-menu__close-btn"
           @click="closeMenu"
           :aria-label="$t('common.close')"
         >
@@ -31,14 +31,13 @@
       <q-scroll-area class="account-menu__scroll-area" visible>
         <div id="account-menu-description" class="sr-only">{{ $t('account.menuDescription') }}</div>
         <div class="account-menu__content">
-          
           <!-- User Profile Component - Store'dan besleniyor -->
           <AccountProfile />
 
           <div class="account-menu__divider"></div>
 
           <!-- Department Selector Component -->
-          <AccountDepartmentSelector 
+          <AccountDepartmentSelector
             :department-items="departmentItems"
             @select-department="selectDepartment"
           />
@@ -46,15 +45,12 @@
           <div class="account-menu__divider"></div>
 
           <!-- Task Selector Component -->
-          <AccountTaskSelector 
-            :task-items="taskItems"
-            @toggle-task="toggleTaskStatus"
-          />
+          <AccountTaskSelector :task-items="taskItems" @toggle-task="toggleTaskStatus" />
 
           <div class="account-menu__divider"></div>
 
           <!-- Quick Access Manager Component -->
-          <AccountQuickAccessManager 
+          <AccountQuickAccessManager
             :quick-access-items="quickAccessItems"
             @navigate="navigateToRoute"
             @toggle-pin="togglePinItem"
@@ -63,7 +59,7 @@
           <div class="account-menu__divider"></div>
 
           <!-- Taskbar Settings Component -->
-          <AccountTaskbarSettings 
+          <AccountTaskbarSettings
             :taskbar-settings="taskbarSettings"
             @toggle-auto-hide="toggleTaskbarAutoHide"
             @change-position="handleTaskbarPositionChange"
@@ -72,7 +68,7 @@
           <div class="account-menu__divider"></div>
 
           <!-- Account Actions Component -->
-          <AccountActions 
+          <AccountActions
             :is-logging-out="loadingStates[LOADING_STATE_KEYS.LOGOUT]"
             @logout="handleLogout"
             @navigate="navigateToRoute"
@@ -91,10 +87,7 @@ import { useI18n } from 'vue-i18n'
 import { useAccountStore } from 'src/stores/account-store'
 import { useMenuPageStore } from 'src/stores/menu-page-store'
 import { createLogger } from 'src/utils/logger.js'
-import { 
-  LOADING_STATE_KEYS,
-  MENU_CONFIG
-} from 'src/constants/account.js'
+import { LOADING_STATE_KEYS, MENU_CONFIG } from 'src/constants/account.js'
 
 // Import sub-components
 import AccountProfile from './AccountProfile.vue'
@@ -141,11 +134,10 @@ const menuSelf = computed(() => {
 const loadingStates = ref({
   [LOADING_STATE_KEYS.DEPARTMENT]: false,
   [LOADING_STATE_KEYS.LOGOUT]: false,
-  [LOADING_STATE_KEYS.NAVIGATION]: false
+  [LOADING_STATE_KEYS.NAVIGATION]: false,
 })
 
 // Computed
-const userProfile = computed(() => accountStore.userProfile || {})
 const quickAccessItems = computed(() => menuPageStore.quickAccessItems)
 const departmentItems = computed(() => accountStore.departmentItems)
 const taskItems = computed(() => accountStore.taskItems)
@@ -180,7 +172,7 @@ const handleLogout = async () => {
       type: 'negative',
       message: 'Çıkış yapılırken hata oluştu',
       icon: '✕',
-      position: 'top-right'
+      position: 'top-right',
     })
     // Even if logout fails, still close the menu
     closeMenu()
@@ -208,7 +200,7 @@ const navigateToRoute = async (route) => {
       type: 'negative',
       message: 'Sayfa yönlendirme hatası',
       icon: '✕',
-      position: 'top-right'
+      position: 'top-right',
     })
     // Even if navigation fails, still close the menu
     closeMenu()
@@ -246,7 +238,7 @@ const selectDepartment = async (departmentId) => {
       type: 'negative',
       message: 'Birim seçimi sırasında hata oluştu',
       icon: '✕',
-      position: 'top-right'
+      position: 'top-right',
     })
   }
 }
@@ -270,7 +262,7 @@ const toggleTaskStatus = async (taskId) => {
       type: 'negative',
       message: 'Görev durumu değiştirilirken hata oluştu',
       icon: '✕',
-      position: 'top-right'
+      position: 'top-right',
     })
   }
 }
@@ -372,27 +364,27 @@ onBeforeUnmount(() => {
     flex: 1;
     width: 444px;
     padding-right: 8px;
-    
+
     // Vertical scrollbar
     .q-scrollarea__thumb--v {
       width: 4px !important;
       right: 4px;
       background: $text-muted !important;
       opacity: 0.6 !important;
-      
+
       &:hover {
         opacity: 0.8 !important;
         background: $text-secondary !important;
       }
     }
-    
+
     .q-scrollarea__bar--v {
       width: 4px !important;
       right: 4px !important;
       background: transparent !important;
       opacity: 0.4 !important;
     }
-    
+
     :deep(.q-scrollarea__content) {
       padding-right: 8px;
     }
@@ -431,11 +423,11 @@ onBeforeUnmount(() => {
 // Override global uppercase rules for AccountMenu
 .account-menu {
   text-transform: none !important;
-  
+
   * {
     text-transform: none !important;
   }
-  
+
   .q-item,
   .q-item__label,
   .q-item__section {

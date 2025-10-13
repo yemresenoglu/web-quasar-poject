@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed } from 'vue'
 import { createLogger } from 'src/utils/logger.js'
 
 const logger = createLogger('DashboardStore')
@@ -14,7 +14,7 @@ export const useDashboardStore = defineStore('dashboard', () => {
   const currentDate = ref('')
   const userLocation = ref('')
   const isLoading = ref(false)
-  
+
   // Process statistics
   const processStats = ref([
     {
@@ -24,7 +24,7 @@ export const useDashboardStore = defineStore('dashboard', () => {
       color: 'negative',
       pending: 20,
       assigned: 15,
-      sent: 12
+      sent: 12,
     },
     {
       id: 'agir-hasar-pert-arabuluculuk',
@@ -33,7 +33,7 @@ export const useDashboardStore = defineStore('dashboard', () => {
       color: 'warning',
       pending: 16,
       assigned: 11,
-      sent: 8
+      sent: 8,
     },
     {
       id: 'bedeni-hasar-ihtiyari-arabuluculuk',
@@ -42,8 +42,8 @@ export const useDashboardStore = defineStore('dashboard', () => {
       color: 'secondary',
       pending: 28,
       assigned: 18,
-      sent: 13
-    }
+      sent: 13,
+    },
   ])
 
   // Job status statistics
@@ -52,38 +52,38 @@ export const useDashboardStore = defineStore('dashboard', () => {
       icon: 'bi-box-arrow-up',
       color: 'primary',
       count: '24',
-      label: 'Bugün Gönderilen'
+      label: 'Bugün Gönderilen',
     },
     {
       icon: 'bi-inbox',
       color: 'secondary',
       count: '18',
-      label: 'Bugün Alınan'
+      label: 'Bugün Alınan',
     },
     {
       icon: 'bi-hourglass-split',
       color: 'warning',
       count: '12',
-      label: 'Onay Bekleyen'
+      label: 'Onay Bekleyen',
     },
     {
       icon: 'bi-check-circle',
       color: 'positive',
       count: '35',
-      label: 'Tamamlanan'
+      label: 'Tamamlanan',
     },
     {
       icon: 'bi-file-text',
       color: 'info',
       count: '42',
-      label: 'Aktif Dosyalar'
+      label: 'Aktif Dosyalar',
     },
     {
       icon: 'bi-scales',
       color: 'accent',
       count: '28',
-      label: 'Eksper Atamaları'
-    }
+      label: 'Eksper Atamaları',
+    },
   ])
 
   // Announcements
@@ -91,11 +91,12 @@ export const useDashboardStore = defineStore('dashboard', () => {
     {
       id: 1,
       title: 'Sistem Bakım Bildirimi',
-      description: '15 Aralık 2024 tarihinde 02:00-04:00 saatleri arasında sistem bakımı yapılacaktır.',
+      description:
+        '15 Aralık 2024 tarihinde 02:00-04:00 saatleri arasında sistem bakımı yapılacaktır.',
       category: 'maintenance',
       priority: 'high',
       icon: 'bi-tools',
-      date: '15 Aralık 2024'
+      date: '15 Aralık 2024',
     },
     {
       id: 2,
@@ -104,7 +105,7 @@ export const useDashboardStore = defineStore('dashboard', () => {
       category: 'security',
       priority: 'medium',
       icon: 'bi-shield-check',
-      date: '12 Aralık 2024'
+      date: '12 Aralık 2024',
     },
     {
       id: 3,
@@ -113,94 +114,103 @@ export const useDashboardStore = defineStore('dashboard', () => {
       category: 'update',
       priority: 'low',
       icon: 'bi-graph-up-arrow',
-      date: '10 Aralık 2024'
-    }
+      date: '10 Aralık 2024',
+    },
   ])
 
   // Chart data
   const chartData = ref({
     workStatus: {
       labels: ['Bekleyen', 'Devam Eden', 'Tamamlanan'],
-      datasets: [{
-        data: [24, 15, 18],
-        backgroundColor: ['#FF9800', '#2196F3', '#4CAF50'],
-        borderWidth: 0,
-        hoverOffset: 4
-      }]
+      datasets: [
+        {
+          data: [24, 15, 18],
+          backgroundColor: ['#FF9800', '#2196F3', '#4CAF50'],
+          borderWidth: 0,
+          hoverOffset: 4,
+        },
+      ],
     },
     weeklyTrend: {
       labels: ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'],
-      datasets: [{
-        label: 'Tamamlanan İşler',
-        data: [12, 15, 18, 14, 20, 8, 5],
-        borderColor: '#2196F3',
-        tension: 0.4,
-        borderWidth: 2,
-        pointBackgroundColor: '#2196F3',
-        pointBorderColor: '#fff',
-        pointBorderWidth: 2,
-        pointRadius: 4,
-        pointHoverRadius: 6
-      }, {
-        label: 'Yeni İşler',
-        data: [10, 13, 16, 12, 18, 6, 8],
-        borderColor: '#FF9800',
-        tension: 0.4,
-        borderWidth: 2,
-        pointBackgroundColor: '#FF9800',
-        pointBorderColor: '#fff',
-        pointBorderWidth: 2,
-        pointRadius: 4,
-        pointHoverRadius: 6
-      }]
+      datasets: [
+        {
+          label: 'Tamamlanan İşler',
+          data: [12, 15, 18, 14, 20, 8, 5],
+          borderColor: '#2196F3',
+          tension: 0.4,
+          borderWidth: 2,
+          pointBackgroundColor: '#2196F3',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        },
+        {
+          label: 'Yeni İşler',
+          data: [10, 13, 16, 12, 18, 6, 8],
+          borderColor: '#FF9800',
+          tension: 0.4,
+          borderWidth: 2,
+          pointBackgroundColor: '#FF9800',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        },
+      ],
     },
     workloadByProcess: {
       labels: [
         'Değer Kaybı Arabuluculuk',
         'Ağır Hasar Pert Arabuluculuk',
-        'Bedeni Hasar İhtiyari Arabuluculuk'
+        'Bedeni Hasar İhtiyari Arabuluculuk',
       ],
-      datasets: [{
-        label: 'Bekleyen',
-        data: [20, 16, 28],
-        backgroundColor: 'rgba(255, 152, 0, 0.85)',
-        hoverBackgroundColor: '#FF9800',
-        borderWidth: 0,
-        borderRadius: {
-          topLeft: 6,
-          topRight: 6,
-          bottomLeft: 6,
-          bottomRight: 6
+      datasets: [
+        {
+          label: 'Bekleyen',
+          data: [20, 16, 28],
+          backgroundColor: 'rgba(255, 152, 0, 0.85)',
+          hoverBackgroundColor: '#FF9800',
+          borderWidth: 0,
+          borderRadius: {
+            topLeft: 6,
+            topRight: 6,
+            bottomLeft: 6,
+            bottomRight: 6,
+          },
+          barPercentage: 0.8,
         },
-        barPercentage: 0.8
-      }, {
-        label: 'Atanmış',
-        data: [15, 11, 18],
-        backgroundColor: 'rgba(33, 150, 243, 0.85)',
-        hoverBackgroundColor: '#2196F3',
-        borderWidth: 0,
-        borderRadius: {
-          topLeft: 6,
-          topRight: 6,
-          bottomLeft: 6,
-          bottomRight: 6
+        {
+          label: 'Atanmış',
+          data: [15, 11, 18],
+          backgroundColor: 'rgba(33, 150, 243, 0.85)',
+          hoverBackgroundColor: '#2196F3',
+          borderWidth: 0,
+          borderRadius: {
+            topLeft: 6,
+            topRight: 6,
+            bottomLeft: 6,
+            bottomRight: 6,
+          },
+          barPercentage: 0.8,
         },
-        barPercentage: 0.8
-      }, {
-        label: 'Gönderilen',
-        data: [12, 8, 13],
-        backgroundColor: 'rgba(76, 175, 80, 0.85)',
-        hoverBackgroundColor: '#4CAF50',
-        borderWidth: 0,
-        borderRadius: {
-          topLeft: 6,
-          topRight: 6,
-          bottomLeft: 6,
-          bottomRight: 6
+        {
+          label: 'Gönderilen',
+          data: [12, 8, 13],
+          backgroundColor: 'rgba(76, 175, 80, 0.85)',
+          hoverBackgroundColor: '#4CAF50',
+          borderWidth: 0,
+          borderRadius: {
+            topLeft: 6,
+            topRight: 6,
+            bottomLeft: 6,
+            bottomRight: 6,
+          },
+          barPercentage: 0.8,
         },
-        barPercentage: 0.8
-      }]
-    }
+      ],
+    },
   })
 
   // Timer reference
@@ -210,7 +220,7 @@ export const useDashboardStore = defineStore('dashboard', () => {
   const summaryStats = computed(() => ({
     pendingJobs: 24,
     myJobs: 18,
-    sentJobs: 7
+    sentJobs: 7,
   }))
 
   const isOnline = computed(() => {
@@ -221,32 +231,37 @@ export const useDashboardStore = defineStore('dashboard', () => {
   const updateDateTime = () => {
     const now = new Date()
     currentDateTime.value = now.toLocaleTimeString('tr-TR')
-    currentDate.value = now.toLocaleDateString('tr-TR', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    currentDate.value = now.toLocaleDateString('tr-TR', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     })
   }
 
   const getUserLocation = async () => {
     try {
       logger.info('Getting user location')
-      
+
       const position = await new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject, {
           enableHighAccuracy: true,
           timeout: 5000,
-          maximumAge: 0
+          maximumAge: 0,
         })
       })
-      
+
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}&accept-language=tr`
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}&accept-language=tr`,
       )
       const data = await response.json()
-      
-      userLocation.value = data.address.city || data.address.town || data.address.county || data.address.state || 'Bilinmeyen Konum'
+
+      userLocation.value =
+        data.address.city ||
+        data.address.town ||
+        data.address.county ||
+        data.address.state ||
+        'Bilinmeyen Konum'
       logger.info('Location retrieved successfully')
     } catch (error) {
       logger.error('Location error:', error)
@@ -275,13 +290,13 @@ export const useDashboardStore = defineStore('dashboard', () => {
   const addAnnouncement = (announcement) => {
     announcementList.value.unshift({
       id: Date.now(),
-      ...announcement
+      ...announcement,
     })
     logger.info('New announcement added')
   }
 
   const removeAnnouncement = (id) => {
-    const index = announcementList.value.findIndex(a => a.id === id)
+    const index = announcementList.value.findIndex((a) => a.id === id)
     if (index > -1) {
       announcementList.value.splice(index, 1)
       logger.info('Announcement removed')
@@ -297,11 +312,11 @@ export const useDashboardStore = defineStore('dashboard', () => {
 
   const startRealTimeUpdates = () => {
     if (timer) return
-    
+
     updateDateTime()
     timer = setInterval(updateDateTime, 1000)
     getUserLocation()
-    
+
     logger.info('Real-time updates started')
   }
 
@@ -317,14 +332,14 @@ export const useDashboardStore = defineStore('dashboard', () => {
     isLoading.value = true
     try {
       logger.info('Refreshing dashboard data')
-      
+
       // Simulate API calls
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
       // Update data
       updateDateTime()
       await getUserLocation()
-      
+
       logger.info('Dashboard refreshed successfully')
     } catch (error) {
       logger.error('Dashboard refresh failed:', error)
@@ -343,11 +358,11 @@ export const useDashboardStore = defineStore('dashboard', () => {
     jobStatusStats,
     announcementList,
     chartData,
-    
+
     // Computed
     summaryStats,
     isOnline,
-    
+
     // Actions
     updateDateTime,
     getUserLocation,
@@ -358,6 +373,6 @@ export const useDashboardStore = defineStore('dashboard', () => {
     updateChartData,
     startRealTimeUpdates,
     stopRealTimeUpdates,
-    refreshDashboard
+    refreshDashboard,
   }
 })

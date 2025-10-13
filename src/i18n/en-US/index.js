@@ -8,7 +8,7 @@ export default {
     hasarDosyaArabulucu: 'Damage File Detail',
     accountEditProfile: 'Edit Profile',
     accountChangePassword: 'Change Password',
-    notFound: 'Page Not Found'
+    notFound: 'Page Not Found',
   },
 
   // Page Header
@@ -16,13 +16,13 @@ export default {
     actions: {
       print: 'Print',
       download: 'Download',
-      share: 'Share'
+      share: 'Share',
     },
     messages: {
       printing: 'Printing...',
       downloading: 'Downloading...',
-      shareFeature: 'Share feature coming soon'
-    }
+      shareFeature: 'Share feature coming soon',
+    },
   },
 
   // Common actions
@@ -37,7 +37,7 @@ export default {
     addMore: 'Add more',
     back: 'Back',
     result: 'result',
-    found: 'found'
+    found: 'found',
   },
 
   // Login page
@@ -50,7 +50,8 @@ export default {
     loginButton: 'Sign In',
     forgotPassword: 'Forgot Password',
     forgotPasswordTitle: 'Password Reset',
-    forgotPasswordDescription: 'Enter your email address and we will send you a password reset link.',
+    forgotPasswordDescription:
+      'Enter your email address and we will send you a password reset link.',
     email: 'Email Address',
     sendResetLink: 'Send Link',
     refreshCaptcha: 'Refresh Code',
@@ -61,7 +62,7 @@ export default {
     resetLinkError: 'Failed to send password reset link',
     footer: 'For secure login, do not share your password with anyone',
     help: 'Help',
-    contact: 'Contact'
+    contact: 'Contact',
   },
 
   // Validation messages
@@ -73,7 +74,7 @@ export default {
     passwordMismatch: 'Passwords do not match',
     invalidFormat: 'Invalid format',
     userCodeFormat: 'User code must contain only uppercase letters and numbers',
-    phoneFormat: 'Please enter a valid phone number'
+    phoneFormat: 'Please enter a valid phone number',
   },
 
   // Notification types
@@ -81,14 +82,14 @@ export default {
     success: 'Success',
     error: 'Error',
     info: 'Information',
-    warning: 'Warning'
+    warning: 'Warning',
   },
 
   // Taskbar
   taskbar: {
     start: 'Start',
     menu: 'Menu',
-    account: 'My Account'
+    account: 'My Account',
   },
 
   // Quick Access (in AccountMenu)
@@ -98,7 +99,7 @@ export default {
     pinToTaskbar: 'Pin to taskbar',
     unpinFromTaskbar: 'Unpin from taskbar',
     addToQuickAccess: 'Add to Quick Access',
-    removeFromQuickAccess: 'Remove from Quick Access'
+    removeFromQuickAccess: 'Remove from Quick Access',
   },
 
   // Taskbar Settings (in AccountMenu)
@@ -108,156 +109,157 @@ export default {
     position: 'Position',
     showLeft: 'Show on Left',
     showBottom: 'Show on Bottom',
-    showRight: 'Show on Right'
+    showRight: 'Show on Right',
   },
 
   // Quick Menu (used in MenuPage)
   quickMenu: {
     title: 'Quick Menu',
     addToQuickAccess: 'Add to Quick Access',
-    removeFromQuickAccess: 'Remove from Quick Access'
+    removeFromQuickAccess: 'Remove from Quick Access',
   },
-    
-    // Menu Page
-    menuPage: {
-      search: 'Search in menu...',
-      noResults: 'No Results Found',
-      tryDifferentSearch: 'Try a different search term',
-      clearSearch: 'Clear Search',
-      categories: {
-        damageOperations: 'Damage Operations',
-        customerOperations: 'Customer Operations',
-        expertOperations: 'Expert Operations',
-        serviceOperations: 'Service Operations',
-        financialOperations: 'Financial Operations',
-        reportsAnalytics: 'Reports & Analytics',
-        systemManagement: 'System Management',
-        helpSupport: 'Help & Support'
-      },
-      items: {
-        // Damage Operations
-        damageTracking: 'Damage Tracking',
-        damageQuery: 'Damage File Query',
-      damageQueryMediator: 'Damage File Query (Mediator)',
-        expertAssignments: 'Expert Assignments',
-        serviceAssignments: 'Service Assignments',
-        paymentApprovals: 'Payment Approvals',
-        
-        // Customer Operations
-        customerInfo: 'Customer Information',
-        policyQuery: 'Policy Query',
-        communicationHistory: 'Communication History',
-        customerRequests: 'Customer Requests',
-        
-        // Expert Operations
-        expertList: 'Expert List',
-        expertReports: 'Expert Reports',
-        performanceTracking: 'Performance Tracking',
-        fieldTasks: 'Field Tasks',
-        expertPayments: 'Expert Payments',
-        
-        // Service Operations
-        contractedServices: 'Contracted Services',
-        serviceReports: 'Service Reports',
-        partRequests: 'Part Requests',
-        invoiceOperations: 'Invoice Operations',
-        qualityControl: 'Quality Control',
-        
-        // Financial Operations
-        damagePayments: 'Damage Payments',
-        expenseManagement: 'Expense Management',
-        invoiceApprovals: 'Invoice Approvals',
-        recourseOperations: 'Recourse Operations',
-        accountingRecords: 'Accounting Records',
-        
-        // Reports & Analytics
-        damageStatistics: 'Damage Statistics',
-        performanceReports: 'Performance Reports',
-        riskAnalysis: 'Risk Analysis',
-        costAnalysis: 'Cost Analysis',
-        periodicReports: 'Periodic Reports',
-        
-        // System Management
-        userManagement: 'User Management',
-        rolesPermissions: 'Roles & Permissions',
-        systemSettings: 'System Settings',
-        logRecords: 'Log Records',
-        backup: 'Backup',
-        
-        // Help & Support
-        userGuide: 'User Guide',
-        faq: 'FAQ',
-        supportRequests: 'Support Requests',
-        trainingVideos: 'Training Videos',
-        contact: 'Contact'
-      }
-    },
 
-    // Account
-    account: {
-      title: 'My Account',
-    menuDescription: 'User account information, department selection, tasks and account operations menu',
+  // Menu Page
+  menuPage: {
+    search: 'Search in menu...',
+    noResults: 'No Results Found',
+    tryDifferentSearch: 'Try a different search term',
+    clearSearch: 'Clear Search',
+    categories: {
+      damageOperations: 'Damage Operations',
+      customerOperations: 'Customer Operations',
+      expertOperations: 'Expert Operations',
+      serviceOperations: 'Service Operations',
+      financialOperations: 'Financial Operations',
+      reportsAnalytics: 'Reports & Analytics',
+      systemManagement: 'System Management',
+      helpSupport: 'Help & Support',
+    },
+    items: {
+      // Damage Operations
+      damageTracking: 'Damage Tracking',
+      damageQuery: 'Damage File Query',
+      damageQueryMediator: 'Damage File Query (Mediator)',
+      expertAssignments: 'Expert Assignments',
+      serviceAssignments: 'Service Assignments',
+      paymentApprovals: 'Payment Approvals',
+
+      // Customer Operations
+      customerInfo: 'Customer Information',
+      policyQuery: 'Policy Query',
+      communicationHistory: 'Communication History',
+      customerRequests: 'Customer Requests',
+
+      // Expert Operations
+      expertList: 'Expert List',
+      expertReports: 'Expert Reports',
+      performanceTracking: 'Performance Tracking',
+      fieldTasks: 'Field Tasks',
+      expertPayments: 'Expert Payments',
+
+      // Service Operations
+      contractedServices: 'Contracted Services',
+      serviceReports: 'Service Reports',
+      partRequests: 'Part Requests',
+      invoiceOperations: 'Invoice Operations',
+      qualityControl: 'Quality Control',
+
+      // Financial Operations
+      damagePayments: 'Damage Payments',
+      expenseManagement: 'Expense Management',
+      invoiceApprovals: 'Invoice Approvals',
+      recourseOperations: 'Recourse Operations',
+      accountingRecords: 'Accounting Records',
+
+      // Reports & Analytics
+      damageStatistics: 'Damage Statistics',
+      performanceReports: 'Performance Reports',
+      riskAnalysis: 'Risk Analysis',
+      costAnalysis: 'Cost Analysis',
+      periodicReports: 'Periodic Reports',
+
+      // System Management
+      userManagement: 'User Management',
+      rolesPermissions: 'Roles & Permissions',
+      systemSettings: 'System Settings',
+      logRecords: 'Log Records',
+      backup: 'Backup',
+
+      // Help & Support
+      userGuide: 'User Guide',
+      faq: 'FAQ',
+      supportRequests: 'Support Requests',
+      trainingVideos: 'Training Videos',
+      contact: 'Contact',
+    },
+  },
+
+  // Account
+  account: {
+    title: 'My Account',
+    menuDescription:
+      'User account information, department selection, tasks and account operations menu',
     profile: 'Profile',
-      actions: 'Account Actions',
-      editProfile: 'Edit Profile',
-      changePassword: 'Change Password',
-      logout: 'Logout',
-      active: 'Active',
+    actions: 'Account Actions',
+    editProfile: 'Edit Profile',
+    changePassword: 'Change Password',
+    logout: 'Logout',
+    active: 'Active',
     lastLogin: 'Last Login',
-      editDepartment: 'Edit Department',
-      selectDepartment: 'Select Department',
-      departmentSelected: 'Department Selected',
-      myTasks: 'My Tasks',
-      taskSelected: 'Task Selected',
-      selectTask: 'Select Task',
-      noTasks: 'No tasks available',
-      
-      // Profile fields
-      firstName: 'First Name',
-      lastName: 'Last Name',
-      userCode: 'User Code',
-      department: 'Department',
-      email: 'Email',
-      phone: 'Phone',
-      position: 'Position',
-      defaultUser: 'User',
-      defaultFullName: 'Yunus Emre Şenoğlu',
-      defaultUserCode: 'YUNUSEMRE',
-      defaultDepartment: 'Mediation',
-      defaultEmail: 'user@example.com',
-      defaultPhone: '+90 555 123 45 67',
-      defaultPosition: 'No Task Selected',
-      
-      // Password fields
-      currentPassword: 'Current Password',
-      newPassword: 'New Password',
-      confirmPassword: 'Confirm Password',
-      
-      // Profile page specific
-      profileInfo: 'Profile Information',
-      profileUpdatedSuccessfully: 'Profile updated successfully',
-      profileUpdateFailed: 'Error occurred while updating profile',
-      passwordChangedSuccessfully: 'Password changed successfully',
+    editDepartment: 'Edit Department',
+    selectDepartment: 'Select Department',
+    departmentSelected: 'Department Selected',
+    myTasks: 'My Tasks',
+    taskSelected: 'Task Selected',
+    selectTask: 'Select Task',
+    noTasks: 'No tasks available',
+
+    // Profile fields
+    firstName: 'First Name',
+    lastName: 'Last Name',
+    userCode: 'User Code',
+    department: 'Department',
+    email: 'Email',
+    phone: 'Phone',
+    position: 'Position',
+    defaultUser: 'User',
+    defaultFullName: 'Yunus Emre Şenoğlu',
+    defaultUserCode: 'YUNUSEMRE',
+    defaultDepartment: 'Mediation',
+    defaultEmail: 'user[at]example.com',
+    defaultPhone: '+90 555 123 45 67',
+    defaultPosition: 'No Task Selected',
+
+    // Password fields
+    currentPassword: 'Current Password',
+    newPassword: 'New Password',
+    confirmPassword: 'Confirm Password',
+
+    // Profile page specific
+    profileInfo: 'Profile Information',
+    profileUpdatedSuccessfully: 'Profile updated successfully',
+    profileUpdateFailed: 'Error occurred while updating profile',
+    passwordChangedSuccessfully: 'Password changed successfully',
+    passwordChangeFailed: 'Password change failed',
+    passwordChangeError: 'Password change error',
+
+    // Password security tips
+    passwordSecurityTips: 'Security Tips',
+    passwordTip1: 'Must be at least 6 characters long',
+    passwordTip2: 'Should contain uppercase, lowercase, numbers and special characters',
+    passwordTip3: 'Avoid easily guessable words',
+    passwordTip4: 'Change your password regularly',
+
+    notifications: {
+      profileUpdated: 'Profile updated successfully',
+      passwordChanged: 'Password changed successfully',
       passwordChangeFailed: 'Password change failed',
-      passwordChangeError: 'Password change error',
-      
-      // Password security tips
-      passwordSecurityTips: 'Security Tips',
-      passwordTip1: 'Must be at least 6 characters long',
-      passwordTip2: 'Should contain uppercase, lowercase, numbers and special characters',
-      passwordTip3: 'Avoid easily guessable words',
-      passwordTip4: 'Change your password regularly',
-      
-      notifications: {
-        profileUpdated: 'Profile updated successfully',
-        passwordChanged: 'Password changed successfully',
-        passwordChangeFailed: 'Password change failed',
-        securityUpdated: 'Security settings updated successfully',
-        departmentChanged: 'Department changed successfully',
-        taskCompleted: 'Task completed',
-        taskReopened: 'Task reopened',
-        updateFailed: 'Update failed'
-      }
+      securityUpdated: 'Security settings updated successfully',
+      departmentChanged: 'Department changed successfully',
+      taskCompleted: 'Task completed',
+      taskReopened: 'Task reopened',
+      updateFailed: 'Update failed',
+    },
   },
 
   // Dashboard
@@ -266,20 +268,20 @@ export default {
     pendingJobs: 'Pending Jobs',
     myJobs: 'My Jobs',
     sentJobs: 'Sent Jobs',
-    
+
     // Detailed job counts
     detailedJobCounts: 'Detailed Job Counts',
     pending: 'Pending',
     assigned: 'Assigned',
     sent: 'Sent',
-    
+
     // Process types
     processes: {
       valueLossMediation: 'Value Loss Mediation',
       severeDamagePertMediation: 'Severe Damage Pert Mediation',
-      bodilyDamageVoluntaryMediation: 'Bodily Damage Voluntary Mediation'
+      bodilyDamageVoluntaryMediation: 'Bodily Damage Voluntary Mediation',
     },
-    
+
     // Job status
     jobStatus: 'Job Status',
     todaySent: 'Today Sent',
@@ -288,7 +290,7 @@ export default {
     completed: 'Completed',
     activeFiles: 'Active Files',
     expertAssignments: 'Expert Assignments',
-    
+
     // Charts
     charts: {
       workStatusDistribution: 'Work Status Distribution',
@@ -298,25 +300,25 @@ export default {
       inProgress: 'In Progress',
       completed: 'Completed',
       completedJobs: 'Completed Jobs',
-      newJobs: 'New Jobs'
+      newJobs: 'New Jobs',
     },
-    
+
     // Status messages
     status: {
       lastUpdate: 'Last update: 5 min ago',
       systemActive: 'System active',
-      detailedReport: 'Detailed Report'
+      detailedReport: 'Detailed Report',
     },
-    
+
     // Location messages
     location: {
       gettingLocation: 'Getting location...',
       permissionDenied: 'Location permission denied',
       locationUnavailable: 'Location unavailable',
       locationTimeout: 'Location request timeout',
-      locationServiceUnavailable: 'Location service unavailable'
+      locationServiceUnavailable: 'Location service unavailable',
     },
-    
+
     // Announcement list
     announcements: {
       title: 'Announcement List',
@@ -330,30 +332,30 @@ export default {
         maintenance: 'Maintenance',
         security: 'Security',
         update: 'Update',
-        general: 'General'
+        general: 'General',
       },
       priorities: {
         high: 'High',
         medium: 'Medium',
-        low: 'Low'
+        low: 'Low',
       },
       items: {
         maintenance: {
           title: 'System Maintenance Announcement',
-          description: 'Planned system maintenance will be performed this weekend.'
+          description: 'Planned system maintenance will be performed this weekend.',
         },
         security: {
           title: 'Security Update',
-          description: 'New security measures have been implemented.'
+          description: 'New security measures have been implemented.',
         },
         update: {
           title: 'New Feature: Report Module',
-          description: 'Advanced reporting features are now available.'
-        }
+          description: 'Advanced reporting features are now available.',
+        },
       },
       testNotification: 'Dashboard Loaded - Custom Notification Test',
-      unknownLocation: 'Unknown'
-    }
+      unknownLocation: 'Unknown',
+    },
   },
 
   // Damage File Query (Mediator)
@@ -361,22 +363,22 @@ export default {
     title: 'Damage File Query (Mediator)',
     refresh: 'Refresh',
     exportResults: 'Export Results',
-    
+
     // Tab labels
     tabs: {
-      damage: 'Damage'
+      damage: 'Damage',
     },
-    
+
     // Section titles
     sections: {
-      damageInfo: 'Damage Information'
+      damageInfo: 'Damage Information',
     },
-    
+
     searchForm: {
       fileNumber: 'File Number',
       victimNumber: 'Victim Number',
       searchButton: 'Search',
-      clearButton: 'Clear'
+      clearButton: 'Clear',
     },
     results: {
       title: 'Search Results',
@@ -393,8 +395,8 @@ export default {
       subDamageReason: 'Sub Damage Reason',
       reportDate: 'Report Date',
       damageDate: 'Damage Date',
-      actions: 'Actions'
-    }
+      actions: 'Actions',
+    },
   },
 
   // Damage File Query
@@ -402,15 +404,15 @@ export default {
     title: 'Damage File Query',
     refresh: 'Refresh',
     exportResults: 'Export Results',
-    
+
     // Tab labels
     tabs: {
       damage: 'Damage',
       insured: 'Insured',
       victim: 'Victim',
-      responsible: 'Responsible Person'
+      responsible: 'Responsible Person',
     },
-    
+
     // Form labels
     form: {
       fileNumber: 'File Number',
@@ -437,9 +439,9 @@ export default {
       victimPlate: 'Victim Plate',
       legalNumber: 'Legal Number',
       hasRecourse: 'Has Recourse?',
-      subDamageReason: 'Sub Damage Reason'
+      subDamageReason: 'Sub Damage Reason',
     },
-    
+
     // Table columns
     table: {
       priority: 'Priority',
@@ -460,32 +462,24 @@ export default {
       subBranch: 'Sub Branch',
       damageReason: 'Damage Reason',
       subDamageReason: 'Sub Damage Reason',
-      actions: 'Actions'
+      actions: 'Actions',
     },
-    
+
     // Actions
     actions: {
       search: 'Search',
       clear: 'Clear',
       viewDetails: 'View Details',
       edit: 'Edit',
-      delete: 'Delete'
+      delete: 'Delete',
     },
-    
+
     // Messages
     messages: {
       noResults: 'No results found',
       searchResults: 'Search Results',
-      loading: 'Loading...'
-    }
-  },
-
-  // Validation
-  validation: {
-    required: 'This field is required',
-    email: 'Please enter a valid email address',
-    minLength: 'Must be at least {min} characters',
-    passwordMismatch: 'Passwords do not match'
+      loading: 'Loading...',
+    },
   },
 
   // Error pages
@@ -494,8 +488,8 @@ export default {
       title: 'Page Not Found',
       message: 'The page you are looking for could not be found or may have been moved.',
       homeButton: 'Go to Home',
-      menuButton: 'Go to Menu'
-    }
+      menuButton: 'Go to Menu',
+    },
   },
 
   // Hasar Dosya page
@@ -506,7 +500,7 @@ export default {
       download: 'Download',
       share: 'Share',
       upload: 'Upload',
-      addNote: 'Add Note'
+      addNote: 'Add Note',
     },
     sections: {
       reportInfo: 'Report Information',
@@ -518,10 +512,9 @@ export default {
       paymentInfo: 'Payment Information',
       documents: 'Documents',
       notesAndProcess: 'Notes and Process',
-      expertResults: 'Expert Results'
+      expertResults: 'Expert Results',
     },
     labels: {
-      reportDate: 'Report Date',
       reportTime: 'Report Time',
       reporter: 'Reporter',
       contact: 'Contact',
@@ -565,7 +558,7 @@ export default {
       noteTitle: 'Note Title',
       noteDate: 'Note Date',
       noteAuthor: 'Note Author',
-      noteContent: 'Note Content'
+      noteContent: 'Note Content',
     },
     messages: {
       printing: 'File is being printed...',
@@ -580,9 +573,9 @@ export default {
       editNoteFeature: 'Edit note feature will be available soon',
       deleteNoteFeature: 'Delete note feature will be available soon',
       loadingFile: '{fileNumber} file is being loaded...',
-      searchPlaceholder: 'Search file...'
+      searchPlaceholder: 'Search file...',
     },
-    fileTitle: 'Damage File - {fileNumber}'
+    fileTitle: 'Damage File - {fileNumber}',
   },
 
   // Hasar Dosya Arabulucu page
@@ -591,13 +584,13 @@ export default {
     actions: {
       print: 'Print',
       download: 'Download',
-      share: 'Share'
+      share: 'Share',
     },
     sections: {
       dosyaOzet: 'File Summary Information',
       ihbarVeren: 'Notifier Information',
       degerKaybiArabuluculuk: 'Value Loss Mediation Process',
-      evrak: 'Document Information'
+      evrak: 'Document Information',
     },
     labels: {
       dosyaNo: 'File Number',
@@ -620,7 +613,7 @@ export default {
       anlasmaSaglananTutar: 'Agreed Amount',
       anlasmaSaglananVekaletTutari: 'Agreed Power of Attorney Fee',
       anlasmaSaglananToplamTutar: 'Agreed Total Amount',
-      actions: 'Actions'
+      actions: 'Actions',
     },
     messages: {
       printing: 'File is being printed...',
@@ -629,11 +622,11 @@ export default {
       selectDocumentType: 'Please select document type',
       documentRequestSent: '{type} document request sent',
       viewingDocument: 'View',
-      degerKaybiSaved: 'Value loss mediation information saved'
+      degerKaybiSaved: 'Value loss mediation information saved',
     },
     evrak: {
       selectType: 'Document type',
-      requestDocument: 'Request Document'
-    }
-  }
+      requestDocument: 'Request Document',
+    },
+  },
 }

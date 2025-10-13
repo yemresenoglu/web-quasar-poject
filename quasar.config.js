@@ -12,15 +12,10 @@ export default defineConfig((ctx) => {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: [
-      'i18n',
-      'axios'
-    ],
+    boot: ['i18n', 'axios'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#css
-    css: [
-      'app.sass'
-    ],
+    css: ['app.sass'],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -35,14 +30,14 @@ export default defineConfig((ctx) => {
       // 'roboto-font', // Removed - Using Montserrat via @fontsource (src/css/fonts.scss)
       'material-icons', // Material Icons (Quasar notifications için gerekli)
       'material-icons-outlined', // Material Icons Outlined (alternatif)
-      'material-icons-round' // Material Icons Round (alternatif)
+      'material-icons-round', // Material Icons Round (alternatif)
     ],
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#build
     build: {
       target: {
-        browser: [ 'es2022', 'firefox115', 'chrome115', 'safari14' ],
-        node: 'node20'
+        browser: ['es2022', 'firefox115', 'chrome115', 'safari14'],
+        node: 'node20',
       },
 
       vueRouterMode: 'history', // available values: 'hash', 'history'
@@ -61,23 +56,29 @@ export default defineConfig((ctx) => {
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},      
+      // extendViteConf (viteConf) {},
       viteVuePluginOptions: {},
-      
+
       vitePlugins: [
-        ['@intlify/unplugin-vue-i18n/vite', {
-          // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`
-          // compositionOnly: false,
+        [
+          '@intlify/unplugin-vue-i18n/vite',
+          {
+            // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`
+            // compositionOnly: false,
 
-          // if you want to use named tokens in your Vue I18n messages, such as 'Hello {name}',
-          // you need to set `runtimeOnly: false`
-          // runtimeOnly: false,
+            // if you want to use named tokens in your Vue I18n messages, such as 'Hello {name}',
+            // you need to set `runtimeOnly: false`
+            // runtimeOnly: false,
 
-          ssr: ctx.modeName === 'ssr',
+            ssr: ctx.modeName === 'ssr',
 
-          // you need to set i18n resource including paths !
-          include: [ fileURLToPath(new URL('./src/i18n', import.meta.url)) ]
-        }],
+            // you need to set i18n resource including paths !
+            include: [
+              fileURLToPath(new URL('./src/i18n/**/*.js', import.meta.url)),
+              fileURLToPath(new URL('./src/i18n/**/*.json', import.meta.url)),
+            ],
+          },
+        ],
 
         // ['vite-plugin-checker', {
         //   eslint: {
@@ -85,13 +86,13 @@ export default defineConfig((ctx) => {
         //     useFlatConfig: true
         //   }
         // }, { server: false }]
-      ]
+      ],
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#devserver
     devServer: {
       // https: true,
-      open: true // opens browser window automatically
+      open: true, // opens browser window automatically
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework
@@ -109,12 +110,7 @@ export default defineConfig((ctx) => {
       // directives: [],
 
       // Quasar plugins
-      plugins: [
-        'Notify',
-        'Dialog',
-        'Dark',
-        'LocalStorage'
-      ]
+      plugins: ['Notify', 'Dialog', 'Dark', 'LocalStorage'],
     },
 
     // https://v2.quasar.dev/options/animations
@@ -127,7 +123,7 @@ export default defineConfig((ctx) => {
       swFilename: 'sw.js',
       manifestFilename: 'manifest.json',
       useCredentialsForManifestTag: false,
-      
+
       // PWA Manifest
       manifest: {
         name: 'SOMPO Hasar Operasyon',
@@ -143,36 +139,36 @@ export default defineConfig((ctx) => {
           {
             src: 'icons/icon-128x128.png',
             sizes: '128x128',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'icons/icon-192x192.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'icons/icon-256x256.png',
             sizes: '256x256',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'icons/icon-384x384.png',
             sizes: '384x384',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'icons/icon-512x512.png',
             sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
+            type: 'image/png',
+          },
+        ],
       },
 
       // Workbox options
       workboxOptions: {
         skipWaiting: true,
         clientsClaim: true,
-        
+
         // Cache strategies
         runtimeCaching: [
           {
@@ -182,12 +178,12 @@ export default defineConfig((ctx) => {
               cacheName: 'google-fonts-cache',
               expiration: {
                 maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
               },
               cacheableResponse: {
-                statuses: [0, 200]
-              }
-            }
+                statuses: [0, 200],
+              },
+            },
           },
           {
             urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
@@ -196,12 +192,12 @@ export default defineConfig((ctx) => {
               cacheName: 'gstatic-fonts-cache',
               expiration: {
                 maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
               },
               cacheableResponse: {
-                statuses: [0, 200]
-              }
-            }
+                statuses: [0, 200],
+              },
+            },
           },
           {
             urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/,
@@ -210,9 +206,9 @@ export default defineConfig((ctx) => {
               cacheName: 'image-cache',
               expiration: {
                 maxEntries: 60,
-                maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days
-              }
-            }
+                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+              },
+            },
           },
           {
             urlPattern: /\/api\/.*/i,
@@ -221,13 +217,13 @@ export default defineConfig((ctx) => {
               cacheName: 'api-cache',
               expiration: {
                 maxEntries: 50,
-                maxAgeSeconds: 60 * 5 // 5 minutes
+                maxAgeSeconds: 60 * 5, // 5 minutes
               },
-              networkTimeoutSeconds: 10
-            }
-          }
-        ]
-      }
-    }
+              networkTimeoutSeconds: 10,
+            },
+          },
+        ],
+      },
+    },
   }
 })

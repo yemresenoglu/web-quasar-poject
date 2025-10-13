@@ -17,7 +17,7 @@ export function useApiLoading(operationName = 'default') {
     globalLoading.value = true
     loadingOperations.value.add(operationName)
     lastOperation.value = new Date().toISOString()
-    
+
     logger.debug(`Loading started: ${operationName}`)
   }
 
@@ -41,15 +41,11 @@ export function useApiLoading(operationName = 'default') {
   }
 
   const executeWithLoading = async (operation, options = {}) => {
-    const { 
-      showGlobalLoading = true,
-      autoHandleErrors = false,
-      timeout = 30000 
-    } = options
+    const { autoHandleErrors = false, timeout = 30000 } = options
 
     try {
       startLoading()
-      
+
       let timeoutId = null
       if (timeout > 0) {
         timeoutId = setTimeout(() => {
@@ -58,7 +54,7 @@ export function useApiLoading(operationName = 'default') {
       }
 
       const result = await operation()
-      
+
       if (timeoutId) {
         clearTimeout(timeoutId)
       }
@@ -67,7 +63,7 @@ export function useApiLoading(operationName = 'default') {
       return result
     } catch (err) {
       stopLoading()
-      
+
       if (autoHandleErrors) {
         setError(err)
         return { success: false, error: err.message }
@@ -92,7 +88,7 @@ export function useApiLoading(operationName = 'default') {
     setError,
     clearError,
     executeWithLoading,
-    reset
+    reset,
   }
 }
 
@@ -100,7 +96,7 @@ export const useGlobalLoading = () => {
   return {
     isLoading: computed(() => globalLoading.value),
     loadingOperations: computed(() => Array.from(loadingOperations.value)),
-    hasLoadingOperations: computed(() => loadingOperations.value.size > 0)
+    hasLoadingOperations: computed(() => loadingOperations.value.size > 0),
   }
 }
 
@@ -110,7 +106,7 @@ export const loadingStates = {
   delete: ref(false),
   load: ref(false),
   upload: ref(false),
-  download: ref(false)
+  download: ref(false),
 }
 
 export const setLoadingState = (operation, loading) => {
@@ -127,7 +123,7 @@ export const useLoadingIndicator = () => {
   const { isLoading } = useGlobalLoading()
   return {
     showGlobalSpinner: computed(() => isLoading.value),
-    loadingOperationsCount: computed(() => loadingOperations.value.size)
+    loadingOperationsCount: computed(() => loadingOperations.value.size),
   }
 }
 
@@ -137,5 +133,5 @@ export default {
   loadingStates,
   setLoadingState,
   getLoadingState,
-  useLoadingIndicator
+  useLoadingIndicator,
 }

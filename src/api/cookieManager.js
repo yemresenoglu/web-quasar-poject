@@ -5,26 +5,26 @@ const logger = createLogger('CookieManager')
 class CookieManager {
   constructor() {
     this.cookies = new Map()
-    this.domain = '10.81.98.63'
+    this.domain = 'localhost'
     this.path = '/sigorta'
     this.loadCookiesFromDocument()
   }
 
   loadCookiesFromDocument() {
     if (typeof document === 'undefined') return
-    
+
     const cookieString = document.cookie
     if (!cookieString) return
-    
-    const cookies = cookieString.split(';').map(cookie => cookie.trim())
-    
-    cookies.forEach(cookie => {
+
+    const cookies = cookieString.split(';').map((cookie) => cookie.trim())
+
+    cookies.forEach((cookie) => {
       const [name, value] = cookie.split('=')
       if (name && value) {
         this.cookies.set(name.trim(), decodeURIComponent(value.trim()))
       }
     })
-    
+
     logger.info('Cookies loaded from document:', Array.from(this.cookies.entries()))
   }
 
@@ -38,11 +38,11 @@ class CookieManager {
       domain: this.domain,
       secure: false, // Backend doesn't use secure cookies
       sameSite: 'Lax',
-      ...options
+      ...options,
     }
 
     let cookieString = `${name}=${encodeURIComponent(value)}`
-    
+
     // Add options
     if (cookieOptions.path) cookieString += `; Path=${cookieOptions.path}`
     if (cookieOptions.domain) cookieString += `; Domain=${cookieOptions.domain}`
@@ -59,7 +59,7 @@ class CookieManager {
 
     // Store in memory
     this.cookies.set(name, value)
-    
+
     logger.info('Cookie set:', { name, value, options: cookieOptions })
   }
 
@@ -77,7 +77,7 @@ class CookieManager {
   setSessionId(sessionId) {
     this.setCookie('JSESSIONID', sessionId, {
       httpOnly: true,
-      path: '/sigorta'
+      path: '/sigorta',
     })
   }
 
@@ -102,7 +102,7 @@ class CookieManager {
 
   clearAllCookies() {
     const cookieNames = Array.from(this.cookies.keys())
-    cookieNames.forEach(name => this.removeCookie(name))
+    cookieNames.forEach((name) => this.removeCookie(name))
     logger.info('All cookies cleared')
   }
 
@@ -112,7 +112,7 @@ class CookieManager {
       userLang: this.getUserSessionLang(),
       hasValidSession: this.hasValidSession(),
       allCookies: Object.fromEntries(this.cookies),
-      cookieHeader: this.getCookieHeader()
+      cookieHeader: this.getCookieHeader(),
     }
   }
 }

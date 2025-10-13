@@ -8,15 +8,15 @@
       <h3 class="error-boundary__title">{{ t('errors.somethingWentWrong') }}</h3>
       <p class="error-boundary__message">{{ errorMessage }}</p>
       <div class="error-boundary__actions">
-        <q-btn 
-          @click="resetError" 
+        <q-btn
+          @click="resetError"
           :label="t('common.retry')"
           color="primary"
           icon="bi-arrow-clockwise"
           class="error-boundary__btn"
         />
-        <q-btn 
-          @click="goHome" 
+        <q-btn
+          @click="goHome"
           :label="t('common.goHome')"
           color="secondary"
           icon="bi-house"
@@ -40,7 +40,6 @@ import { ref, onErrorCaptured } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { createLogger } from 'src/utils/logger'
-import { ERROR_CODES } from 'src/api/types'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -54,7 +53,7 @@ const showDetails = ref(false)
 onErrorCaptured((error, instance, info) => {
   hasError.value = true
   errorMessage.value = error.message
-  
+
   // Enhanced error logging with API context
   const errorContext = {
     error: error.message,
@@ -63,21 +62,21 @@ onErrorCaptured((error, instance, info) => {
     info,
     timestamp: new Date().toISOString(),
     userAgent: navigator.userAgent,
-    url: window.location.href
+    url: window.location.href,
   }
-  
+
   logger.error('Component error caught:', errorContext)
-  
+
   // Check if it's an API error
   if (error.name === 'AxiosError' || error.config) {
     handleApiError(error)
   } else {
     handleGenericError(error)
   }
-  
+
   errorStack.value = error.stack || 'No stack trace available'
   showDetails.value = process.env.NODE_ENV === 'development'
-  
+
   return false // Prevent error propagation
 })
 
@@ -87,7 +86,7 @@ onErrorCaptured((error, instance, info) => {
 const handleApiError = (error) => {
   const status = error.response?.status
   const statusText = error.response?.statusText
-  
+
   switch (status) {
     case 401:
       errorMessage.value = t('errors.unauthorized')
@@ -97,23 +96,23 @@ const handleApiError = (error) => {
         router.push('/login')
       }, 3000)
       break
-      
+
     case 403:
       errorMessage.value = t('errors.forbidden')
       break
-      
+
     case 404:
       errorMessage.value = t('errors.notFound')
       break
-      
+
     case 500:
       errorMessage.value = t('errors.serverError')
       break
-      
+
     case 503:
       errorMessage.value = t('errors.serviceUnavailable')
       break
-      
+
     default:
       if (error.code === 'ECONNABORTED') {
         errorMessage.value = t('errors.timeout')
@@ -148,7 +147,7 @@ const resetError = () => {
   errorMessage.value = ''
   errorStack.value = ''
   showDetails.value = false
-  
+
   logger.info('Error boundary reset by user')
 }
 
@@ -158,15 +157,6 @@ const resetError = () => {
 const goHome = () => {
   resetError()
   router.push('/')
-}
-
-/**
- * Get error severity level
- */
-const getErrorSeverity = (error) => {
-  if (error.response?.status >= 500) return 'critical'
-  if (error.response?.status >= 400) return 'high'
-  return 'medium'
 }
 </script>
 
@@ -226,7 +216,7 @@ const getErrorSeverity = (error) => {
     border: 1px solid $border-light;
     border-radius: 4px;
     padding: 1rem;
-    
+
     summary {
       cursor: pointer;
       font-weight: 600;

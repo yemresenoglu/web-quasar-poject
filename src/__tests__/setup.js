@@ -1,6 +1,6 @@
 /**
  * Vitest Global Setup
- * 
+ *
  * This file runs before all tests and sets up the global test environment.
  * It configures Quasar, mocks, and global utilities needed for testing.
  */
@@ -11,27 +11,30 @@ import { vi } from 'vitest'
 
 // Configure Quasar for tests
 config.global.plugins = [
-  [Quasar, {
-    plugins: {
-      Notify,
-      Dialog
+  [
+    Quasar,
+    {
+      plugins: {
+        Notify,
+        Dialog,
+      },
+      config: {},
     },
-    config: {}
-  }]
+  ],
 ]
 
 // Add i18n mock
 config.global.mocks = {
   $t: (key) => key,
   $i18n: {
-    locale: 'tr-TR'
-  }
+    locale: 'tr-TR',
+  },
 }
 
 // Mock window.matchMedia (for Quasar responsive features)
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: vi.fn().mockImplementation(query => ({
+  value: vi.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -46,13 +49,13 @@ Object.defineProperty(window, 'matchMedia', {
 // Mock window.scrollTo
 Object.defineProperty(window, 'scrollTo', {
   writable: true,
-  value: vi.fn()
+  value: vi.fn(),
 })
 
 // Mock window.print
 Object.defineProperty(window, 'print', {
   writable: true,
-  value: vi.fn()
+  value: vi.fn(),
 })
 
 // Note: Console methods are NOT mocked globally
@@ -78,7 +81,7 @@ const sessionStorageMock = {
 global.sessionStorage = sessionStorageMock
 
 // Reset mocks before each test
-beforeEach(() => {
+vi.beforeEach(() => {
   vi.clearAllMocks()
   localStorageMock.getItem.mockClear()
   localStorageMock.setItem.mockClear()
@@ -89,4 +92,3 @@ beforeEach(() => {
   sessionStorageMock.removeItem.mockClear()
   sessionStorageMock.clear.mockClear()
 })
-

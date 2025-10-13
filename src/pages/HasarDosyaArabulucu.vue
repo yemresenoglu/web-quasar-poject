@@ -1,25 +1,17 @@
 <template>
   <q-page class="hasar-dosya-arabulucu">
     <div class="page-container">
-      <PageHeader
-        :title="pageTitle"
-        icon="file-text"
-        :show-actions="!!dosyaNo"
-      />
+      <PageHeader :title="pageTitle" icon="file-text" :show-actions="!!dosyaNo" />
 
       <div v-if="dosyaNo" class="content-flow">
         <!-- Dosya Özet Bilgileri -->
-        <DosyaOzetSection 
-          :file-data="fileData"
-        />
+        <DosyaOzetSection :file-data="fileData" />
 
         <!-- İhbar Veren Kişi Bilgileri -->
-        <IhbarVerenSection 
-          :ihbar-data="fileData.ihbarVeren"
-        />
+        <IhbarVerenSection :ihbar-data="fileData.ihbarVeren" />
 
         <!-- Değer Kaybı Arabuluculuk Bilgileri -->
-        <DegerKaybiArabuluculukSection 
+        <DegerKaybiArabuluculukSection
           v-model:arabuluculuk="fileData.degerKaybi"
           :loading="loadingStates.degerKaybi"
           @save="saveDegerKaybi"
@@ -42,6 +34,9 @@ import { computed, ref, reactive, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
+import { createLogger } from 'src/utils/logger'
+
+const logger = createLogger('HasarDosyaArabulucu')
 
 // Components
 import PageHeader from 'src/components/PageHeader.vue'
@@ -67,7 +62,7 @@ const pageTitle = computed(() => {
 // Loading states
 const loadingStates = reactive({
   degerKaybi: false,
-  evrak: false
+  evrak: false,
 })
 
 // File data
@@ -89,7 +84,7 @@ const fileData = ref({
     ihbarYapanAdSoyad: 'YAVUZ BÜLENT TÜRELİ',
     gsm: '(545) 734 51 74',
     eposta: '',
-    yakinlikDerecesi: 'Sigortalı'
+    yakinlikDerecesi: 'Sigortalı',
   },
   degerKaybi: {
     teklifEdilenTutar: 0,
@@ -99,59 +94,64 @@ const fileData = ref({
     talepEdilenRevizeTutar: 0,
     onaylananRevizeTutar: 0,
     anlasmaSaglananTutar: 0,
-    anlasmaSaglananVekaletTutari: 0
-  }
+    anlasmaSaglananVekaletTutari: 0,
+  },
 })
 
 // Evrak list
 const evrakList = ref([
-    {
-      id: 1,
-      evrakAdi: 'Kaza Tespit Tutanağı',
-      evrakBelgeDurum: 'Alındı',
-    tarih: '15.01.2024'
-    },
-    {
-      id: 2,
+  {
+    id: 1,
+    evrakAdi: 'Kaza Tespit Tutanağı',
+    evrakBelgeDurum: 'Alındı',
+    tarih: '15.01.2024',
+  },
+  {
+    id: 2,
     evrakAdi: 'Ruhsat Fotokopisi',
     evrakBelgeDurum: 'Bekleniyor',
-    tarih: '-'
-  }
+    tarih: '-',
+  },
 ])
 
 // Update document title and fileData when dosyaNo changes
-watch(dosyaNo, (newDosyaNo) => {
-  if (newDosyaNo) {
-    // Update fileData with new dosyaNo
-    fileData.value.dosyaNo = newDosyaNo
-    
-    // Update document title
-    document.title = `${newDosyaNo} - SOMPO Sigorta`
-  } else {
-    document.title = 'SOMPO Sigorta'
-  }
-}, { immediate: true })
+watch(
+  dosyaNo,
+  (newDosyaNo) => {
+    if (newDosyaNo) {
+      // Update fileData with new dosyaNo
+      fileData.value.dosyaNo = newDosyaNo
+
+      // Update document title
+      document.title = `${newDosyaNo} - SOMPO Sigorta`
+    } else {
+      document.title = 'SOMPO Sigorta'
+    }
+  },
+  { immediate: true },
+)
 
 /**
  * Save Değer Kaybı
  */
 const saveDegerKaybi = async () => {
   loadingStates.degerKaybi = true
-  
+
   try {
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-  $q.notify({
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+
+    $q.notify({
       type: 'positive',
       message: t('hasarDosyaArabulucu.messages.saveSuccess'),
-    position: 'top'
-  })
+      position: 'top',
+    })
   } catch (error) {
+    logger.error('Error saving file:', error)
     $q.notify({
       type: 'negative',
       message: t('hasarDosyaArabulucu.messages.saveError'),
-      position: 'top'
+      position: 'top',
     })
   } finally {
     loadingStates.degerKaybi = false
@@ -166,27 +166,26 @@ const addEvrak = (evrakData) => {
   const newEvrak = {
     id: Date.now(),
     ...evrakData,
-    tarih: new Date().toLocaleDateString('tr-TR')
+    tarih: new Date().toLocaleDateString('tr-TR'),
   }
-  
+
   evrakList.value.push(newEvrak)
-  
+
   $q.notify({
     type: 'positive',
     message: t('hasarDosyaArabulucu.messages.evrakAdded'),
-    position: 'top'
+    position: 'top',
   })
 }
 
 /**
  * View document
- * @param {Object} doc - Document to view
  */
-const viewDocument = (doc) => {
+const viewDocument = () => {
   $q.notify({
     type: 'info',
     message: t('hasarDosyaArabulucu.messages.viewingDocument'),
-    position: 'top'
+    position: 'top',
   })
 }
 </script>
@@ -198,7 +197,7 @@ const viewDocument = (doc) => {
   background: $background-page;
   min-height: 100vh;
   text-transform: uppercase;
-  
+
   // Icon'ları ve butonları hariç tut
   .q-icon,
   .q-select__dropdown-icon,
@@ -206,10 +205,10 @@ const viewDocument = (doc) => {
   .q-btn .q-icon,
   .q-btn,
   i,
-  [class*="bi-"] {
+  [class*='bi-'] {
     text-transform: none !important;
   }
-  
+
   .page-container {
     max-width: 1600px;
     width: 100%;
