@@ -1,4 +1,4 @@
-# 🚀 SOMPO Hasar Operasyon Yönetim Sistemi
+# 🚀 SOMPO Sigorta - Hasar Yönetim Sistemi
 
 **Enterprise-Grade Web Application**  
 Modern hasar yönetimi ve arabuluculuk süreçleri için geliştirilmiş tam kapsamlı web uygulaması.
@@ -12,8 +12,13 @@ Modern hasar yönetimi ve arabuluculuk süreçleri için geliştirilmiş tam kap
 ![Quasar](https://img.shields.io/badge/Quasar-2.16.0-1976D2.svg)
 ![Tests](https://img.shields.io/badge/tests-113%20passed-success.svg)
 ![E2E](https://img.shields.io/badge/E2E-25%20tests-blue.svg)
+![Husky](https://img.shields.io/badge/Husky-v9.1.7-green.svg)
+![Dark Mode](https://img.shields.io/badge/Dark%20Mode-✅-blueviolet.svg)
 
 **Enterprise Grade:** ⭐⭐⭐⭐⭐ **5.0/5.0**
+
+### 🔗 Repository
+**GitHub:** https://github.com/yemresenoglu/web-quasar-poject.git
 
 ---
 
@@ -25,6 +30,12 @@ web-quasar-project/
 │   ├── 📄 App.vue                        # Root component
 │   ├── 📄 index.js                       # Entry point
 │   │
+│   ├── 📂 api/ (Backend Integration)
+│   │   ├── index.js                      # Axios client (Spring 2 + JDK 1.8)
+│   │   ├── hasarApi.js                   # Hasar API service
+│   │   ├── cookieManager.js              # JSESSIONID & userSessionLang
+│   │   └── types.js                      # API type definitions
+│   │
 │   ├── 📂 pages/ (8 pages)
 │   │   ├── IndexPage.vue                 # Dashboard (Ana sayfa)
 │   │   ├── MenuPage.vue                  # Mega menu
@@ -35,11 +46,12 @@ web-quasar-project/
 │   │   ├── HasarDosyaArabulucu.vue       # Hasar detay
 │   │   └── ErrorNotFound.vue             # 404 page
 │   │
-│   ├── 📂 components/ (11 components)
+│   ├── 📂 components/ (19 components)
 │   │   ├── Taskbar.vue                   # Sol görev çubuğu
 │   │   ├── MainContent.vue               # Ana içerik wrapper
 │   │   ├── PageHeader.vue                # Sayfa başlığı
 │   │   ├── DashboardCharts.vue           # Chart.js grafikleri
+│   │   ├── ErrorBoundary.vue             # Error handling
 │   │   ├── 📂 account/ (7 components)
 │   │   │   ├── AccountProfile.vue
 │   │   │   ├── AccountMenu.vue
@@ -48,10 +60,11 @@ web-quasar-project/
 │   │   │   ├── AccountTaskSelector.vue
 │   │   │   ├── AccountQuickAccessManager.vue
 │   │   │   └── AccountTaskbarSettings.vue
-│   │   └── 📂 hasar/ (5 components)
+│   │   └── 📂 hasar/ (6 components)
 │   │       ├── DosyaOzetSection.vue
-│   │       ├── DegerKaybiSection.vue
+│   │       ├── DegerKaybiArabuluculukSection.vue
 │   │       ├── EvrakSection.vue
+│   │       ├── IhbarVerenSection.vue
 │   │       ├── SearchFormSection.vue
 │   │       └── ResultsTableSection.vue
 │   │
@@ -67,6 +80,9 @@ web-quasar-project/
 │   │       ├── account-store.spec.js     # 28 tests
 │   │       ├── dashboard-store.spec.js   # 30 tests
 │   │       └── menu-store.spec.js        # 26 tests
+│   │
+│   ├── 📂 composables/
+│   │   └── useApiLoading.js              # API loading states
 │   │
 │   ├── 📂 layouts/ (2 layouts)
 │   │   ├── MainLayout.vue                # Ana layout
@@ -107,12 +123,17 @@ web-quasar-project/
 ├── 📂 scripts/
 │   └── generate-pwa-icons.js             # PWA icon generator
 │
+├── 📂 .husky/
+│   └── pre-commit                        # Husky v9 git hook
+│
 ├── ⚙️ Config Files
 │   ├── quasar.config.js                  # Quasar configuration
 │   ├── vitest.config.js                  # Unit test config
 │   ├── playwright.config.js              # E2E test config
 │   ├── eslint.config.js                  # ESLint rules
-│   └── package.json                      # Dependencies
+│   ├── .prettierignore                   # Prettier exclusions
+│   ├── package.json                      # Dependencies
+│   └── menu-data.json                    # Menu configuration
 │
 └── 📄 README.md                          # This file
 ```
@@ -145,10 +166,12 @@ web-quasar-project/
 
 ### 📋 Hasar Yönetimi
 - ✅ **Dosya Sorgulama** - Gelişmiş arama formu
-- ✅ **Dosya Detay** - Kapsamlı dosya bilgileri
-- ✅ **Değer Kaybı** - Arabuluculuk süreçleri
-- ✅ **Evrak Yönetimi** - Belge yükleme ve görüntüleme
-- ✅ **Virtual Scrolling** - Büyük veri setlerinde performans
+- ✅ **Dosya Detay** - Kapsamlı dosya bilgileri (dosyaNo/magdurNo format)
+- ✅ **Değer Kaybı Arabuluculuk** - Anlaşma tutarları ve işlemler
+- ✅ **Evrak Yönetimi** - Belge yükleme, sorgulama ve görüntüleme
+- ✅ **İhbar Veren Bilgileri** - Kişi bilgileri yönetimi
+- ✅ **Yeni Sekmede Aç** - Dosya detaylarını ayrı sekmede görüntüleme
+- ✅ **API Integration** - Spring 2 + JDK 1.8 backend entegrasyonu
 
 ### 👤 Profil Yönetimi
 - ✅ **Profil Düzenleme** - Ad, soyad, email, telefon
@@ -196,7 +219,7 @@ web-quasar-project/
 {
   "@quasar/extras": "^1.17.0",         // Icons & Fonts
   "@fontsource/montserrat": "^5.2.8",  // Montserrat Font
-  "bootstrap-icons": "^1.11.3"         // Bootstrap Icons
+  "bootstrap-icons": "^1.13.1"         // Bootstrap Icons
 }
 ```
 
@@ -361,20 +384,25 @@ Test Coverage:
 
 ### Renk Paleti
 
-#### Light Mode
+#### Light Mode ☀️
 ```scss
-Primary: #1976D2      // Mavi
-Secondary: #26A69A    // Yeşil-mavi
-Accent: #9C27B0       // Mor
-Background: linear-gradient(135deg, #d7e1ea, #f5f1ff)
+Primary: #1976D2           // Mavi
+Secondary: #26A69A         // Yeşil-mavi
+Accent: #9C27B0            // Mor
+Background: #f8fafc        // Açık gri
+Border Accent: #1976D2     // Mavi border
+Text Primary: #202124      // Koyu gri
 ```
 
 #### Dark Mode 🌙
 ```scss
-Primary: #1976D2      // Mavi (aynı)
-Secondary: #26A69A    // Yeşil-mavi (aynı)
-Accent: #9C27B0       // Mor (aynı)
-Background: linear-gradient(135deg, #1a1a2e, #16213e)
+Primary: #1976D2           // Mavi (aynı)
+Secondary: #26A69A         // Yeşil-mavi (aynı)
+Accent: #3b82f6            // Açık mavi
+Background Page: #030514   // Koyu lacivert (Main BG)
+Background Card: #242735   // Taskbar & Cards
+Text Primary: #f1f5f9      // Açık gri
+Border Light: #1e293b      // Koyu border
 ```
 
 ### Typography
@@ -385,10 +413,12 @@ Base Size: 14px
 ```
 
 ### CSS Methodology
-- **BEM** (Block Element Modifier)
-- **SASS** preprocessing
-- **Utility-first** classes
-- **Responsive** breakpoints
+- **BEM** (Block Element Modifier) - Modular component naming
+- **SCSS** preprocessing - Variables, mixins, nesting
+- **SASS** files - Indented syntax (excluded from prettier)
+- **Dark Mode** - Global theme toggle with CSS variables
+- **Utility-first** classes - Reusable utilities
+- **Responsive** breakpoints - Mobile-first approach
 
 ### Component Structure
 ```vue
@@ -585,15 +615,24 @@ hotfix/*    # Critical fixes
 
 ## 🚀 Roadmap
 
-### Gelecek Özellikler
-- [ ] API Mocking (MSW) - Development için
-- [ ] Storybook - Component dokümantasyonu
-- [ ] Performance Dashboard - Detaylı metrikler
+### ✅ Tamamlanan Özellikler (v0.0.1)
+- ✅ Dark Mode implementation (#030514, #242735)
+- ✅ API Layer (Spring 2 + JDK 1.8 entegrasyonu)
+- ✅ Hasar modülü (Sorgulama, Detay, Arabuluculuk)
+- ✅ Cookie management (JSESSIONID, userSessionLang)
+- ✅ Custom form elements (TL suffix, custom arrows)
+- ✅ Husky v9 git hooks
+- ✅ Clean code (AI-generated comments removed)
+
+### 🔜 Gelecek Özellikler
+- [ ] Backend API Integration (Production)
+- [ ] Real-time Updates - WebSocket desteği
+- [ ] Advanced Search - Elastic search entegrasyonu
+- [ ] Export/Import - Excel/PDF veri aktarma
 - [ ] Offline Mode - Gelişmiş PWA özellikleri
 - [ ] Push Notifications - Bildirim sistemi
-- [ ] Export/Import - Veri dışa/içe aktarma
-- [ ] Advanced Search - Elastic search entegrasyonu
-- [ ] Real-time Updates - WebSocket desteği
+- [ ] Performance Dashboard - Detaylı metrikler
+- [ ] Storybook - Component dokümantasyonu
 
 ---
 
@@ -619,6 +658,47 @@ Private - All rights reserved
 ---
 
 **Son Güncelleme:** 13 Ekim 2025  
+**Versiyon:** 0.0.1  
 **Durum:** ✅ Production Ready  
 **Kalite:** ⭐⭐⭐⭐⭐ (5/5)  
-**Git Hooks:** ✅ Configured (Husky v9)
+**Git Hooks:** ✅ Configured (Husky v9)  
+**Dark Mode:** ✅ Implemented  
+**API Layer:** ✅ Ready (Spring 2 + JDK 1.8)
+
+---
+
+## 📝 Changelog
+
+### v0.0.1 (13 Ekim 2025)
+
+#### 🎯 Major Features
+- ✅ Complete application overhaul
+- ✅ Dark mode theme system (#030514, #242735)
+- ✅ API layer with Spring 2 + JDK 1.8 backend
+- ✅ Hasar management module (6 components)
+- ✅ Cookie management (JSESSIONID, userSessionLang)
+
+#### 🎨 UI/UX Improvements
+- ✅ Custom taskbar with category navigation
+- ✅ Custom form elements (TL suffix, custom arrows)
+- ✅ Consistent styling across all components
+- ✅ Bootstrap Icons integration
+- ✅ BEM methodology applied
+
+#### 🧹 Code Quality
+- ✅ Removed AI-generated comments
+- ✅ Husky v9 git hooks configured
+- ✅ Prettier .sass exclusion
+- ✅ ESLint + Prettier integration
+- ✅ Clean, minimal documentation
+
+#### 🧪 Testing
+- ✅ 113 unit tests (Vitest)
+- ✅ 25 E2E tests (Playwright)
+- ✅ Store test coverage
+
+#### 📦 Infrastructure
+- ✅ GitHub repository configured
+- ✅ Pre-commit hooks working
+- ✅ Build optimization
+- ✅ PWA support
