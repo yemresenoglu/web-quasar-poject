@@ -1,8 +1,18 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { createLogger } from 'src/utils/logger.js'
-import { hasarApi } from 'src/api/hasarApi.js'
 import cookieManager from 'src/api/cookieManager.js'
+import { 
+  simulateLogin, 
+  simulateLogout, 
+  simulateCaptchaFetch, 
+  simulateTokenRefresh, 
+  simulateUserInfoFetch,
+  getMockUser,
+  getMockSession,
+  getMockCaptcha
+} from 'src/data/auth-mock-data.js'
+import { authApiModule } from 'src/api/modules/auth-api.js'
 
 const logger = createLogger('AuthStore')
 
@@ -28,20 +38,6 @@ export const useAuthStore = defineStore('auth', () => {
   // UI state
   const isLoading = ref(false)
   const showPassword = ref(false)
-  const captchaText = ref('')
-  
-  // Initialize captcha on store creation
-  const initializeCaptcha = () => {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
-    let result = ''
-    for (let i = 0; i < 6; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length))
-    }
-    captchaText.value = result
-  }
-  
-  // Generate initial captcha
-  initializeCaptcha()
 
   // Computed
   const isLoggedIn = computed(() => isAuthenticated.value && user.value !== null)
@@ -69,11 +65,6 @@ export const useAuthStore = defineStore('auth', () => {
       isLoading.value = true
       logger.info('Login attempt started', { userCode })
       
-      // Validate captcha (basic check)
-      if (!captcha || captcha.length < 4) {
-        throw new Error('Invalid captcha')
-      }
-
       // Check login attempts
       const now = new Date()
       if (loginAttempts.value >= 3) {
@@ -85,12 +76,25 @@ export const useAuthStore = defineStore('auth', () => {
         }
       }
 
-      // Call backend API
-      const loginResult = await hasarApi.login({
-        userCode,
-        password,
-        captcha
-      })
+      // Mock data kullanımı - geliştirme ortamında
+      let loginResult
+      if (process.env.NODE_ENV === 'development') {
+        logger.info('Using mock data for login')
+        loginResult = await simulateLogin(userCode, password, captcha)
+      } else {
+        // Gerçek API çağrısı (şu anda yorum satırında)
+        /*
+        try {
+          loginResult = await authApiModule.login({ userCode, password, captcha })
+        } catch (apiError) {
+          logger.error('API login failed, falling back to mock data:', apiError)
+          loginResult = await simulateLogin(userCode, password, captcha)
+        }
+        */
+        
+        // Şu anda API bağlı değil, mock data kullan
+        loginResult = await simulateLogin(userCode, password, captcha)
+      }
 
       if (loginResult.success) {
         // Extract user data from backend response
@@ -163,12 +167,24 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       logger.info('Logout initiated', { userCode: user.value?.userCode })
       
-      // Call backend logout
-      try {
-        await hasarApi.logout()
-      } catch (error) {
-        logger.warn('Backend logout failed:', error)
-        // Continue with local logout even if backend fails
+      // Mock data kullanımı - geliştirme ortamında
+      if (process.env.NODE_ENV === 'development') {
+        logger.info('Using mock data for logout')
+        await simulateLogout()
+      } else {
+        // Gerçek API çağrısı (şu anda yorum satırında)
+        /*
+        try {
+          await authApiModule.logout()
+        } catch (error) {
+          logger.warn('Backend logout failed:', error)
+          // Fallback to mock data
+          await simulateLogout()
+        }
+        */
+        
+        // Şu anda API bağlı değil, mock data kullan
+        await simulateLogout()
       }
       
       // Clear state
@@ -293,19 +309,6 @@ export const useAuthStore = defineStore('auth', () => {
     return user.value.permissions.includes(permission)
   }
 
-  /**
-   * Generates a random captcha code
-   * @returns {void}
-   */
-  const generateCaptcha = () => {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
-    let result = ''
-    for (let i = 0; i < 6; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length))
-    }
-    captchaText.value = result
-    logger.info('Captcha generated')
-  }
 
   /**
    * Toggles password visibility
@@ -325,7 +328,6 @@ export const useAuthStore = defineStore('auth', () => {
     loginForm,
     isLoading,
     showPassword,
-    captchaText,
     
     // Computed
     isLoggedIn,
@@ -339,7 +341,6 @@ export const useAuthStore = defineStore('auth', () => {
     forgotPassword,
     extendSession,
     hasPermission,
-    generateCaptcha,
     togglePasswordVisibility
   }
 }, {

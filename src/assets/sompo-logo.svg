@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <!-- Kırmızı dolu daire (fill) -->
+  <circle cx="12" cy="12" r="10" fill="rgba(180, 32, 41, 0.9)" stroke="rgba(180, 32, 41, 1)" stroke-width="0.5"/>
+  
+  <!-- Gri halka (circle) -->
+  <circle cx="12" cy="12" r="8" fill="none" stroke="rgba(128, 128, 128, 0.6)" stroke-width="2"/>
+  
+  <!-- S ve O harfleri -->
+  <text x="12" y="16" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="white">SO</text>
+</svg>

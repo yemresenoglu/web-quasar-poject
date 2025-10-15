@@ -15,9 +15,12 @@
           <q-select
             v-model="newEvrak.type"
             :options="evrakOptions"
+            :loading="evrakOptionsLoading"
             outlined
             dense
             class="evrak-section__input"
+            placeholder="Evrak türü seçiniz..."
+            clearable
           >
             <template v-slot:append>
               <i class="bi bi-chevron-down select-arrow"></i>
@@ -45,32 +48,47 @@
           flat
           bordered
         >
-          <!-- Custom Sort Icons -->
+          <!-- Custom Header with Inner Template -->
           <template v-slot:header-cell="props">
-            <q-th :props="props">
-              {{ props.col.label }}
-              <i 
-                v-if="props.col.sortable" 
-                :class="getSortIconClass(props.col.name)"
-                class="table-sort-icon"
-              ></i>
+            <q-th :props="props" :class="props.col.name === 'actions' ? 'text-center' : 'text-left'">
+              <div v-if="props.col.name === 'actions'" class="evrak-section__actions-header">
+                <span class="evrak-section__header-text">{{ props.col.label }}</span>
+              </div>
+              <div v-else class="evrak-section__header-content">
+                <span class="evrak-section__header-text">{{ props.col.label }}</span>
+                <i 
+                  v-if="props.col.sortable" 
+                  class="bi bi-arrow-down evrak-section__sort-icon"
+                ></i>
+              </div>
             </q-th>
           </template>
 
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
-              <q-btn
-                flat 
-                round 
-                dense 
-                size="sm"
-                @click="handleView(props.row)"
-                v-if="props.row.evrakBelgeDurum === 'Alındı'"
-                class="evrak-section__action-btn evrak-section__action-btn--view"
-              >
-                <i class="bi bi-eye"></i>
-                <q-tooltip>{{ t('hasarDosyaArabulucu.messages.viewingDocument') }}</q-tooltip>
-              </q-btn>
+              <q-btn-group flat dense>
+                <q-btn 
+                  flat 
+                  round 
+                  dense 
+                  @click="handleView(props.row)"
+                  v-if="props.row.evrakBelgeDurum === 'Alındı' || props.row.evrakBelgeDurum === 'Bekleniyor'"
+                  class="action-btn action-btn--view"
+                >
+                  <i class="bi bi-eye"></i>
+                  <q-tooltip>{{ t('common.view') }}</q-tooltip>
+                </q-btn>
+                <q-btn 
+                  flat 
+                  round 
+                  dense 
+                  @click="handleOpenInNewTab(props.row)"
+                  class="action-btn action-btn--new-tab"
+                >
+                  <i class="bi bi-box-arrow-up-right"></i>
+                  <q-tooltip>{{ t('common.openInNewTab') }}</q-tooltip>
+                </q-btn>
+              </q-btn-group>
             </q-td>
           </template>
         </q-table>
@@ -80,9 +98,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { hasarApi } from 'src/api/hasarApi.js'
+import { getTalepEdilebilirEvrakListesiApi } from 'src/data/mock-hasar-dosya-arabulucu-data.js'
 
 const { t } = useI18n()
 
@@ -115,23 +134,58 @@ const props = defineProps({
 })
 
 // Emits
-const emit = defineEmits(['add', 'view'])
+const emit = defineEmits(['add', 'view', 'openInNewTab'])
 
 // New evrak form
 const newEvrak = ref({
   type: ''
 })
 
-// Evrak options
-const evrakOptions = [
-  'Kaza Tespit Tutanağı',
-  'Ruhsat Fotokopisi',
-  'Ehliyet Fotokopisi',
-  'Ekspertiz Raporu',
-  'Tamir Faturası',
-  'Fotoğraf',
-  'Diğer'
-]
+// Evrak options - Load from API
+const evrakOptions = ref([])
+const evrakOptionsLoading = ref(false)
+
+// Load evrak options on component mount
+onMounted(async () => {
+  await loadEvrakOptions()
+})
+
+/**
+ * Load evrak options from API
+ */
+const loadEvrakOptions = async () => {
+  evrakOptionsLoading.value = true
+  
+  try {
+    // In development, use mock data
+    if (process.env.NODE_ENV === 'development') {
+      const response = getTalepEdilebilirEvrakListesiApi()
+      if (response.success) {
+        evrakOptions.value = response.data.map(item => item.name)
+      }
+    } else {
+      // In production, use real API
+      const response = await hasarApi.getTalepEdilebilirEvrakListesi()
+      if (response.success) {
+        evrakOptions.value = response.data.map(item => item.name)
+      }
+    }
+  } catch (error) {
+    console.error('Error loading evrak options:', error)
+    // Fallback to default options
+    evrakOptions.value = [
+      'Kaza Tespit Tutanağı',
+      'Ruhsat Fotokopisi',
+      'Ehliyet Fotokopisi',
+      'Ekspertiz Raporu',
+      'Tamir Faturası',
+      'Fotoğraf',
+      'Diğer'
+    ]
+  } finally {
+    evrakOptionsLoading.value = false
+  }
+}
 
 
 // Table columns
@@ -200,6 +254,14 @@ const handleAdd = async () => {
  */
 const handleView = (doc) => {
   emit('view', doc)
+}
+
+/**
+ * Handle open in new tab
+ * @param {Object} doc - Document to open in new tab
+ */
+const handleOpenInNewTab = (doc) => {
+  emit('openInNewTab', doc)
 }
 </script>
 
@@ -487,16 +549,40 @@ const handleView = (doc) => {
     display: none !important;
   }
   
-  .table-sort-icon {
-    margin-left: 6px;
+  // Custom header content styling
+  .evrak-section__header-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    width: 100%;
+  }
+  
+  .evrak-section__actions-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .evrak-section__header-text {
+    font-size: 10px;
+    font-weight: 600;
+    color: $text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+  }
+  
+  .evrak-section__sort-icon {
     font-size: 9px;
     color: $text-muted;
     opacity: 0.6;
     transition: all 0.2s ease;
-    vertical-align: middle;
+    flex-shrink: 0;
     
-    &.bi-chevron-up,
-    &.bi-chevron-down {
+    &.bi-arrow-down {
       color: $border-accent;
       opacity: 1;
     }
@@ -508,24 +594,78 @@ const handleView = (doc) => {
     user-select: none;
     
     &:hover {
-      .table-sort-icon {
+      .evrak-section__sort-icon {
         opacity: 1;
         color: $text-primary;
+      }
+    }
+  }
+  
+  // Pagination dropdown icon override
+  :deep(.q-table__bottom) {
+    .q-select {
+      .q-field__append {
+        .q-select__dropdown-icon {
+          display: none !important;
+        }
+        
+        &::after {
+          content: '\f282'; // Bootstrap Icons arrow-down unicode
+          font-family: 'bootstrap-icons' !important;
+          font-size: 12px !important;
+          color: $text-muted !important;
+          opacity: 0.8;
+          transition: all 0.3s ease;
+          position: absolute;
+          right: 8px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+      
+      &:hover .q-field__append::after {
+        color: $text-primary !important;
+        opacity: 1;
+      }
+      
+      &.q-field--focused .q-field__append::after {
+        color: $border-accent !important;
+        opacity: 1;
+        transform: translateY(-50%) rotate(180deg);
       }
     }
   }
 }
 
 // ════════════════════════════════════════════════
-// BEM: ACTION BUTTONS (Table içindeki)
+// ACTION BUTTONS (ResultsTableSection'dan taşındı)
 // ════════════════════════════════════════════════
-.evrak-section__action-btn {
+.action-btn {
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  min-height: 28px !important;
+
   &--view {
-    color: $primary;
+    color: $border-accent !important;
     
     &:hover {
-      background: rgba($primary, 0.1);
+      background: rgba($border-accent, 0.1) !important;
+      color: color.adjust($border-accent, $lightness: -10%) !important;
     }
+  }
+
+  &--new-tab {
+    color: $text-success !important;
+    
+    &:hover {
+      color: color.adjust($text-success, $lightness: -10%) !important;
+      background: rgba($text-success, 0.1) !important;
+    }
+  }
+
+  :deep(.q-icon) {
+    font-size: 14px;
   }
 }
 

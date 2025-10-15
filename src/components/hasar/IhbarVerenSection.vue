@@ -114,11 +114,7 @@ defineProps({
   padding: 16px;
 }
 
-.info-grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
+// .info-grid-2 utility class'i artık global utilities.scss'de tanımlı
 
 .form-group {
   label {

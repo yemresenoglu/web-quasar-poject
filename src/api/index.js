@@ -1,11 +1,12 @@
 import axios from 'axios'
 import { createLogger } from 'src/utils/logger.js'
 import cookieManager from './cookieManager.js'
+import { getBaseUrl } from 'src/constants/api.js'
 
 const logger = createLogger('API')
 
 const API_CONFIG = {
-  baseURL: 'http://localhost:8080/sigorta',
+  baseURL: getBaseUrl(),
   timeout: 30000,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',

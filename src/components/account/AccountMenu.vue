@@ -67,6 +67,11 @@
 
           <div class="account-menu__divider"></div>
 
+          <!-- Theme Settings Component -->
+          <AccountThemeSettings />
+
+          <div class="account-menu__divider"></div>
+
           <!-- Account Actions Component -->
           <AccountActions
             :is-logging-out="loadingStates[LOADING_STATE_KEYS.LOGOUT]"
@@ -95,6 +100,7 @@ import AccountDepartmentSelector from './AccountDepartmentSelector.vue'
 import AccountTaskSelector from './AccountTaskSelector.vue'
 import AccountQuickAccessManager from './AccountQuickAccessManager.vue'
 import AccountTaskbarSettings from './AccountTaskbarSettings.vue'
+import AccountThemeSettings from './AccountThemeSettings.vue'
 import AccountActions from './AccountActions.vue'
 
 const menuRef = ref(null)

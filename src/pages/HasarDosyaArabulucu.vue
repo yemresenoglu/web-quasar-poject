@@ -23,6 +23,7 @@
           :loading="loadingStates.evrak"
           @add="addEvrak"
           @view="viewDocument"
+          @openInNewTab="openEvrakInNewTab"
         />
       </div>
     </div>
@@ -30,11 +31,12 @@
 </template>
 
 <script setup>
-import { computed, ref, reactive, watch } from 'vue'
+import { computed, ref, reactive, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
 import { createLogger } from 'src/utils/logger'
+import { getMockFileData } from 'src/data/mock-hasar-dosya-arabulucu-data.js'
 
 const logger = createLogger('HasarDosyaArabulucu')
 
@@ -52,9 +54,10 @@ const { t } = useI18n()
 
 // Computed properties
 const dosyaNo = computed(() => route.params.dosyaNo)
+const magdurNo = computed(() => fileData.value.magdurNo || '1')
 const pageTitle = computed(() => {
   if (dosyaNo.value) {
-    return `${dosyaNo.value} - SOMPO Sigorta`
+    return `${dosyaNo.value}/${magdurNo.value} - SOMPO Sigorta`
   }
   return t('hasarDosyaArabulucu.title')
 })
@@ -65,65 +68,86 @@ const loadingStates = reactive({
   evrak: false,
 })
 
-// File data
-const fileData = ref({
-  dosyaNo: dosyaNo.value || '2025311003010',
-  magdurNo: '2',
-  policeNo: '311000144377772',
-  sigortaliAdSoyad: 'YAVUZ BÜLENT TÜRELİ',
-  sigortaliKusurOrani: '',
-  sigortaliPlaka: '06HO8413',
-  magdurAdSoyad: 'MEHTAP ÇİFTCİ',
-  magdurAracPlaka: '50AAA22',
-  hasarNedeni: 'DEĞER KAYBI',
-  altHasarNedeni: 'DEĞER KAYBI',
-  hasarTarihi: '04/05/2023 11:21',
-  ihbarTarihi: '04/07/2025 11:22',
-  altBrans: 'TRAFİK',
-  ihbarVeren: {
-    ihbarYapanAdSoyad: 'YAVUZ BÜLENT TÜRELİ',
-    gsm: '(545) 734 51 74',
-    eposta: '',
-    yakinlikDerecesi: 'Sigortalı',
-  },
-  degerKaybi: {
-    teklifEdilenTutar: 0,
-    vekaletTutari: 0,
-    anlasmaYapilacakIslem: '',
-    anlasmaDurum: '',
-    talepEdilenRevizeTutar: 0,
-    onaylananRevizeTutar: 0,
-    anlasmaSaglananTutar: 0,
-    anlasmaSaglananVekaletTutari: 0,
-  },
+// File data - Initialize with mock data
+const fileData = ref({})
+const evrakList = ref([])
+
+// Load mock data on component mount
+onMounted(() => {
+  loadFileData()
 })
 
-// Evrak list
-const evrakList = ref([
-  {
-    id: 1,
-    evrakAdi: 'Kaza Tespit Tutanağı',
-    evrakBelgeDurum: 'Alındı',
-    tarih: '15.01.2024',
-  },
-  {
-    id: 2,
-    evrakAdi: 'Ruhsat Fotokopisi',
-    evrakBelgeDurum: 'Bekleniyor',
-    tarih: '-',
-  },
-])
+/**
+ * Load file data from mock data
+ */
+const loadFileData = () => {
+  try {
+    const mockData = getMockFileData(dosyaNo.value)
+    fileData.value = mockData
+    evrakList.value = mockData.evrakList || []
+    
+    logger.info('File data loaded:', mockData)
+  } catch (error) {
+    logger.error('Error loading file data:', error)
+    // Fallback to default data
+    fileData.value = {
+      dosyaNo: dosyaNo.value || '2025311003010',
+      magdurNo: '1',
+      policeNo: '311000144377772',
+      sigortaliAdSoyad: 'YAVUZ BÜLENT TÜRELİ',
+      sigortaliKusurOrani: '75%',
+      sigortaliPlaka: '06HO8413',
+      magdurAdSoyad: 'MEHTAP ÇİFTCİ',
+      magdurAracPlaka: '50AAA22',
+      hasarNedeni: 'DEĞER KAYBI',
+      altHasarNedeni: 'DEĞER KAYBI',
+      hasarTarihi: '04/05/2023 11:21',
+      ihbarTarihi: '04/07/2025 11:22',
+      altBrans: 'TRAFİK',
+      ihbarVeren: {
+        ihbarYapanAdSoyad: 'YAVUZ BÜLENT TÜRELİ',
+        gsm: '(545) 734 51 74',
+        eposta: '',
+        yakinlikDerecesi: 'Sigortalı',
+      },
+      degerKaybi: {
+        teklifEdilenTutar: 45000,
+        vekaletTutari: 5000,
+        anlasmaYapilacakIslem: '',
+        anlasmaDurum: 'Anlaşma sağlandı',
+        talepEdilenRevizeTutar: 48000,
+        onaylananRevizeTutar: 46000,
+        anlasmaSaglananTutar: 43000,
+        anlasmaSaglananVekaletTutari: 4500,
+      },
+    }
+    evrakList.value = [
+      {
+        id: 1,
+        evrakAdi: 'Kaza Tespit Tutanağı',
+        evrakBelgeDurum: 'Alındı',
+        tarih: '15.01.2024',
+      },
+      {
+        id: 2,
+        evrakAdi: 'Ruhsat Fotokopisi',
+        evrakBelgeDurum: 'Bekleniyor',
+        tarih: '-',
+      },
+    ]
+  }
+}
 
 // Update document title and fileData when dosyaNo changes
 watch(
-  dosyaNo,
-  (newDosyaNo) => {
+  [dosyaNo, magdurNo],
+  ([newDosyaNo, newMagdurNo]) => {
     if (newDosyaNo) {
       // Update fileData with new dosyaNo
       fileData.value.dosyaNo = newDosyaNo
 
       // Update document title
-      document.title = `${newDosyaNo} - SOMPO Sigorta`
+      document.title = `${newDosyaNo}/${newMagdurNo} - SOMPO Sigorta`
     } else {
       document.title = 'SOMPO Sigorta'
     }
@@ -188,6 +212,23 @@ const viewDocument = () => {
     position: 'top',
   })
 }
+
+/**
+ * Open evrak in new tab
+ * @param {Object} doc - Document to open in new tab
+ */
+const openEvrakInNewTab = (doc) => {
+  // Bu örnekte evrak için ayrı bir sayfa yok, bu yüzden mevcut sayfayı yeni sekmede açıyoruz
+  const url = `${window.location.origin}/hasar-dosya-arabulucu/${dosyaNo.value}`
+  window.open(url, '_blank')
+  
+  $q.notify({
+    type: 'positive',
+    message: 'Evrak yeni sekmede açıldı',
+    icon: 'bi-box-arrow-up-right',
+    position: 'top'
+  })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -196,18 +237,8 @@ const viewDocument = () => {
 .hasar-dosya-arabulucu {
   background: $background-page;
   min-height: 100vh;
-  text-transform: uppercase;
 
-  // Icon'ları ve butonları hariç tut
-  .q-icon,
-  .q-select__dropdown-icon,
-  .q-table__sort-icon,
-  .q-btn .q-icon,
-  .q-btn,
-  i,
-  [class*='bi-'] {
-    text-transform: none !important;
-  }
+  // Text transform kuralları artık global CSS'de tanımlı
 
   .page-container {
     max-width: 1600px;

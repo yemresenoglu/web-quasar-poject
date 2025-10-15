@@ -1,11 +1,12 @@
 import { createLogger } from 'src/utils/logger.js'
+import { API_CONFIG } from 'src/constants/api.js'
 
 const logger = createLogger('CookieManager')
 
 class CookieManager {
   constructor() {
     this.cookies = new Map()
-    this.domain = 'localhost'
+    this.domain = new URL(API_CONFIG.CURRENT_BASE_URL).hostname
     this.path = '/sigorta'
     this.loadCookiesFromDocument()
   }

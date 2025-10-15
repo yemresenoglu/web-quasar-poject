@@ -1,3 +1,5 @@
+@use "sass:color";
+
 // Quasar SCSS (& Sass) Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override
@@ -15,6 +17,39 @@
 // ===== PRIMARY COLORS (Button Base) =====
 $primary   : #f8fafc;        // Açık gri - Button background
 $primary-dark: #e2e8f0;      // Orta gri - Button hover state
+
+// ===== SOMPO MODE COLORS =====
+// Klasik tema renklerinin Sompo tema karşılıkları (pembe tonlu)
+
+// Text Colors (Sompo Mode) - Klasik tema ile aynı fonksiyonlar
+$sompo-text-primary: #1e293b;      // Koyu lacivert - Başlıklar, info-value (aynı)
+$sompo-text-secondary: #64748b;    // Koyu gri - Labels, button text, table headers (aynı)
+$sompo-text-tertiary: #374151;     // Orta koyu gri - Description text (aynı)
+$sompo-text-muted: #6b7280;        // Orta gri - İkincil yazılar (aynı)
+$sompo-text-white: white;          // Beyaz - Button text (aynı)
+$sompo-text-success: #059669;      // Yeşil - Success states (aynı)
+
+// Border Colors (Sompo Mode) - Klasik tema fonksiyonlarına göre pembe tonlu
+$sompo-border-light: #f3c5c5;      // Açık pembe - Input borders, card borders (klasik: #e2e8f0)
+$sompo-border-lighter: #f8dee0;    // Çok açık pembe - Section borders (klasik: #f1f5f9)
+$sompo-border-hover: #f3c5c5;      // Orta pembe - Hover borders (klasik: #cbd5e1)
+$sompo-border-accent: #b42029;     // SOMPO kırmızı - Button left border accent (klasik: #3b82f6)
+
+// Background Colors (Sompo Mode) - Klasik tema fonksiyonlarına göre pembe tonlu
+$sompo-background-page: #f8f3f4;   // Ana pembe arka plan (klasik: #f8fafc)
+$sompo-background-light: #f8dee0;  // İkincil pembe arka plan (klasik: #f1f5f9)
+$sompo-background-hover: #f8dee0;  // Pembe hover (klasik: #f9fafb)
+$sompo-background-card: white;     // Beyaz - Card background (aynı)
+$sompo-background-input: white;    // Beyaz - Input background (aynı)
+$sompo-background-button: #f8f3f4; // Pembe button background (klasik: #f8fafc)
+$sompo-background-table-header: #f8f3f4; // Pembe table header (klasik: #f8fafc)
+
+// Primary Colors (Sompo Mode)
+$sompo-primary: rgba(180, 32, 41, 1);     // Ana kırmızı - SOMPO brand
+$sompo-primary-light: rgba(180, 32, 41, 0.9); // Kırmızı hafif şeffaf
+$sompo-primary-dark: rgba(150, 25, 35, 1);    // Koyu kırmızı - Hover states
+$sompo-accent: #f3c5c5;                    // Açık pembe - Accent color
+$sompo-border: rgba(243, 197, 197, 0.8);   // Border rengi
 
 // ===== QUASAR DEFAULT COLORS =====
 $secondary : #26A69A;
@@ -110,3 +145,545 @@ $dark-box-shadow-input-hover: 0 1px 3px $dark-shadow-sm;
 $dark-box-shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
 $dark-box-shadow-button: 0 1px 2px rgba(0, 0, 0, 0.3);
 $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
+
+// ═══════════════════════════════════════════════════════════
+// CSS CUSTOM PROPERTIES (DESIGN TOKENS)
+// ═══════════════════════════════════════════════════════════
+
+// Spacing Scale (8px base unit)
+:root {
+  --spacing-xs: 4px;    // 0.25rem
+  --spacing-sm: 8px;    // 0.5rem
+  --spacing-md: 16px;   // 1rem
+  --spacing-lg: 24px;   // 1.5rem
+  --spacing-xl: 32px;   // 2rem
+  --spacing-2xl: 48px;  // 3rem
+  --spacing-3xl: 64px;  // 4rem
+  
+  // Border Radius Scale
+  --radius-none: 0;
+  --radius-sm: 4px;     // 0.25rem
+  --radius-md: 8px;     // 0.5rem
+  --radius-lg: 12px;    // 0.75rem
+  --radius-xl: 18px;    // 1.125rem
+  --radius-2xl: 24px;   // 1.5rem
+  --radius-full: 9999px; // Full rounded
+  
+  // Typography Scale
+  --text-xs: 0.75rem;   // 12px
+  --text-sm: 0.875rem;  // 14px
+  --text-base: 1rem;    // 16px
+  --text-lg: 1.125rem;  // 18px
+  --text-xl: 1.25rem;   // 20px
+  --text-2xl: 1.5rem;   // 24px
+  --text-3xl: 1.875rem; // 30px
+  --text-4xl: 2.25rem;  // 36px
+  
+  // Font Weight Scale
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  // Line Height Scale
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+  
+  // Z-Index Scale
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-toast: 1080;
+  
+  // Animation Duration Scale
+  --duration-75: 75ms;
+  --duration-100: 100ms;
+  --duration-150: 150ms;
+  --duration-200: 200ms;
+  --duration-300: 300ms;
+  --duration-500: 500ms;
+  --duration-700: 700ms;
+  --duration-1000: 1000ms;
+  
+  // Animation Easing Scale
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  // Component State Colors (Light Mode)
+  --state-hover-lightness: 5%;
+  --state-active-lightness: 10%;
+  --state-disabled-opacity: 0.4;
+  
+  // Focus Ring
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --focus-ring-color: #{$border-accent};
+  --focus-ring-opacity: 0.25;
+}
+
+// ═══════════════════════════════════════════════════════════
+// SCSS MIXINS - REUSABLE PATTERNS
+// ═══════════════════════════════════════════════════════════
+
+// Hover Lift Pattern - En çok kullanılan pattern
+@mixin hover-lift($background-var, $lightness: 5%, $shadow-opacity: 0.15) {
+  background: $background-var;
+  transition: all var(--duration-200) var(--ease-in-out);
+  transform: translateZ(0); // GPU acceleration
+  
+  &:hover {
+    background: color.adjust($background-var, $lightness: $lightness);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, $shadow-opacity);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    transition: all var(--duration-100) var(--ease-out);
+  }
+}
+
+// Component State Pattern - Hover, active, disabled states
+@mixin component-states($base-bg, $hover-bg: null, $active-bg: null, $disabled-opacity: 0.4) {
+  background: $base-bg;
+  transition: all var(--duration-200) var(--ease-in-out);
+  
+  &:hover {
+    background: $hover-bg or color.adjust($base-bg, $lightness: 5%);
+  }
+  
+  &:active {
+    background: $active-bg or color.adjust($base-bg, $lightness: 10%);
+    transform: translateY(1px);
+  }
+  
+  &:disabled,
+  &[disabled] {
+    opacity: $disabled-opacity;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+// Focus Ring Pattern - WCAG compliant focus styling
+@mixin focus-ring($color: var(--focus-ring-color), $width: var(--focus-ring-width), $offset: var(--focus-ring-offset)) {
+  &:focus-visible {
+    outline: $width solid $color;
+    outline-offset: $offset;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 0 0 calc(#{$width} + 2px) rgba($color, var(--focus-ring-opacity));
+  }
+  
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+// Button Pattern - Standard button styling
+@mixin button-base($bg-color, $text-color, $border-color: transparent) {
+  background: $bg-color;
+  color: $text-color;
+  border: 1px solid $border-color;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--leading-normal);
+  cursor: pointer;
+  transition: all var(--duration-200) var(--ease-in-out);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  min-height: 32px;
+  
+  &:hover {
+    background: color.adjust($bg-color, $lightness: 5%);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  &:active {
+    background: color.adjust($bg-color, $lightness: 10%);
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  &:disabled {
+    opacity: var(--state-disabled-opacity);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  
+  @include focus-ring();
+}
+
+// Card Pattern - Standard card styling with hover
+@mixin card-base($bg-color: $background-card, $border-color: $border-light) {
+  background: $bg-color;
+  border: 1px solid $border-color;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all var(--duration-300) var(--ease-in-out);
+  
+  &:hover {
+    border-color: color.adjust($border-color, $lightness: 10%);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+}
+
+// Input Pattern - Standard input styling
+@mixin input-base($bg-color: $background-input, $border-color: $border-light) {
+  background: $bg-color;
+  border: 1px solid $border-color;
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--text-base);
+  color: $text-primary;
+  transition: all var(--duration-200) var(--ease-in-out);
+  width: 100%;
+  
+  &:hover {
+    border-color: $border-hover;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  
+  &:focus {
+    border-color: $border-accent;
+    box-shadow: 0 0 0 2px rgba($border-accent, 0.15);
+    outline: none;
+  }
+  
+  &::placeholder {
+    color: $text-muted;
+  }
+  
+  &:disabled {
+    background: color.adjust($bg-color, $lightness: -5%);
+    color: $text-muted;
+    cursor: not-allowed;
+  }
+}
+
+// Flex Center Pattern - Common flexbox centering
+@mixin flex-center($direction: row, $gap: 0) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+  gap: $gap;
+}
+
+// Flex Between Pattern - Space between items
+@mixin flex-between($align: center, $gap: 0) {
+  display: flex;
+  align-items: $align;
+  justify-content: space-between;
+  gap: $gap;
+}
+
+// Text Truncate Pattern - Ellipsis overflow
+@mixin text-truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+// ===== BEM NAMING UTILITIES =====
+
+// BEM Block Mixin - Component root class
+@mixin bem-block($name) {
+  .#{$name} {
+    @content;
+  }
+}
+
+// BEM Element Mixin - Component child elements
+@mixin bem-element($name) {
+  &__#{$name} {
+    @content;
+  }
+}
+
+// BEM Modifier Mixin - Component variations
+@mixin bem-modifier($name) {
+  &--#{$name} {
+    @content;
+  }
+}
+
+// BEM Element with Modifier Mixin - Combined element and modifier
+@mixin bem-element-modifier($element, $modifier) {
+  &__#{$element}--#{$modifier} {
+    @content;
+  }
+}
+
+// Component Structure Mixin - Organized component layout
+@mixin component-structure($block-name) {
+  .#{$block-name} {
+    // Block styles
+    @content;
+    
+    // Common element patterns - placeholder mixin content
+    &__header {
+      padding: var(--spacing-md);
+      border-bottom: 1px solid var(--border-light);
+      background: var(--background-card);
+    }
+    
+    &__content {
+      padding: var(--spacing-md);
+      background: var(--background-page);
+    }
+    
+    &__footer {
+      padding: var(--spacing-md);
+      border-top: 1px solid var(--border-light);
+      background: var(--background-card);
+    }
+    
+    &__title {
+      font-size: var(--text-lg);
+      font-weight: var(--font-weight-semibold);
+      color: var(--text-primary);
+      margin: 0 0 var(--spacing-sm) 0;
+      line-height: var(--leading-tight);
+    }
+    
+    &__description {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      margin: 0;
+      line-height: var(--leading-normal);
+    }
+    
+    &__actions {
+      display: flex;
+      gap: var(--spacing-sm);
+      align-items: center;
+      justify-content: flex-end;
+      padding: var(--spacing-sm) var(--spacing-md);
+      background: var(--background-light);
+      border-top: 1px solid var(--border-light);
+    }
+    
+    // Common modifier patterns
+    &--disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+    
+    &--loading {
+      position: relative;
+      pointer-events: none;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+        border: 2px solid var(--border-light);
+        border-top: 2px solid var(--primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+    }
+    
+    &--active {
+      background: var(--primary);
+      color: var(--primary-dark);
+      border-color: var(--primary);
+    }
+  }
+}
+
+// Grid Layout Mixins
+@mixin grid-base($columns: 1, $gap: var(--spacing-sm)) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+@mixin grid-responsive($mobile: 1, $tablet: 2, $desktop: 3, $gap: var(--spacing-sm)) {
+  @include grid-base($mobile, $gap);
+  
+  @include tablet {
+    grid-template-columns: repeat($tablet, 1fr);
+  }
+  
+  @include desktop {
+    grid-template-columns: repeat($desktop, 1fr);
+  }
+}
+
+@mixin grid-auto-fit($min-width: 200px, $gap: var(--spacing-sm)) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
+  gap: $gap;
+}
+
+@mixin grid-auto-fill($min-width: 200px, $gap: var(--spacing-sm)) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($min-width, 1fr));
+  gap: $gap;
+}
+
+@mixin grid-areas($areas...) {
+  display: grid;
+  grid-template-areas: $areas;
+}
+
+@mixin grid-item($row: auto, $col: auto, $area: auto) {
+  @if $area != auto {
+    grid-area: $area;
+  } @else {
+    grid-row: $row;
+    grid-column: $col;
+  }
+}
+
+// Responsive Breakpoint Mixins
+@mixin mobile {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin large {
+  @media (min-width: 1440px) {
+    @content;
+  }
+}
+
+// ===== GLOBAL LABEL STYLES =====
+// Tüm uygulamada tutarlı label stilleri için
+
+// Form Group Label - Tüm form label'ları için standart stil
+.form-group label,
+.login-page__field-label,
+.account-profile__label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  color: $text-secondary;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+}
+
+// Login sayfası için özel label stili
+.login-page__field-label {
+  font-size: 12px;
+  margin-bottom: 6px;
+  color: $text-primary;
+  font-weight: 500;
+}
+
+// Account profile için özel label stili
+.account-profile__label {
+  font-size: 11px;
+  font-weight: 600;
+  color: $text-secondary;
+  margin-bottom: 0;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+// ===== GLOBAL TEXT TRANSFORM RULES =====
+// Tüm uygulamada text-transform kuralları
+
+// Global olarak hiçbir yerde uppercase olmasın
+* {
+  text-transform: none !important;
+}
+
+// Sadece butonlarda uppercase kullan
+.q-btn,
+.q-btn * {
+  text-transform: uppercase !important;
+}
+
+// Özel buton sınıfları için de uppercase
+button,
+input[type="button"],
+input[type="submit"],
+.action-btn,
+.save-btn,
+.search-btn,
+.clear-btn {
+  text-transform: uppercase !important;
+}
+
+// Quasar component'lerinde text-transform'u sıfırla
+.q-field,
+.q-input,
+.q-select,
+.q-table,
+.q-item,
+.q-list,
+.q-card,
+.q-dialog,
+.q-menu,
+.q-tooltip,
+.q-notification,
+.q-banner,
+.q-badge,
+.q-chip,
+.q-avatar,
+.q-icon,
+label,
+span,
+div,
+p,
+h1, h2, h3, h4, h5, h6,
+.section-title,
+.section-content,
+.form-group,
+.info-grid-2,
+.info-grid-3,
+.page-header,
+.page-content,
+.account-profile,
+.account-menu,
+.menu-page,
+.taskbar {
+  text-transform: none !important;
+}

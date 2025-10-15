@@ -73,17 +73,24 @@ ChartJS.register(
   Filler
 )
 
-const colors = {
+// Dark mode aware colors
+const isDark = computed(() => document.body.classList.contains('body--dark'))
+
+const colors = computed(() => ({
   primary: '#2196F3',
   secondary: '#FF9800',
   success: '#4CAF50',
   warning: '#FFC107',
   error: '#F44336',
   info: '#00BCD4',
-  background: 'rgba(255, 255, 255, 0.9)'
-}
+  background: isDark.value ? 'rgba(36, 39, 53, 0.95)' : 'rgba(255, 255, 255, 0.9)',
+  text: isDark.value ? '#e2e8f0' : '#333',
+  textSecondary: isDark.value ? '#94a3b8' : '#666',
+  border: isDark.value ? 'rgba(255, 255, 255, 0.08)' : '#eee',
+  grid: isDark.value ? 'rgba(255, 255, 255, 0.04)' : '#f0f0f0'
+}))
 
-const commonOptions = {
+const commonOptions = computed(() => ({
   responsive: true,
   maintainAspectRatio: false,
   interaction: {
@@ -98,14 +105,15 @@ const commonOptions = {
         padding: 20,
         font: {
           size: 12
-        }
+        },
+        color: colors.value.textSecondary
       }
     },
     tooltip: {
-      backgroundColor: colors.background,
-      titleColor: '#333',
-      bodyColor: '#666',
-      borderColor: '#eee',
+      backgroundColor: colors.value.background,
+      titleColor: colors.value.text,
+      bodyColor: colors.value.textSecondary,
+      borderColor: colors.value.border,
       borderWidth: 1,
       padding: 12,
       boxPadding: 6,
@@ -117,7 +125,7 @@ const commonOptions = {
       external: null
     }
   }
-}
+}))
 
 // Computed properties from store
 const workStatusData = computed(() => dashboardStore.chartData.workStatus)
@@ -125,30 +133,36 @@ const weeklyTrendData = computed(() => dashboardStore.chartData.weeklyTrend)
 const workloadByProcessData = computed(() => dashboardStore.chartData.workloadByProcess)
 
 const pieChartOptions = computed(() => ({
-  ...commonOptions,
+  ...commonOptions.value,
   cutout: '60%',
   plugins: {
-    ...commonOptions.plugins,
+    ...commonOptions.value.plugins,
     legend: {
-      ...commonOptions.plugins.legend,
+      ...commonOptions.value.plugins.legend,
       position: 'bottom'
     }
   }
 }))
 
 const lineChartOptions = computed(() => ({
-  ...commonOptions,
+  ...commonOptions.value,
   scales: {
     y: {
       beginAtZero: true,
       grid: {
         display: true,
-        color: '#f0f0f0'
+        color: colors.value.grid
+      },
+      ticks: {
+        color: colors.value.textSecondary
       }
     },
     x: {
       grid: {
         display: false
+      },
+      ticks: {
+        color: colors.value.textSecondary
       }
     }
   }
@@ -185,17 +199,17 @@ const horizontalBarOptions = computed(() => ({
           family: "var(--font-primary)",
           weight: '500'
         },
-        color: '#5f6368',
+        color: colors.value.textSecondary,
         boxWidth: 8,
         boxHeight: 8
       }
     },
     tooltip: {
       enabled: true,
-      backgroundColor: 'rgba(255, 255, 255, 0.98)',
-      titleColor: '#202124',
-      bodyColor: '#5f6368',
-      borderColor: '#e8eaed',
+      backgroundColor: colors.value.background,
+      titleColor: colors.value.text,
+      bodyColor: colors.value.textSecondary,
+      borderColor: colors.value.border,
       borderWidth: 1,
       padding: 12,
       boxPadding: 6,
@@ -231,12 +245,12 @@ const horizontalBarOptions = computed(() => ({
           size: 11,
           family: "var(--font-primary)"
         },
-        color: '#80868b',
+        color: colors.value.textSecondary,
         padding: 8
       },
       grid: {
         display: true,
-        color: 'rgba(0, 0, 0, 0.04)',
+        color: colors.value.grid,
         lineWidth: 1,
         drawBorder: false,
         drawTicks: false
@@ -253,7 +267,7 @@ const horizontalBarOptions = computed(() => ({
           family: "var(--font-primary)",
           weight: '500'
         },
-        color: '#3c4043',
+        color: colors.value.textSecondary,
         padding: 10,
         crossAlign: 'far',
         autoSkip: false

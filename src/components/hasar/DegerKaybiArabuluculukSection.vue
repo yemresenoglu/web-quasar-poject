@@ -56,6 +56,9 @@
             dense
             class="search-input select-input"
             :options="anlasmaIslemOptions"
+            :loading="anlasmaIslemOptionsLoading"
+            placeholder="Seçiniz..."
+            clearable
             @update:model-value="$emit('update:arabuluculuk', localData)"
           >
             <template v-slot:append>
@@ -162,9 +165,10 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { hasarApi } from 'src/api/hasarApi.js'
+import { getAnlasmaYapilacakIslemListesiApi } from 'src/data/mock-hasar-dosya-arabulucu-data.js'
 
 const { t } = useI18n()
 
@@ -228,12 +232,47 @@ const saveData = async () => {
   }
 }
 
-// Seçenekler
-const anlasmaIslemOptions = [
-  'Değer Kaybı',
-  'Tamir Bedeli',
-  'Karışık'
-]
+// Seçenekler - Load from API
+const anlasmaIslemOptions = ref([])
+const anlasmaIslemOptionsLoading = ref(false)
+
+// Load anlasma islem options on component mount
+onMounted(async () => {
+  await loadAnlasmaIslemOptions()
+})
+
+/**
+ * Load anlaşma işlem options from API
+ */
+const loadAnlasmaIslemOptions = async () => {
+  anlasmaIslemOptionsLoading.value = true
+  
+  try {
+    // In development, use mock data
+    if (process.env.NODE_ENV === 'development') {
+      const response = getAnlasmaYapilacakIslemListesiApi()
+      if (response.success) {
+        anlasmaIslemOptions.value = response.data.map(item => item.name)
+      }
+    } else {
+      // In production, use real API
+      const response = await hasarApi.getAnlasmaYapilacakIslemListesi()
+      if (response.success) {
+        anlasmaIslemOptions.value = response.data.map(item => item.name)
+      }
+    }
+  } catch (error) {
+    console.error('Error loading anlasma islem options:', error)
+    // Fallback to default options
+    anlasmaIslemOptions.value = [
+      'Anlaştım',
+      'Anlaşmadım',
+      'Ulaşamadım'
+    ]
+  } finally {
+    anlasmaIslemOptionsLoading.value = false
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -275,19 +314,7 @@ const anlasmaIslemOptions = [
   padding: 16px;
 }
 
-.info-grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.info-grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 12px;
-}
+// .info-grid-2 ve .info-grid-3 utility class'ları artık global utilities.scss'de tanımlı
 
 .form-group {
   label {

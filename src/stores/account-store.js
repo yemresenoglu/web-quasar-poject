@@ -1,32 +1,30 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { DEPARTMENT_ITEMS, TASK_ITEMS } from 'src/constants/account.js'
+import { createLogger } from 'src/utils/logger.js'
+import { 
+  simulateAccountApi,
+  getMockUserProfile,
+  getMockDepartments,
+  getMockTasks,
+  getMockAccountSettings
+} from 'src/data/account-mock-data.js'
+import { accountApiModule } from 'src/api/modules/account-api.js'
+
+const logger = createLogger('AccountStore')
 
 export const useAccountStore = defineStore('account', () => {
   // Kullanıcı profil bilgileri
-  const userProfile = ref({
-    id: 'user_001',
-    firstName: 'Yunus Emre',
-    lastName: 'Şenoğlu',
-    userCode: 'YUNUSEMRE',
-    email: 'yunus.emre@example.com',
-    department: 'arabuluculuk',
-    // Avatar URL - null olursa fallback icon gösterilir
-    avatar: 'https://media.licdn.com/dms/image/v2/C4D03AQHtT8fKVk8foA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1661509946851?e=2147483647&v=beta&t=yYQ3hHGIOSIIcEJP44U-U8IRxZ7YS2Fh8H0XKuc8Cy8',
-    // avatar: null, // Test için: null yapılırsa account_circle icon gösterilir
-    joinDate: '2023-01-15',
-    lastLogin: new Date().toISOString(),
-    isActive: true,
-    permissions: ['damage_view', 'damage_edit', 'customer_view', 'reports_view']
-  })
+  const userProfile = ref({})
+  const isLoading = ref(false)
+  const error = ref(null)
 
   // Seçili department ve task state'leri
-  const selectedDepartmentId = ref('arabuluculuk')
-  const selectedTaskId = ref('task-1')
+  const selectedDepartmentId = ref('')
+  const selectedTaskId = ref('')
 
-  // Department ve task items (constants'tan geliyor)
-  const departmentItems = ref(DEPARTMENT_ITEMS.map(item => ({ ...item })))
-  const taskItems = ref(TASK_ITEMS.map(item => ({ ...item })))
+  // Department ve task items (API'den gelecek)
+  const departmentItems = ref([])
+  const taskItems = ref([])
 
   // Hesap ayarları
   const accountSettings = ref({
@@ -76,8 +74,109 @@ export const useAccountStore = defineStore('account', () => {
   })
 
   // Actions
-  const updateProfile = (profileData) => {
-    userProfile.value = { ...userProfile.value, ...profileData }
+  const fetchUserProfile = async () => {
+    isLoading.value = true
+    error.value = null
+    
+    try {
+      logger.info('Fetching user profile from backend')
+      
+      // Mock data kullanımı - geliştirme ortamında
+      let result
+      if (process.env.NODE_ENV === 'development') {
+        logger.info('Using mock data for user profile')
+        result = await simulateAccountApi.fetchProfile()
+      } else {
+        // Gerçek API çağrısı (şu anda yorum satırında)
+        /*
+        try {
+          result = await accountApiModule.getUserProfile()
+        } catch (apiError) {
+          logger.error('API profile fetch failed, falling back to mock data:', apiError)
+          result = await simulateAccountApi.fetchProfile()
+        }
+        */
+        
+        // Şu anda API bağlı değil, mock data kullan
+        result = await simulateAccountApi.fetchProfile()
+      }
+      
+      if (result.success && result.data) {
+        userProfile.value = result.data
+        selectedDepartmentId.value = result.data.department || ''
+        selectedTaskId.value = result.data.taskId || ''
+        
+        logger.info('User profile loaded successfully')
+      } else {
+        throw new Error(result.error || 'Failed to fetch user profile')
+      }
+    } catch (err) {
+      logger.error('User profile fetch failed:', err)
+      error.value = err.message
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  const fetchDepartments = async () => {
+    try {
+      logger.info('Fetching departments from backend')
+      
+      const result = await hasarApi.dispatch('getDepartments', {})
+      
+      if (result.success && result.data) {
+        departmentItems.value = result.data.map(dept => ({
+          ...dept,
+          selected: dept.id === selectedDepartmentId.value
+        }))
+        
+        logger.info('Departments loaded successfully')
+      }
+    } catch (err) {
+      logger.error('Departments fetch failed:', err)
+    }
+  }
+
+  const fetchTasks = async () => {
+    try {
+      logger.info('Fetching tasks from backend')
+      
+      const result = await hasarApi.dispatch('getTasks', {})
+      
+      if (result.success && result.data) {
+        taskItems.value = result.data.map(task => ({
+          ...task,
+          completed: task.id === selectedTaskId.value
+        }))
+        
+        logger.info('Tasks loaded successfully')
+      }
+    } catch (err) {
+      logger.error('Tasks fetch failed:', err)
+    }
+  }
+
+  const updateProfile = async (profileData) => {
+    isLoading.value = true
+    error.value = null
+    
+    try {
+      logger.info('Updating user profile')
+      
+      const result = await hasarApi.dispatch('updateUserProfile', profileData)
+      
+      if (result.success && result.data) {
+        userProfile.value = { ...userProfile.value, ...result.data }
+        logger.info('User profile updated successfully')
+      } else {
+        throw new Error(result.error || 'Failed to update user profile')
+      }
+    } catch (err) {
+      logger.error('User profile update failed:', err)
+      error.value = err.message
+    } finally {
+      isLoading.value = false
+    }
   }
 
   const updateSettings = (settingsData) => {
@@ -200,6 +299,8 @@ export const useAccountStore = defineStore('account', () => {
   return {
     // State
     userProfile,
+    isLoading,
+    error,
     accountSettings,
     selectedDepartmentId,
     selectedTaskId,
@@ -214,6 +315,9 @@ export const useAccountStore = defineStore('account', () => {
     selectedDepartmentName,
     
     // Actions
+    fetchUserProfile,
+    fetchDepartments,
+    fetchTasks,
     updateProfile,
     updateSettings,
     updatePrivacySettings,

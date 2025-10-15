@@ -10,8 +10,8 @@ export const DEPARTMENT_OPTIONS = [
   { label: 'Hukuk', value: 'hukuk' }
 ]
 
-// Department items template for the store initialization
-export const DEPARTMENT_ITEMS = [
+// Department items template - API'den gelecek, bu sadece fallback
+export const DEFAULT_DEPARTMENT_ITEMS = [
   {
     id: 'arabuluculuk',
     name: 'Arabuluculuk',
@@ -26,8 +26,8 @@ export const DEPARTMENT_ITEMS = [
   }
 ]
 
-// Task items template for the store initialization
-export const TASK_ITEMS = [
+// Task items template - API'den gelecek, bu sadece fallback
+export const DEFAULT_TASK_ITEMS = [
   {
     id: 'task-1',
     name: 'Arabulucu',

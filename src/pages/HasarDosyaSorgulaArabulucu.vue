@@ -23,7 +23,6 @@
         :loading="isSearching"
         :pagination="{ rowsPerPage: 50 }"
         @view="viewDetails"
-        @edit="editDetails"
         @openInNewTab="openInNewTab"
       />
     </div>
@@ -66,14 +65,7 @@ const resultColumns = [
   {
     name: 'fileNumber',
     label: t('damageQueryMediator.results.columns.fileNumber'),
-    field: 'fileNumber',
-    align: 'left',
-    sortable: true
-  },
-  {
-    name: 'victimNumber',
-    label: t('damageQueryMediator.results.columns.victimNumber'),
-    field: 'victimNumber',
+    field: 'fileNumberWithMagdur',
     align: 'left',
     sortable: true
   },
@@ -85,16 +77,58 @@ const resultColumns = [
     sortable: true
   },
   {
-    name: 'insuredName',
-    label: t('damageQueryMediator.results.columns.insuredName'),
-    field: 'insuredName',
+    name: 'sigortaliAd',
+    label: 'Sigortalı Ad',
+    field: 'sigortaliAd',
     align: 'left',
     sortable: true
   },
   {
-    name: 'victimName',
-    label: t('damageQueryMediator.results.columns.victimName'),
-    field: 'victimName',
+    name: 'sigortaliSoyad',
+    label: 'Sigortalı Soyad',
+    field: 'sigortaliSoyad',
+    align: 'left',
+    sortable: true
+  },
+  {
+    name: 'sigortaliPlaka',
+    label: 'Sigortalı Plaka',
+    field: 'sigortaliPlaka',
+    align: 'left',
+    sortable: true
+  },
+  {
+    name: 'sigortaliKusurOrani',
+    label: 'Sigortalı Kusur Oranı',
+    field: 'sigortaliKusurOrani',
+    align: 'left',
+    sortable: true
+  },
+  {
+    name: 'magdurAd',
+    label: 'Mağdur Ad',
+    field: 'magdurAd',
+    align: 'left',
+    sortable: true
+  },
+  {
+    name: 'magdurSoyad',
+    label: 'Mağdur Soyad',
+    field: 'magdurSoyad',
+    align: 'left',
+    sortable: true
+  },
+  {
+    name: 'magdurAracPlaka',
+    label: 'Mağdur Araç Plaka',
+    field: 'magdurAracPlaka',
+    align: 'left',
+    sortable: true
+  },
+  {
+    name: 'ihbarTarihi',
+    label: 'İhbar Tarihi',
+    field: 'ihbarTarihi',
     align: 'left',
     sortable: true
   },
@@ -129,18 +163,39 @@ const handleSearch = async (searchResult) => {
   try {
     if (searchResult.success) {
       // Transform API response to table format
-      searchResults.value = searchResult.data.files.map(file => ({
-        fileNumber: file.dosyaNo,
-        victimNumber: file.victimNumber || '-',
-        policyNumber: file.policeNo,
-        insuredName: file.insuredName || '-',
-        victimName: file.victimName || '-',
-        damageDate: file.hasarTarihi,
-        damageLocation: file.hasarYeri,
-        damageReason: file.hasarSebebi || '-',
-        damageAmount: file.hasarTutari || 0,
-        status: file.durum
-      }))
+      searchResults.value = searchResult.data.files.map(file => {
+        // Sigortalı ad soyadını ayır
+        const sigortaliAdSoyad = file.sigortaliAdSoyad || ''
+        const sigortaliParts = sigortaliAdSoyad.split(' ')
+        const sigortaliAd = sigortaliParts[0] || ''
+        const sigortaliSoyad = sigortaliParts.slice(1).join(' ') || ''
+        
+        // Mağdur ad soyadını ayır
+        const magdurAdSoyad = file.magdurAdSoyad || ''
+        const magdurParts = magdurAdSoyad.split(' ')
+        const magdurAd = magdurParts[0] || ''
+        const magdurSoyad = magdurParts.slice(1).join(' ') || ''
+        
+        return {
+          fileNumber: file.dosyaNo,
+          victimNumber: file.magdurNo,
+          fileNumberWithMagdur: `${file.dosyaNo}/${file.magdurNo}`,
+          policyNumber: file.policeNo,
+          sigortaliAd: sigortaliAd,
+          sigortaliSoyad: sigortaliSoyad,
+          sigortaliPlaka: file.sigortaliPlaka,
+          sigortaliKusurOrani: file.sigortaliKusurOrani || '-',
+          magdurAd: magdurAd,
+          magdurSoyad: magdurSoyad,
+          magdurAracPlaka: file.magdurAracPlaka,
+          ihbarTarihi: file.ihbarTarihi,
+          damageDate: file.hasarTarihi,
+          damageLocation: file.hasarYeri,
+          damageReason: file.hasarSebebi,
+          damageAmount: file.hasarTutari || 0,
+          status: file.durum
+        }
+      })
     } else {
       console.error('Search failed:', searchResult.error)
       // Show error message to user
@@ -196,17 +251,6 @@ const openInNewTab = (row) => {
   })
 }
 
-/**
- * Edit details
- * @param {Object} row - Row data
- */
-const editDetails = (row) => {
-  $q.notify({
-    type: 'info',
-    message: t('damageQueryMediator.messages.editingFile', { fileNumber: row.fileNumber }),
-    position: 'top'
-  })
-}
 </script>
 
 <style lang="scss" scoped>
@@ -215,18 +259,8 @@ const editDetails = (row) => {
 .hasar-sorgula-arabulucu {
   background: $background-page;
   min-height: 100vh;
-  text-transform: uppercase;
 
-  // Icon'ları ve butonları hariç tut
-  .q-icon,
-  .q-select__dropdown-icon,
-  .q-table__sort-icon,
-  .q-btn .q-icon,
-  .q-btn,
-  i,
-  [class*="bi-"] {
-    text-transform: none !important;
-  }
+  // Text transform kuralları artık global CSS'de tanımlı
 
   .page-container {
     max-width: 1600px;

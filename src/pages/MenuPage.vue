@@ -320,7 +320,7 @@ onMounted(() => {
     border-bottom: 1px solid $border-lighter;
     
     .q-icon, i {
-      font-size: 28px;
+      font-size: 20px;
       color: $text-secondary;
       opacity: 0.87;
     }

@@ -6,6 +6,7 @@
 @import 'accessibility.sass'
 @import 'focus-indicators.scss'
 @import 'dark-mode.scss'
+@import 'sompo-mode.scss'
 
 // Bootstrap Icons CSS import
 @import 'bootstrap-icons/font/bootstrap-icons.css'
@@ -438,3 +439,108 @@ body
   background-color: #64748b !important
   box-shadow: 0 0 0 2px rgba(100, 116, 139, 0.2) !important
   border-radius: 50% !important
+
+// ===== CSS CUSTOM PROPERTIES & MIXINS TEST =====
+// Test class to verify CSS Custom Properties and Mixins are working
+.css-custom-props-test
+  @include hover-lift($background-card, 8%, 0.2)
+  padding: var(--spacing-md)
+  margin: var(--spacing-sm)
+  border-radius: var(--radius-lg)
+  font-size: var(--text-sm)
+  font-weight: var(--font-weight-medium)
+  line-height: var(--leading-normal)
+  z-index: var(--z-dropdown)
+  
+  &:hover
+    padding: var(--spacing-lg)
+    border-radius: var(--radius-xl)
+    font-size: var(--text-base)
+
+// ===== MIXIN USAGE EXAMPLES =====
+// Examples of how to use the new mixins in components
+
+.mixin-example-button
+  @include button-base($background-button, $text-secondary, $border-light)
+
+.mixin-example-card
+  @include card-base($background-card, $border-light)
+
+.mixin-example-input
+  @include input-base($background-input, $border-light)
+
+.mixin-example-hover
+  @include hover-lift($background-page, 5%, 0.1)
+
+.mixin-example-states
+  @include component-states($background-card)
+
+.mixin-example-focus
+  @include focus-ring($border-accent)
+
+// ===== GRID MIXIN USAGE EXAMPLES =====
+// Examples of how to use the new Grid mixins in components
+
+.mixin-example-grid-base
+  @include grid-base(3, var(--spacing-md))
+
+.mixin-example-grid-responsive
+  @include grid-responsive(1, 2, 3, var(--spacing-sm))
+
+.mixin-example-grid-auto-fit
+  @include grid-auto-fit(250px, var(--spacing-md))
+
+.mixin-example-grid-auto-fill
+  @include grid-auto-fill(200px, var(--spacing-sm))
+
+.mixin-example-grid-areas
+  @include grid-areas(
+    "header header header",
+    "sidebar main main",
+    "footer footer footer"
+  )
+
+.mixin-example-grid-item-header
+  @include grid-item($area: header)
+
+.mixin-example-grid-item-main
+  @include grid-item($area: main)
+
+.mixin-example-grid-item-sidebar
+  @include grid-item($area: sidebar)
+
+.mixin-example-grid-item-footer
+  @include grid-item($area: footer)
+
+// ===== BEM MIXIN USAGE EXAMPLES =====
+// Examples of how to use the new BEM mixins in components
+
+.mixin-example-bem-block
+  @include bem-block('example-component')
+    background: $background-card
+    padding: var(--spacing-md)
+    border-radius: var(--radius-lg)
+
+.mixin-example-bem-element
+  @include bem-element('header')
+    padding: var(--spacing-sm)
+    border-bottom: 1px solid $border-light
+
+.mixin-example-bem-modifier
+  @include bem-modifier('active')
+    background: $primary
+    color: $primary-dark
+
+.mixin-example-bem-element-modifier
+  @include bem-element-modifier('button', 'primary')
+    background: $primary
+    color: $text-white
+
+.mixin-example-component-structure
+  @include component-structure('example-card')
+    background: $background-card
+    border: 1px solid $border-light
+    border-radius: var(--radius-lg)
+
+// ===== COMPONENT ORGANIZATION EXAMPLES =====
+// Component organization examples removed - referenced classes no longer exist

@@ -31,6 +31,17 @@ export default {
     switchToLight: 'Aydınlık Tema',
   },
 
+  // Theme Settings
+  themeSettings: {
+    title: 'Tema Seçimi',
+    lightTheme: 'Aydınlık Tema',
+    lightDescription: 'Klasik beyaz arka plan, günlük kullanım için ideal',
+    darkTheme: 'Karanlık Tema', 
+    darkDescription: 'Koyu arka plan, göz yorgunluğunu azaltır',
+        sompoTheme: 'SOMPO Tema',
+        sompoDescription: 'SOMPO Sigorta | Sigortacılık Ürün ve Hizmetleri özelinde',
+  },
+
   // Common actions
   common: {
     cancel: 'İptal',
@@ -141,6 +152,11 @@ export default {
       reportsAnalytics: 'Raporlar & Analizler',
       systemManagement: 'Sistem Yönetimi',
       helpSupport: 'Yardım & Destek',
+      // Yeni kategoriler
+      hasarDosya: 'Hasar Dosya',
+      evrakYonetimi: 'Evrak Yönetimi',
+      raporlar: 'Raporlar',
+      sistemYonetimi: 'Sistem Yönetimi',
     },
     items: {
       // Hasar İşlemleri
@@ -198,6 +214,24 @@ export default {
       supportRequests: 'Destek Talepleri',
       trainingVideos: 'Eğitim Videoları',
       contact: 'İletişim',
+
+      // Yeni menü öğeleri
+      hasarDosyaSorgulamaArabulucu: 'Hasar Dosya Sorgulama (Arabulucu)',
+      hasarDosyaEkleme: 'Hasar Dosya Ekleme',
+      hasarDosyaListesi: 'Hasar Dosya Listesi',
+      hasarDosyaRaporlari: 'Hasar Dosya Raporları',
+      
+      evrakYukleme: 'Evrak Yükleme',
+      evrakListesi: 'Evrak Listesi',
+      evrakOnay: 'Evrak Onay',
+      
+      gunlukRapor: 'Günlük Rapor',
+      aylikRapor: 'Aylık Rapor',
+      ozetRapor: 'Özet Rapor',
+      
+      kullaniciYonetimi: 'Kullanıcı Yönetimi',
+      yetkiYonetimi: 'Yetki Yönetimi',
+      sistemAyarlari: 'Sistem Ayarları',
     },
   },
 
@@ -221,11 +255,11 @@ export default {
     noTasks: 'Görev bulunmuyor',
 
     // Profile fields
-    firstName: 'Ad',
-    lastName: 'Soyad',
+    firstName: 'Adı',
+    lastName: 'Soyadı',
     userCode: 'Kullanıcı Kodu',
     department: 'Birim',
-    email: 'E-posta',
+    email: 'E-posta Adresi',
     phone: 'Telefon',
     position: 'Pozisyon',
     defaultUser: 'Kullanıcı',
@@ -270,97 +304,30 @@ export default {
 
   // Dashboard
   dashboard: {
-    // Üst bilgi kartları
     pendingJobs: 'Bekleyen İşler',
     myJobs: 'Üzerimdeki İşler',
     sentJobs: 'Gönderdiğim İşler',
-
-    // Detaylı iş sayıları
     detailedJobCounts: 'Detaylı İş Sayıları',
     pending: 'Bekleyen',
     assigned: 'Üzerimdeki',
     sent: 'Gönderdiğim',
-
-    // Süreç türleri
-    processes: {
-      valueLossMediation: 'Değer Kaybı Arabuluculuk',
-      severeDamagePertMediation: 'Ağır Hasar Pert Arabuluculuk',
-      bodilyDamageVoluntaryMediation: 'Bedeni Hasar İhtiyari Arabuluculuk',
-    },
-
-    // İş durumu
     jobStatus: 'İş Durumu',
-    todaySent: 'Bugün Gönderdiğim',
-    todayReceived: 'Bugün Gelenler',
-    pendingApproval: 'Bekleyen Onay',
-    completed: 'Tamamlanan',
-    activeFiles: 'Aktif Dosyalar',
-    expertAssignments: 'Eksper Atamaları',
-
-    // Grafikler
     charts: {
       workStatusDistribution: 'İş Durumu Dağılımı',
       weeklyWorkTrend: 'Haftalık İş Trendi',
       processBasedWorkload: 'Süreç Bazlı İş Yükü',
-      pending: 'Bekleyen',
-      inProgress: 'Devam Eden',
-      completed: 'Tamamlanan',
-      completedJobs: 'Tamamlanan İşler',
-      newJobs: 'Yeni İşler',
     },
-
-    // Durum mesajları
-    status: {
-      lastUpdate: 'Son güncelleme: 5 dk önce',
-      systemActive: 'Sistem aktif',
-      detailedReport: 'Detaylı Rapor',
-    },
-
-    // Konum mesajları
-    location: {
-      gettingLocation: 'Konum alınıyor...',
-      permissionDenied: 'Konum izni reddedildi',
-      locationUnavailable: 'Konum alınamadı',
-      locationTimeout: 'Konum alma zaman aşımına uğradı',
-      locationServiceUnavailable: 'Konum servisi kullanılamıyor',
-    },
-
-    // Duyuru listesi
     announcements: {
       title: 'Duyuru Listesi',
-      empty: 'Henüz duyuru bulunmuyor',
       noAnnouncements: 'Henüz duyuru bulunmuyor',
-      viewAll: 'Tümünü Görüntüle',
       readMore: 'Devamını Oku',
       showLess: 'Daha Az Göster',
-      categories: {
-        system: 'Sistem',
-        maintenance: 'Bakım',
-        security: 'Güvenlik',
-        update: 'Güncelleme',
-        general: 'Genel',
-      },
       priorities: {
         high: 'Yüksek',
         medium: 'Orta',
         low: 'Düşük',
       },
-      items: {
-        maintenance: {
-          title: 'Sistem Bakımı Duyurusu',
-          description: 'Bu hafta sonu planlı sistem bakımı gerçekleştirilecektir.',
-        },
-        security: {
-          title: 'Güvenlik Güncellemesi',
-          description: 'Yeni güvenlik önlemleri devreye alınmıştır.',
-        },
-        update: {
-          title: 'Yeni Özellik: Rapor Modülü',
-          description: 'Gelişmiş raporlama özellikleri kullanıma sunulmuştur.',
-        },
-      },
       testNotification: 'Dashboard Yüklendi - Custom Notification Test',
-      unknownLocation: 'Bilinmiyor',
     },
   },
 
@@ -425,88 +392,6 @@ export default {
     },
   },
 
-  // Hasar Dosya Sorgula
-  damageQuery: {
-    title: 'Hasar Dosya Sorgulama',
-    refresh: 'Yenile',
-    exportResults: 'Sonuçları Dışa Aktar',
-
-    // Tab labels
-    tabs: {
-      damage: 'Hasar',
-      insured: 'Sigortalı',
-      victim: 'Mağdur',
-      responsible: 'Sorumlu Kişi',
-    },
-
-    // Form labels
-    form: {
-      fileNumber: 'Dosya No',
-      reportNumber: 'İhbar No',
-      fileStatus: 'Dosya Genel Durumu',
-      subBranch: 'Alt Branş',
-      productCode: 'Ürün Kodu',
-      damageReason: 'Hasar Nedeni',
-      preReportStartDate: 'Ön İhbar Başlangıç Tarihi',
-      preReportEndDate: 'Ön İhbar Bitiş Tarihi',
-      reportStartDate: 'İhbar Başlangıç Tarihi',
-      reportEndDate: 'İhbar Bitiş Tarihi',
-      damageStartDate: 'Hasar Başlangıç Tarihi',
-      damageEndDate: 'Hasar Bitiş Tarihi',
-      sideFile: 'Yan Dosya',
-      fileType: 'Dosya Tipi',
-      priority: 'Öncelik',
-      status: 'Durum',
-      policyNumber: 'Poliçe No',
-      insuredName: 'Sigortalı Ad',
-      insuredSurname: 'Sigortalı Soyad',
-      insuredPlate: 'Sigortalı Plaka',
-      victimName: 'Mağdur Ad',
-      victimPlate: 'Mağdur Plaka',
-      legalNumber: 'Hukuk No',
-      hasRecourse: 'Rücu Var Mı?',
-      subDamageReason: 'Alt Hasar Nedeni',
-    },
-
-    // Table columns
-    table: {
-      priority: 'Öncelik',
-      status: 'Durum',
-      fileNumber: 'Dosya No',
-      reportNumber: 'İhbar No',
-      sideFile: 'Yan Dosya',
-      preReportReason: 'Ön İhbarda Kalma Nedeni',
-      fileType: 'Dosya Tipi',
-      policyNumber: 'Poliçe No',
-      insuredName: 'Sigortalı Ad',
-      insuredPlate: 'Sigortalı Plaka',
-      insuredSurname: 'Sigortalı Soyad',
-      victimName: 'Mağdur Ad',
-      victimPlate: 'Mağdur Plaka',
-      legalNumber: 'Hukuk No',
-      hasRecourse: 'Rücu Var Mı?',
-      subBranch: 'Alt Branş',
-      damageReason: 'Hasar Nedeni',
-      subDamageReason: 'Alt Hasar Nedeni',
-      actions: 'İşlemler',
-    },
-
-    // Actions
-    actions: {
-      search: 'Ara',
-      clear: 'Temizle',
-      viewDetails: 'Detay Görüntüle',
-      edit: 'Düzenle',
-      delete: 'Sil',
-    },
-
-    // Messages
-    messages: {
-      noResults: 'Sonuç bulunamadı',
-      searchResults: 'Arama Sonuçları',
-      loading: 'Yükleniyor...',
-    },
-  },
 
   // Error pages
   error: {
@@ -518,91 +403,6 @@ export default {
     },
   },
 
-  // Hasar Dosya page
-  hasarDosya: {
-    title: 'Hasar Dosyaları',
-    actions: {
-      print: 'Yazdır',
-      download: 'İndir',
-      share: 'Paylaş',
-      upload: 'Yükle',
-      addNote: 'Not Ekle',
-    },
-    sections: {
-      reportInfo: 'İhbar Bilgileri',
-      eventInfo: 'Olay Bilgileri',
-      policyInfo: 'Poliçe Bilgileri',
-      coverageInfo: 'Teminatlar',
-      victimInfo: 'Mağdur Bilgileri',
-      expertInfo: 'Ekspertiz Bilgileri',
-      paymentInfo: 'Ödeme Bilgileri',
-      documents: 'Belgeler',
-      notesAndProcess: 'Notlar ve Süreç',
-      expertResults: 'Ekspertiz Sonuçları',
-    },
-    labels: {
-      reportTime: 'İhbar Saati',
-      reporter: 'İhbar Eden',
-      contact: 'İletişim',
-      reportType: 'İhbar Şekli',
-      reportDescription: 'İhbar Açıklaması',
-      eventDate: 'Olay Tarihi',
-      eventTime: 'Olay Saati',
-      eventLocation: 'Olay Yeri',
-      city: 'İl / İlçe',
-      eventDescription: 'Olay Açıklaması',
-      policyNumber: 'Poliçe No',
-      policyHolder: 'Sigortalı',
-      policyStartDate: 'Başlangıç Tarihi',
-      policyEndDate: 'Bitiş Tarihi',
-      premium: 'Prim',
-      coverageType: 'Teminat Türü',
-      coverageLimit: 'Teminat Limiti',
-      victimName: 'Ad Soyad',
-      victimId: 'TC Kimlik',
-      victimPhone: 'Telefon',
-      victimEmail: 'E-posta',
-      estimatedDamage: 'Tahmini Zarar',
-      address: 'Adres',
-      expertName: 'Eksper Adı',
-      expertCompany: 'Şirket',
-      expertContact: 'İletişim',
-      assignmentDate: 'Atama Tarihi',
-      reportDate: 'Rapor Tarihi',
-      approvedAmount: 'Onaylanan Tutar',
-      deductible: 'Muafiyet',
-      netPayment: 'Net Ödeme',
-      paymentType: 'Ödeme Tipi',
-      paymentDate: 'Ödeme Tarihi',
-      paymentAmount: 'Ödeme Tutarı',
-      paymentStatus: 'Ödeme Durumu',
-      paymentDescription: 'Ödeme Açıklaması',
-      documentCategory: 'Kategori',
-      documentName: 'Belge Adı',
-      documentDate: 'Belge Tarihi',
-      documentSize: 'Belge Boyutu',
-      noteTitle: 'Not Başlığı',
-      noteDate: 'Not Tarihi',
-      noteAuthor: 'Not Yazan',
-      noteContent: 'Not İçeriği',
-    },
-    messages: {
-      printing: 'Dosya yazdırılıyor...',
-      downloading: 'Dosya indiriliyor...',
-      shareFeature: 'Paylaşım özelliği yakında eklenecek',
-      selectDocumentType: 'Lütfen evrak türü seçin',
-      documentRequestSent: '{type} evrak talebi gönderildi',
-      uploadFeature: 'Belge yükleme özelliği yakında eklenecek',
-      viewingDocument: '{name} görüntüleniyor...',
-      downloadingDocument: '{name} indiriliyor...',
-      addNoteFeature: 'Not ekleme özelliği yakında eklenecek',
-      editNoteFeature: 'Not düzenleme özelliği yakında eklenecek',
-      deleteNoteFeature: 'Not silme özelliği yakında eklenecek',
-      loadingFile: '{fileNumber} dosyası yükleniyor...',
-      searchPlaceholder: 'Dosya ara...',
-    },
-    fileTitle: 'Hasar Dosyası - {fileNumber}',
-  },
 
   // Hasar Dosya Arabulucu page
   hasarDosyaArabulucu: {

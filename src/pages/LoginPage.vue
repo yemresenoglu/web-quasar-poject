@@ -24,8 +24,6 @@
                 v-model="loginForm.userCode"
                 outlined
                 dense
-                :rules="validationRules.userCode"
-                lazy-rules
                 class="login-page__input"
                 :disable="loading"
               >
@@ -43,8 +41,6 @@
                 outlined
                 dense
                 :type="showPassword ? 'text' : 'password'"
-                :rules="validationRules.password"
-                lazy-rules
                 class="login-page__input"
                 :disable="loading"
               >
@@ -64,28 +60,13 @@
             <!-- Captcha -->
             <div class="login-page__field login-page__field--full">
               <label class="login-page__field-label">{{ $t('login.captcha') }}</label>
-              <div class="captcha-container">
-                <div class="captcha-display">
-                  <span class="captcha-text">{{ captchaText }}</span>
-                  <q-btn 
-                    flat 
-                    round 
-                    dense 
-                    size="sm"
-                    @click="generateCaptcha"
-                    :disable="loading"
-                  >
-                    <i class="bi bi-arrow-clockwise"></i>
-                    <q-tooltip>{{ $t('login.refreshCaptcha') }}</q-tooltip>
-                  </q-btn>
-                </div>
+              <div class="captcha-field-wrapper">
+                <CaptchaImage ref="captchaRef" class="captcha-image-section" />
                 <q-input
                   v-model="loginForm.captcha"
                   outlined
                   dense
-                  :rules="validationRules.captcha"
-                  lazy-rules
-                  class="login-page__input"
+                  class="login-page__input captcha-input"
                   :disable="loading"
                 />
               </div>
@@ -133,59 +114,7 @@
     </div>
 
     <!-- Şifremi Unuttum Dialog -->
-    <q-dialog :model-value="showForgotPasswordDialog" @update:model-value="val => showForgotPasswordDialog = val">
-      <div class="section-card minimal-design forgot-password-dialog">
-        <div class="section-header">
-          <h2 class="section-title">{{ $t('login.forgotPasswordTitle') }}</h2>
-          <q-btn 
-            flat 
-            round 
-            dense 
-            v-close-popup
-            class="dialog-close-btn"
-          >
-            <i class="bi bi-x-lg"></i>
-          </q-btn>
-        </div>
-
-        <div class="section-content">
-          <p class="dialog-description">{{ $t('login.forgotPasswordDescription') }}</p>
-          
-          <div class="form-group">
-            <label>{{ $t('login.email') }}</label>
-            <q-input
-              v-model="forgotPasswordEmail"
-              outlined
-              dense
-              type="email"
-              :rules="validationRules.email"
-              class="login-input"
-            >
-              <template v-slot:prepend>
-                <i class="bi bi-envelope"></i>
-              </template>
-            </q-input>
-          </div>
-          
-          <div class="dialog-actions">
-            <q-btn 
-              flat 
-              :label="$t('common.cancel')" 
-              v-close-popup
-              class="dialog-btn"
-            />
-            <q-btn 
-              flat
-              :label="$t('login.sendResetLink')" 
-              @click="handleForgotPassword"
-              :loading="forgotPasswordLoading"
-              :disable="!forgotPasswordEmail"
-              class="dialog-btn"
-            />
-          </div>
-        </div>
-      </div>
-    </q-dialog>
+    <ForgotPasswordDialog v-model="showForgotPasswordDialog" />
 
   </q-page>
 </template>
@@ -197,6 +126,8 @@ import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
 import { useAuthStore } from 'src/stores/auth-store.js'
 import { createLogger } from 'src/utils/logger.js'
+import CaptchaImage from 'src/components/CaptchaImage.vue'
+import ForgotPasswordDialog from 'src/components/ForgotPasswordDialog.vue'
 
 // Composables
 const router = useRouter()
@@ -208,43 +139,23 @@ const logger = createLogger('LoginPage')
 
 // Reactive data
 const showForgotPasswordDialog = ref(false)
-const forgotPasswordLoading = ref(false)
-const forgotPasswordEmail = ref('')
+const captchaRef = ref(null)
 
 // Store state
 const loading = computed(() => authStore.isLoading)
 const showPassword = computed(() => authStore.showPassword)
-const captchaText = computed(() => authStore.captchaText)
 const loginForm = computed(() => authStore.loginForm)
 const isFormValid = computed(() => {
   return loginForm.value.userCode && 
-         loginForm.value.password && 
-         loginForm.value.captcha
+         loginForm.value.password
 })
 
-const validationRules = computed(() => ({
-  userCode: [
-    val => !!val || t('validation.required'),
-    val => val.length >= 3 || t('validation.minLength', { min: 3 }),
-    val => /^[A-Z0-9]+$/.test(val) || t('validation.userCodeFormat')
-  ],
-  password: [
-    val => !!val || t('validation.required'),
-    val => val.length >= 2 || t('validation.minLength', { min: 2 })
-  ],
-  captcha: [
-    val => !!val || t('validation.required'),
-    val => val.toLowerCase() === captchaText.value.toLowerCase() || t('login.invalidCaptcha')
-  ],
-  email: [
-    val => !!val || t('validation.required'),
-    val => /.+@.+\..+/.test(val) || t('validation.email')
-  ]
-}))
 
 // Methods
 const generateCaptcha = () => {
-  authStore.generateCaptcha()
+  if (captchaRef.value) {
+    captchaRef.value.refreshCaptcha()
+  }
 }
 
 const handleLogin = async () => {
@@ -281,46 +192,10 @@ const handleLogin = async () => {
   }
 }
 
-const handleForgotPassword = async () => {
-  if (!forgotPasswordEmail.value) return
-
-  forgotPasswordLoading.value = true
-  try {
-    logger.info('Forgot password request started')
-    
-    const result = await authStore.forgotPassword(forgotPasswordEmail.value)
-    
-    if (result.success) {
-      $q.notify({
-        type: 'positive',
-        message: result.message,
-        icon: '✓',
-        position: 'top-right'
-      })
-      
-      showForgotPasswordDialog.value = false
-      forgotPasswordEmail.value = ''
-      
-      logger.info('Reset link sent successfully')
-    } else {
-      throw new Error(result.message)
-    }
-  } catch (error) {
-    logger.error('Forgot password failed:', error)
-    $q.notify({
-      type: 'negative',
-      message: error.message || t('login.resetLinkError'),
-      icon: '✕',
-      position: 'top-right'
-    })
-  } finally {
-    forgotPasswordLoading.value = false
-  }
-}
 
 // Lifecycle
 onMounted(() => {
-  generateCaptcha()
+  // Captcha will be loaded automatically by CaptchaImage component
 })
 </script>
 
@@ -560,55 +435,23 @@ onMounted(() => {
   }
 }
 
-.captcha-container {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.captcha-display {
+.captcha-field-wrapper {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 4px 6px;
-  background: $background-card;
-  border-radius: 3px;
-  border: 1px solid $border-light;
-  transition: all 0.2s ease;
-  height: 26px;
-  min-height: 26px;
-  
-  &:hover {
-    border-color: $border-hover;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  }
-  
-  .q-btn {
-    min-height: 18px !important;
-    min-width: 18px !important;
-    padding: 2px !important;
-    
-    .q-icon {
-      font-size: 11px !important;
-      color: $text-secondary;
-      opacity: 0.7;
-      
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
+  gap: 12px;
+  width: 100%;
 }
 
-.captcha-text {
-  font-family: var(--font-monospace);
-  font-size: 13px;
-  font-weight: 600;
-  color: $border-accent;
-  letter-spacing: 1.5px;
-  user-select: none;
-  line-height: 1.1;
+.captcha-image-section {
+  flex: 2;
+  min-width: 180px;
 }
+
+.captcha-input {
+  flex: 1;
+  max-width: 200px;
+}
+
 
 // BEM: Element - forgot password button
 .login-page__forgot-password-btn {
@@ -706,74 +549,6 @@ onMounted(() => {
   }
 }
 
-// Dialog styles - Giriş Yap ile aynı tasarım
-.forgot-password-dialog {
-  width: 100%;
-  max-width: 420px;
-  
-  .dialog-close-btn {
-    min-height: 24px;
-    min-width: 24px;
-    padding: 2px;
-    color: $text-secondary;
-    opacity: 0.7;
-    transition: all 0.2s ease;
-    
-    .q-icon {
-      font-size: 12px;
-    }
-    
-    &:hover {
-      opacity: 1;
-      background: $background-light;
-    }
-  }
-  
-  .dialog-description {
-    color: $text-secondary;
-    opacity: 0.87;
-    font-size: 11px;
-    margin: 0 0 14px 0;
-    line-height: 1.4;
-    text-transform: none;
-  }
-  
-  .dialog-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 6px;
-    margin-top: 16px;
-    padding-top: 12px;
-    border-top: 1px solid $border-lighter;
-  }
-  
-  .dialog-btn {
-    min-height: 26px !important;
-    height: 26px !important;
-    padding: 2px 12px !important;
-    border-radius: 2px !important;
-    font-weight: 600 !important;
-    font-size: 9px !important;
-    letter-spacing: 0.3px !important;
-    line-height: 1.1;
-    text-transform: uppercase !important;
-    color: $text-secondary !important;
-    background: $background-button !important;
-    border-left: 2px solid $border-accent !important;
-    transition: all 0.2s ease;
-    
-    &:hover:not(.q-btn--loading) {
-      transform: translateY(-1px);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    }
-    
-    // Icon styling (if icon exists)
-    .q-icon {
-      font-size: 9px !important;
-      margin-right: 4px !important;
-    }
-  }
-}
 
 // Responsive design
 @media (max-width: 480px) {

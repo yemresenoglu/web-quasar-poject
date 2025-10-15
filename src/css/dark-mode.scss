@@ -17,6 +17,102 @@ body.body--dark {
   color: $dark-text-primary !important;
 
   // ─────────────────────────────────────────────────────────
+  // INDEX PAGE LOGO STYLING
+  // ─────────────────────────────────────────────────────────
+  
+  .index-page {
+    &__company-name {
+      color: $dark-text-secondary !important;
+    }
+    
+    &__logo {
+      filter: brightness(1.2) contrast(1.1);
+    }
+    
+    // Stat item colors for dark mode - same as chart colors
+    &__stat-item {
+      background: transparent !important;
+      border-color: $dark-border-light !important;
+      
+      &--pending {
+        background: transparent !important;
+        border-color: $dark-border-light !important;
+      }
+      
+      &--assigned {
+        background: transparent !important;
+        border-color: $dark-border-light !important;
+      }
+      
+      &--sent {
+        background: transparent !important;
+        border-color: $dark-border-light !important;
+      }
+    }
+    
+    &__stat-label {
+      color: $dark-text-secondary !important;
+    }
+    
+    // Job pools styling for dark mode - Detaylı İş Sayıları ile aynı
+    &__job-pool-stat {
+      background: $dark-background-page !important; // #030514 - Detaylı İş Sayıları ile aynı
+      border-color: $dark-border-light !important;
+    }
+    
+    &__job-pool-stat-header {
+      i {
+        color: $dark-text-secondary !important; // Detaylı İş Sayıları ile aynı
+      }
+    }
+    
+    &__job-pool-stat-name {
+      color: $dark-text-secondary !important; // Detaylı İş Sayıları ile aynı
+    }
+    
+    &__job-pool-stat-label {
+      color: $dark-text-muted !important; // Detaylı İş Sayıları ile aynı
+    }
+    
+    &__job-pool-stat-value {
+      color: $dark-text-secondary !important; // Detaylı İş Sayıları ile aynı
+    }
+    
+    &__job-pool-stat-item {
+      background: $dark-background-card !important; // #242735 - Detaylı İş Sayıları ile aynı
+      border-color: $dark-border-light !important;
+      
+      &--pending {
+        background: $dark-background-card !important; // #242735 - Detaylı İş Sayıları ile aynı
+        border-color: $dark-border-light !important;
+      }
+      
+      &--assigned {
+        background: $dark-background-card !important; // #242735 - Detaylı İş Sayıları ile aynı
+        border-color: $dark-border-light !important;
+      }
+      
+      &--sent {
+        background: $dark-background-card !important; // #242735 - Detaylı İş Sayıları ile aynı
+        border-color: $dark-border-light !important;
+      }
+    }
+  }
+  
+  // Job Pool Color Classes - Dark mode'da da aynı renkler
+  .job-pool-color--pending {
+    color: #FF9800 !important; // Chart bekleyen rengi
+  }
+  
+  .job-pool-color--assigned {
+    color: #2196F3 !important; // Chart üzerimdeki rengi
+  }
+  
+  .job-pool-color--sent {
+    color: #4CAF50 !important; // Chart gönderdiğim rengi
+  }
+
+  // ─────────────────────────────────────────────────────────
   // QUASAR COMPONENTS OVERRIDE
   // ─────────────────────────────────────────────────────────
 
@@ -652,7 +748,14 @@ body.body--dark {
     }
 
     &__status-value {
-      color: $dark-text-success !important;
+      background: $dark-background-card !important;
+      border-color: $dark-border-light !important;
+      color: $dark-text-secondary !important;
+
+      &:hover {
+        border-color: $dark-border-hover !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+      }
     }
 
     &__last-login-label {
@@ -698,6 +801,38 @@ body.body--dark {
 
     &__text {
       color: $dark-text-secondary !important;
+    }
+  }
+
+  // Account Actions specific overrides for AccountActions.vue
+  .account-menu__item--logout {
+    color: $dark-text-secondary !important;
+
+    .account-menu__item-title {
+      color: $dark-text-secondary !important;
+    }
+
+    .q-icon,
+    i {
+      color: $dark-text-secondary !important;
+    }
+
+    &:hover {
+      background: $dark-background-page !important;
+      color: $dark-text-primary !important;
+
+      .account-menu__item-title {
+        color: $dark-text-primary !important;
+      }
+
+      .q-icon,
+      i {
+        color: $dark-text-primary !important;
+      }
+    }
+
+    &--loading {
+      opacity: 0.7 !important;
     }
   }
 
@@ -809,8 +944,9 @@ body.body--dark {
     }
   }
 
-  // Account Taskbar Settings
-  .account-taskbar-settings {
+  // Account Taskbar Settings - Fix CSS class mismatch
+  .account-taskbar-settings,
+  .account-menu__item {
     background: transparent !important;
 
     &__option {
@@ -838,6 +974,110 @@ body.body--dark {
 
     &__icon {
       color: $dark-text-secondary !important;
+    }
+  }
+
+  // Account Taskbar Settings specific overrides
+  .account-menu__item {
+    &--header {
+      border-color: $dark-border-lighter !important;
+
+      &:hover {
+        background: transparent !important;
+        border-color: $dark-border-accent !important;
+      }
+
+      .account-menu__item-title {
+        color: $dark-text-primary !important;
+      }
+
+      .account-menu__item-subtitle {
+        color: $dark-text-secondary !important;
+
+        &.clickable:hover {
+          color: $dark-text-primary !important;
+        }
+      }
+    }
+
+    &-title {
+      color: $dark-text-secondary !important;
+    }
+
+    &-subtitle {
+      color: $dark-text-secondary !important;
+    }
+
+    // Toggle elements in account menu
+    .q-toggle {
+      .q-toggle__inner {
+        font-size: 24px !important;
+      }
+
+      // Thumb - Tüm durumlar için
+      .q-toggle__thumb {
+        width: 16px !important;
+        height: 16px !important;
+        background-color: $dark-text-secondary !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+      }
+
+      // Track - Tüm durumlar için
+      .q-toggle__track {
+        height: 12px !important;
+        opacity: 0.3 !important;
+        background-color: $dark-text-secondary !important;
+        transition: all 0.3s ease !important;
+      }
+
+      // Active state (Açık durum)
+      &.q-toggle--truthy {
+        .q-toggle__track {
+          opacity: 1 !important;
+          background-color: $dark-text-secondary !important;
+        }
+
+        .q-toggle__thumb {
+          background-color: $dark-text-secondary !important;
+        }
+      }
+
+      // Disabled state
+      &.q-toggle--disabled {
+        opacity: 0.4 !important;
+
+        .q-toggle__track {
+          background-color: $dark-text-secondary !important;
+          opacity: 0.2 !important;
+        }
+
+        .q-toggle__thumb {
+          background-color: $dark-text-secondary !important;
+        }
+      }
+    }
+
+    // Check and Pin icons in account menu
+    .account-menu__check-icon,
+    .account-menu__pin-icon {
+      color: $dark-text-secondary !important;
+      opacity: 0.87 !important;
+
+      &:hover {
+        opacity: 1 !important;
+      }
+
+      &--selected,
+      &--completed,
+      &--pinned {
+        color: $dark-text-secondary !important;
+        opacity: 1 !important;
+      }
+    }
+
+    // Empty state
+    .account-menu__empty-state {
+      color: $dark-text-muted !important;
     }
   }
 
@@ -1024,6 +1264,233 @@ body.body--dark {
     }
   }
 
+  // Account Theme Settings
+  .account-theme-settings {
+    background: transparent !important;
+
+    .theme-info {
+      &__text {
+        color: $dark-text-secondary !important;
+      }
+    }
+
+    .theme-card {
+      background: $dark-background-card !important;  // #242735
+      border-color: $dark-border-light !important;
+      
+      // Aktif olmayan tema kartları
+      &:not(.theme-card--active) {
+        background: $dark-background-card !important;
+        border-color: $dark-border-light !important;
+        
+        .theme-card__title {
+          color: $dark-text-primary !important;
+        }
+        
+        .theme-card__description {
+          color: $dark-text-secondary !important;
+        }
+        
+        .theme-card__icon {
+          color: $dark-text-secondary !important;
+        }
+      }
+      
+      &:hover {
+        background: $dark-background-page !important;  // #030514
+        border-color: $dark-border-accent !important;
+        
+        &:not(.theme-card--active) {
+          .theme-card__title {
+            color: $dark-text-primary !important;
+          }
+          
+          .theme-card__description {
+            color: $dark-text-secondary !important;
+          }
+          
+          .theme-card__icon {
+            color: $dark-text-secondary !important;
+          }
+        }
+      }
+      
+      &--active {
+        border-color: $dark-border-accent !important;
+        background: rgba($dark-border-accent, 0.1) !important;
+        
+        .theme-card__title {
+          color: $dark-border-accent !important;
+        }
+      }
+    }
+
+    .theme-card__title {
+      color: $dark-text-primary !important;
+    }
+
+    .theme-card__description {
+      color: $dark-text-secondary !important;
+    }
+
+    .theme-card__icon {
+      color: $dark-text-secondary !important;
+    }
+
+    .feature-tag {
+      background: rgba($dark-text-secondary, 0.1) !important;
+      color: $dark-text-secondary !important;
+      
+      // Hover durumunda renk değişmez, tema rengi korunur
+    }
+
+    .theme-selector {
+      border-color: $dark-text-secondary !important;
+      
+      &--active {
+        border-color: $dark-border-accent !important;
+      }
+      
+      &:hover {
+        border-color: $dark-border-accent !important;
+      }
+    }
+
+    .theme-selector__dot {
+      .theme-selector--active & {
+        background: $dark-border-accent !important;
+      }
+    }
+
+    .color-swatch {
+      border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+
+  // ═════════════════════════════════════════════════
+  // INDEX PAGE (DASHBOARD) COMPONENTS
+  // ═════════════════════════════════════════════════
+
+  // Index Page - Main container
+  .index-page {
+    background: transparent !important;
+
+    &__card {
+      background: $dark-background-card !important;  // #242735
+      border-color: $dark-border-light !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+
+      &:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+      }
+    }
+
+    &__clock-time {
+      color: $dark-text-secondary !important;
+    }
+
+    &__stat-number {
+      color: $dark-text-primary !important;
+    }
+
+    // Process Statistics
+    &__process-stat {
+      background: $dark-background-page !important;  // #030514
+      border-color: $dark-border-light !important;
+    }
+
+    &__process-stat-header {
+      i {
+        color: $dark-text-secondary !important;
+      }
+    }
+
+    &__process-stat-name {
+      color: $dark-text-secondary !important;
+    }
+
+    &__stat-item {
+      background: $dark-background-card !important;  // #242735
+      border-color: $dark-border-light !important;
+    }
+
+    &__stat-label {
+      color: $dark-text-muted !important;
+    }
+
+    &__stat-value {
+      color: $dark-text-secondary !important;
+    }
+
+    // Job Status Grid
+    &__job-status-grid {
+      // Grid layout remains the same
+    }
+
+    &__job-status-item {
+      background: $dark-background-page !important;  // #030514
+      border-color: $dark-border-light !important;
+    }
+
+    &__job-status-icon {
+      // Icon colors remain the same (they have their own bg classes)
+    }
+
+    &__job-status-count {
+      color: $dark-text-secondary !important;
+    }
+
+    &__job-status-label {
+      color: $dark-text-muted !important;
+    }
+  }
+
+  // Announcements Section
+  .announcements {
+    &-empty {
+      color: $dark-text-muted !important;
+
+      &__text {
+        color: $dark-text-muted !important;
+      }
+    }
+  }
+
+  .announcement {
+    &__item {
+      background: $dark-background-page !important;  // #030514
+      border-color: $dark-border-light !important;
+    }
+
+    &__icon {
+      // Icon colors remain the same (they have their own bg classes)
+    }
+
+    &__priority {
+      // Priority colors remain the same (they have their own bg classes)
+    }
+
+    &__title {
+      color: $dark-text-primary !important;
+    }
+
+    &__description {
+      color: $dark-text-secondary !important;
+    }
+
+    &__read-more {
+      color: $dark-text-secondary !important;
+    }
+
+    &__date {
+      color: $dark-text-muted !important;
+
+      i {
+        color: $dark-text-muted !important;
+      }
+    }
+  }
+
   // Dashboard - Kartlar taskbar ile aynı renk (#242735)
   .dashboard {
     &__card {
@@ -1197,6 +1664,53 @@ body.body--dark {
     &__context-menu-text {
       color: $dark-text-secondary !important;
     }
+  }
+
+  // ═════════════════════════════════════════════════
+  // DASHBOARD CHARTS COMPONENTS
+  // ═════════════════════════════════════════════════
+
+  // Dashboard Charts
+  .dashboard-charts {
+    &__card {
+      background: $dark-background-card !important;  // #242735
+      border-color: $dark-border-light !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+
+      &:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+      }
+
+      &--horizontal {
+        background: linear-gradient(135deg, $dark-background-page 0%, $dark-background-card 100%) !important;
+        border-color: $dark-border-light !important;
+
+        .text-h6 {
+          color: $dark-text-primary !important;
+        }
+      }
+    }
+
+    &__container {
+      background: transparent !important;
+
+      &--horizontal {
+        background: transparent !important;
+      }
+    }
+  }
+
+  // Chart.js overrides for dark mode
+  .chartjs-render-monitor {
+    // Chart background
+    background: transparent !important;
+  }
+
+  // Chart legend and tooltip overrides
+  .chartjs-tooltip {
+    background: $dark-background-card !important;
+    border-color: $dark-border-light !important;
+    color: $dark-text-primary !important;
   }
 
   // Empty State

@@ -54,16 +54,6 @@
                   flat 
                   round 
                   dense 
-                  @click="$emit('edit', props.row)"
-                  class="action-btn action-btn--edit"
-                >
-                  <i class="bi bi-pencil"></i>
-                  <q-tooltip>{{ t('common.edit') }}</q-tooltip>
-                </q-btn>
-                <q-btn 
-                  flat 
-                  round 
-                  dense 
                   @click="$emit('openInNewTab', props.row)"
                   class="action-btn action-btn--new-tab"
                 >
@@ -122,10 +112,11 @@ defineProps({
 })
 
 // Emits
-defineEmits(['view', 'edit', 'openInNewTab'])
+defineEmits(['view', 'openInNewTab'])
 </script>
 
 <style lang="scss" scoped>
+@use "sass:color";
 @import 'src/css/quasar.variables.scss';
 
 .section-card {
@@ -228,6 +219,41 @@ defineEmits(['view', 'edit', 'openInNewTab'])
       }
     }
   }
+  
+  // Pagination dropdown icon override
+  :deep(.q-table__bottom) {
+    .q-select {
+      .q-field__append {
+        .q-select__dropdown-icon {
+          display: none !important;
+        }
+        
+        &::after {
+          content: '\f282'; // Bootstrap Icons arrow-down unicode
+          font-family: 'bootstrap-icons' !important;
+          font-size: 12px !important;
+          color: $text-muted !important;
+          opacity: 0.8;
+          transition: all 0.3s ease;
+          position: absolute;
+          right: 8px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+      
+      &:hover .q-field__append::after {
+        color: $text-primary !important;
+        opacity: 1;
+      }
+      
+      &.q-field--focused .q-field__append::after {
+        color: $border-accent !important;
+        opacity: 1;
+        transform: translateY(-50%) rotate(180deg);
+      }
+    }
+  }
 }
 
 .action-btn {
@@ -238,18 +264,19 @@ defineEmits(['view', 'edit', 'openInNewTab'])
 
   &--view {
     color: $border-accent !important;
-  }
-
-  &--edit {
-    color: $text-success !important;
+    
+    &:hover {
+      background: rgba($border-accent, 0.1) !important;
+      color: color.adjust($border-accent, $lightness: -10%) !important;
+    }
   }
 
   &--new-tab {
-    color: $text-primary !important;
+    color: $text-success !important;
     
     &:hover {
-      color: $border-accent !important;
-      background: rgba($border-accent, 0.1) !important;
+      color: color.adjust($text-success, $lightness: -10%) !important;
+      background: rgba($text-success, 0.1) !important;
     }
   }
 

@@ -28,42 +28,50 @@
         
         <q-form @submit.prevent="saveProfile" class="account-edit-profile__form">
           <div class="account-edit-profile__form-grid">
-            <q-input
-              v-model="profileForm.firstName"
-              :label="$t('account.firstName')"
-              outlined
-              dense
-              :rules="validationRules.firstName"
-              class="account-edit-profile__input"
-            />
+            <div class="form-group">
+              <label>{{ $t('account.firstName') }}</label>
+              <q-input
+                v-model="profileForm.firstName"
+                outlined
+                dense
+                borderless
+                class="search-input"
+              />
+            </div>
             
-            <q-input
-              v-model="profileForm.lastName"
-              :label="$t('account.lastName')"
-              outlined
-              dense
-              :rules="validationRules.lastName"
-              class="account-edit-profile__input"
-            />
+            <div class="form-group">
+              <label>{{ $t('account.lastName') }}</label>
+              <q-input
+                v-model="profileForm.lastName"
+                outlined
+                dense
+                borderless
+                class="search-input"
+              />
+            </div>
             
-            <q-input
-              v-model="profileForm.userCode"
-              :label="$t('account.userCode')"
-              outlined
-              dense
-              :rules="validationRules.userCode"
-              class="account-edit-profile__input"
-            />
+            <div class="form-group">
+              <label>{{ $t('account.userCode') }}</label>
+              <q-input
+                v-model="profileForm.userCode"
+                outlined
+                dense
+                borderless
+                class="search-input"
+              />
+            </div>
             
-            <q-input
-              v-model="profileForm.email"
-              :label="$t('account.email')"
-              outlined
-              dense
-              type="email"
-              :rules="validationRules.email"
-              class="account-edit-profile__input"
-            />
+            <div class="form-group">
+              <label>{{ $t('account.email') }}</label>
+              <q-input
+                v-model="profileForm.email"
+                outlined
+                dense
+                borderless
+                type="email"
+                class="search-input"
+              />
+            </div>
           </div>
           
           <div class="search-form-actions">
@@ -91,7 +99,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
@@ -118,29 +126,7 @@ const profileForm = ref({
   email: ''
 })
 
-/**
- * Computed property containing all form validation rules
- * @returns {Object} Object containing validation rules for each form field
- */
-const validationRules = computed(() => ({
-  userCode: [
-    val => !!val || $t('validation.required'),
-    val => val.length >= 3 || $t('validation.minLength', { min: 3 }),
-    val => /^[A-Z0-9]+$/.test(val) || $t('validation.userCodeFormat')
-  ],
-  email: [
-    val => !!val || $t('validation.required'),
-    val => /.+@.+\..+/.test(val) || $t('validation.email')
-  ],
-  firstName: [
-    val => !!val || $t('validation.required'),
-    val => val.length >= 2 || $t('validation.minLength', { min: 2 })
-  ],
-  lastName: [
-    val => !!val || $t('validation.required'),
-    val => val.length >= 2 || $t('validation.minLength', { min: 2 })
-  ]
-}))
+// Validasyon kuralları kaldırıldı - artık validasyon yapılmıyor
 
 /**
  * Sets the profile form values from the current user profile in the store
@@ -197,6 +183,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
+@use "sass:color";
 @import 'src/css/quasar.variables.scss';
 
 .account-edit-profile {
@@ -300,31 +287,61 @@ onMounted(() => {
     }
   }
 
-  &__input {
+  // Form Group - Label stilleri artık global CSS'de tanımlı
+
+  // Search Input - Diğer component'lerle aynı stil
+  .search-input {
     :deep(.q-field__control) {
-      border-radius: 4px;
-      min-height: 40px;
-      
+      min-height: 26px !important;
+      height: 26px !important;
+      font-size: 12px;
+      background: $background-light !important;
+      border: none !important;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+
+      &:before,
+      &:after {
+        border: none !important;
+      }
+
       &:hover {
-        border-color: $border-hover;
+        background: color.adjust($background-light, $lightness: -2%) !important;
+        box-shadow: $box-shadow-input-hover;
+      }
+      
+      &:focus-within {
+        background: white !important;
+        box-shadow: 0 0 0 2px rgba($border-accent, 0.15);
       }
     }
     
-    :deep(.q-field__label) {
-      font-size: 13px;
-      color: $text-secondary;
-      font-weight: 400;
-    }
-    
     :deep(.q-field__native) {
-      font-size: 13px;
-      color: $text-primary;
-      padding: 8px 12px;
-      cursor: pointer;
+      padding: 6px 10px !important;
+      min-height: 26px !important;
+      height: 26px !important;
+      line-height: 14px !important;
+      color: $text-primary !important;
+      font-size: 12px !important;
+      font-weight: 500 !important;
+      display: flex !important;
+      align-items: center !important;
+      
+      // Placeholder styling
+      &::placeholder {
+        color: $text-muted !important;
+        opacity: 0.8 !important;
+        font-size: 11px !important;
+        font-weight: 500 !important;
+        line-height: 14px !important;
+      }
     }
     
-    :deep(.q-field__control):before {
-      border-color: $border-lighter;
+    :deep(.q-field__append) {
+      padding-right: 4px;
+      height: 26px !important;
+      display: flex !important;
+      align-items: center !important;
     }
   }
 

@@ -39,9 +39,13 @@
         <div class="col-12 col-md-3">
           <q-card class="index-page__card">
             <q-card-section>
-              <div class="text-subtitle2">
-                <i class="bi bi-geo-alt q-mr-xs" style="font-size: 16px;"></i>
-                {{ userLocation }}
+              <div class="text-subtitle2 index-page__logo-container">
+                <img 
+                  src="src/assets/logo.png" 
+                  alt="Sompo Sigorta Logo"
+                  class="index-page__logo"
+                />
+                <span class="index-page__company-name">Sompo Sigorta | Sigortacılık Ürün ve Hizmetleri</span>
               </div>
               <div class="text-h4 q-mt-sm index-page__clock-time">{{ currentDateTime }}</div>
               <div class="text-caption">{{ currentDate }}</div>
@@ -89,15 +93,24 @@
                       <span class="index-page__process-stat-name">{{ stat.name }}</span>
                     </div>
                     <div class="index-page__process-stat-numbers">
-                      <div class="index-page__stat-item">
+                      <div class="index-page__stat-item index-page__stat-item--pending">
+                        <div class="index-page__stat-icon-container">
+                          <i class="bi bi-clock-history index-page__stat-icon"></i>
+                        </div>
                         <span class="index-page__stat-label">{{ t('dashboard.pending') }}</span>
                         <span class="index-page__stat-value">{{ stat.pending }}</span>
                       </div>
-                      <div class="index-page__stat-item">
+                      <div class="index-page__stat-item index-page__stat-item--assigned">
+                        <div class="index-page__stat-icon-container">
+                          <i class="bi bi-person-check index-page__stat-icon"></i>
+                        </div>
                         <span class="index-page__stat-label">{{ t('dashboard.assigned') }}</span>
                         <span class="index-page__stat-value">{{ stat.assigned }}</span>
                       </div>
-                      <div class="index-page__stat-item">
+                      <div class="index-page__stat-item index-page__stat-item--sent">
+                        <div class="index-page__stat-icon-container">
+                          <i class="bi bi-send index-page__stat-icon"></i>
+                        </div>
                         <span class="index-page__stat-label">{{ t('dashboard.sent') }}</span>
                         <span class="index-page__stat-value">{{ stat.sent }}</span>
                       </div>
@@ -114,18 +127,26 @@
 
         <!-- Sağ Taraf - İş Durumu ve Duyurular -->
         <div class="col-12 col-md-4">
-          <!-- İş Durumu İstatistikleri -->
+          <!-- İş Havuzları -->
           <q-card class="index-page__card q-mb-md">
             <q-card-section>
-              <div class="text-h6">{{ t('dashboard.jobStatus') }}</div>
-              <div class="index-page__job-status-grid">
-                <div v-for="stat in jobStatusStats" :key="stat.label" class="index-page__job-status-item">
-                  <div class="index-page__job-status-icon" :class="`bg-${stat.color}`">
-                    <i :class="stat.icon" style="font-size: 16px; color: white;"></i>
-                  </div>
-                  <div class="index-page__job-status-content">
-                    <div class="index-page__job-status-count">{{ stat.count }}</div>
-                    <div class="index-page__job-status-label">{{ stat.label }}</div>
+              <div class="text-h6">İş Havuzları</div>
+              <div class="row q-col-gutter-md q-mt-sm">
+                <div v-for="pool in jobPools" :key="pool.id" class="col-12 col-md-6">
+                  <div class="index-page__job-pool-stat">
+                    <div class="index-page__job-pool-stat-header">
+                      <i :class="[pool.icon, pool.colorClass]"></i>
+                      <span class="index-page__job-pool-stat-name">{{ pool.name }}</span>
+                    </div>
+                    <div class="index-page__job-pool-stat-numbers">
+                      <div class="index-page__job-pool-stat-item index-page__job-pool-stat-item--pending">
+                        <div class="index-page__job-pool-stat-icon-container">
+                          <i :class="[pool.icon, pool.colorClass]" class="index-page__job-pool-stat-icon"></i>
+                        </div>
+                        <span class="index-page__job-pool-stat-label">Toplam Dosya</span>
+                        <span class="index-page__job-pool-stat-value">{{ pool.count }}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -215,6 +236,52 @@ const jobStatusStats = computed(() => dashboardStore.jobStatusStats)
 const announcementList = computed(() => dashboardStore.announcementList)
 const summaryStats = computed(() => dashboardStore.summaryStats)
 
+// İş Havuzları - Kullanıcının oluşturduğu sorgu listeleri (CSS Custom Properties ile)
+const jobPools = computed(() => [
+  {
+    id: 'incelenecek-evraklar',
+    name: 'İncelemeye Hazır Evraklı Dosyalar',
+    count: 15,
+    colorClass: 'job-pool-color--pending', // CSS class ile renk yönetimi
+    icon: 'bi bi-file-earmark-check'
+  },
+  {
+    id: 'odeme-yapilmamis',
+    name: 'Ödeme Yapılmamış Dosyalar',
+    count: 8,
+    colorClass: 'job-pool-color--assigned', // CSS class ile renk yönetimi
+    icon: 'bi bi-credit-card'
+  },
+  {
+    id: 'eksik-belgeler',
+    name: 'Eksik Belgeli Dosyalar',
+    count: 12,
+    colorClass: 'job-pool-color--sent', // CSS class ile renk yönetimi
+    icon: 'bi bi-file-earmark-excel'
+  },
+  {
+    id: 'onay-bekleyen',
+    name: 'Onay Bekleyen Dosyalar',
+    count: 6,
+    colorClass: 'job-pool-color--pending', // CSS class ile renk yönetimi
+    icon: 'bi bi-clock-history'
+  },
+  {
+    id: 'arabuluculuk',
+    name: 'Arabuluculuk Dosyaları',
+    count: 4,
+    colorClass: 'job-pool-color--assigned', // CSS class ile renk yönetimi
+    icon: 'bi bi-people'
+  },
+  {
+    id: 'yuksek-oncelik',
+    name: 'Yüksek Öncelikli Dosyalar',
+    count: 3,
+    colorClass: 'job-pool-color--sent', // CSS class ile renk yönetimi
+    icon: 'bi bi-exclamation-triangle'
+  }
+])
+
 // Methods
 const toggleAnnouncementExpand = (announcementId) => {
   const announcement = announcementList.value.find(a => a.id === announcementId)
@@ -250,6 +317,27 @@ onBeforeUnmount(() => {
   &__card
     border-radius: 12px
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
+    
+  &__logo-container
+    display: flex
+    align-items: center
+    gap: 8px
+    
+  &__logo
+    width: 24px
+    height: 24px
+    object-fit: contain
+    
+  &__company-name
+    font-size: 12px
+    font-weight: 500
+    color: #5f6368
+    line-height: 1.3
+    
+    // Mobile responsive
+    @media (max-width: 768px)
+      font-size: 11px
+      line-height: 1.2
     transition: all 0.3s ease
     
     &:hover
@@ -296,9 +384,47 @@ onBeforeUnmount(() => {
     text-align: center
     flex: 1
     padding: 8px
-    border-radius: 4px
-    background: #f8f9fa
+    border-radius: 8px
+    background: transparent
     border: 1px solid #e9ecef
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 4px
+    position: relative
+    
+    &--pending
+      background: transparent
+      border-color: #e9ecef
+      
+    &--assigned
+      background: transparent
+      border-color: #e9ecef
+      
+    &--sent
+      background: transparent
+      border-color: #e9ecef
+
+  &__stat-icon-container
+    width: 24px
+    height: 24px
+    border-radius: 50%
+    display: flex
+    align-items: center
+    justify-content: center
+    margin-bottom: 2px
+    
+  &__stat-icon
+    font-size: 12px
+    
+    .index-page__stat-item--pending &
+      color: #FF9800
+      
+    .index-page__stat-item--assigned &
+      color: #2196F3
+      
+    .index-page__stat-item--sent &
+      color: #4CAF50
 
   &__stat-label
     display: block
@@ -313,42 +439,101 @@ onBeforeUnmount(() => {
     font-weight: 600
     color: #495057
 
-  &__job-status-grid
-    display: grid
-    grid-template-columns: repeat(2, 1fr)
-    gap: 12px
-    margin-top: 16px
-
-  &__job-status-item
-    display: flex
-    align-items: center
+  // İş Havuzları - Detaylı İş Sayıları ile BİREBİR aynı CSS yapısı
+  &__job-pool-stat
     padding: 12px
-    border-radius: 8px
-    background: #f8f9fa
+    border-radius: 4px
+    background: #ffffff // Normal card background
     border: 1px solid #e9ecef
 
-  &__job-status-icon
-    width: 32px
-    height: 32px
+  &__job-pool-stat-header
+    display: flex
+    align-items: center
+    margin-bottom: 16px
+
+    i
+      font-size: 18px
+      color: #495057 // Detaylı İş Sayıları ile aynı icon color
+
+  &__job-pool-stat-name
+    margin-left: 8px
+    font-weight: 600
+    font-size: 14px
+    color: #495057 // Normal text color
+
+  &__job-pool-stat-numbers
+    display: flex
+    justify-content: space-between
+    gap: 8px
+
+  &__job-pool-stat-item
+    text-align: center
+    flex: 1
+    padding: 8px
+    border-radius: 8px
+    background: transparent
+    border: 1px solid #e9ecef
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 4px
+    position: relative
+    
+    &--pending
+      background: transparent
+      border-color: #e9ecef
+      
+    &--assigned
+      background: transparent
+      border-color: #e9ecef
+      
+    &--sent
+      background: transparent
+      border-color: #e9ecef
+
+  &__job-pool-stat-icon-container
+    width: 24px
+    height: 24px
     border-radius: 50%
     display: flex
     align-items: center
     justify-content: center
-    margin-right: 12px
-
-  &__job-status-content
-    flex: 1
-
-  &__job-status-count
-    font-size: 18px
-    font-weight: 600
-    color: #495057
-    line-height: 1
-
-  &__job-status-label
+    margin-bottom: 2px
+    
+  &__job-pool-stat-icon
     font-size: 12px
-    color: #6c757d
-    margin-top: 2px
+    
+    .index-page__job-pool-stat-item--pending &
+      color: #FF9800
+      
+    .index-page__job-pool-stat-item--assigned &
+      color: #2196F3
+      
+    .index-page__job-pool-stat-item--sent &
+      color: #4CAF50
+
+  &__job-pool-stat-label
+    display: block
+    font-size: 11px
+    color: #6c757d // Normal label color
+    margin-bottom: 4px
+    font-weight: 500
+
+  &__job-pool-stat-value
+    display: block
+    font-size: 16px
+    font-weight: 600
+    color: #495057 // Normal value color
+
+// Job Pool Color Classes - Chart renk paleti ile
+.job-pool-color--pending
+  color: #FF9800 !important
+
+.job-pool-color--assigned
+  color: #2196F3 !important
+
+.job-pool-color--sent
+  color: #4CAF50 !important
 
 .announcements
   margin-top: 16px
@@ -459,8 +644,7 @@ onBeforeUnmount(() => {
   .dashboard
     padding: 12px
     
-  .job-status-grid
-    grid-template-columns: 1fr
+  // .status-grid utility class'i artık global utilities.scss'de tanımlı
     
   .process-stat__numbers
     flex-direction: column

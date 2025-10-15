@@ -68,13 +68,7 @@
   cursor: not-allowed !important;
 }
 
-.cursor-grab {
-  cursor: grab !important;
-  
-  &:active {
-    cursor: grabbing !important;
-  }
-}
+// .cursor-grab removed - not used in project
 
 // ===== TEXT UTILITIES =====
 
@@ -84,19 +78,7 @@
   white-space: nowrap;
 }
 
-.text-ellipsis-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.text-ellipsis-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+// .text-ellipsis-2 and .text-ellipsis-3 removed - not used in project
 
 // ===== SCREEN READER ONLY =====
 
@@ -134,27 +116,226 @@
   visibility: hidden !important;
 }
 
-// ===== SPACING HELPERS (Complement Quasar) =====
+// ===== SPACING HELPERS (CSS Custom Properties) =====
 
-.gap-xs {
-  gap: 4px !important;
+// Gap utilities using CSS Custom Properties
+.gap-xs { gap: var(--spacing-xs) !important; }
+.gap-sm { gap: var(--spacing-sm) !important; }
+.gap-md { gap: var(--spacing-md) !important; }
+.gap-lg { gap: var(--spacing-lg) !important; }
+.gap-xl { gap: var(--spacing-xl) !important; }
+.gap-2xl { gap: var(--spacing-2xl) !important; }
+.gap-3xl { gap: var(--spacing-3xl) !important; }
+
+// ===== CSS GRID UTILITIES =====
+
+// Grid Display
+.grid { display: grid !important; }
+.grid-inline { display: inline-grid !important; }
+
+// Grid Template Columns
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+// .grid-cols-4, .grid-cols-5, .grid-cols-6, .grid-cols-12 removed - not used in project
+
+// Grid Column Span
+// Grid column span utilities removed - not used in project
+
+// Grid Column Start/End utilities removed - not used in project
+
+// Grid Template Rows and Row Span utilities removed - not used in project
+
+// Grid Auto Flow utilities removed - not used in project
+
+// Grid Auto Columns/Rows utilities removed - not used in project
+
+// Grid Areas utilities removed - not used in project
+
+// Grid alignment utilities removed - not used in project
+
+// ===== COMMON GRID LAYOUT PATTERNS =====
+
+// Info Grid Patterns (Mevcut .info-grid-2, .info-grid-3 yerine)
+.info-grid-2 {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: var(--spacing-sm) !important;
+  margin-bottom: var(--spacing-sm) !important;
 }
 
-.gap-sm {
-  gap: 8px !important;
+.info-grid-3 {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: var(--spacing-sm) !important;
+  margin-bottom: var(--spacing-sm) !important;
 }
 
-.gap-md {
-  gap: 16px !important;
+.info-grid-4 {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: var(--spacing-sm) !important;
+  margin-bottom: var(--spacing-sm) !important;
 }
 
-.gap-lg {
-  gap: 24px !important;
+// Form Grid Patterns (Mevcut .form-grid yerine)
+.form-grid-2 {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: var(--spacing-md) !important;
+  margin-bottom: var(--spacing-md) !important;
 }
 
-.gap-xl {
-  gap: 32px !important;
+.form-grid-3 {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: var(--spacing-md) !important;
+  margin-bottom: var(--spacing-md) !important;
 }
+
+// Dashboard/Status Grid Patterns
+.status-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: var(--spacing-sm) !important;
+}
+
+.status-grid-2 {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: var(--spacing-sm) !important;
+}
+
+.status-grid-3 {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: var(--spacing-sm) !important;
+}
+
+// Responsive Grid Patterns
+@media (max-width: 768px) {
+  .grid-cols-2 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+  .grid-cols-3 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+  
+  .info-grid-2,
+  .info-grid-3,
+  .info-grid-4 {
+    grid-template-columns: repeat(1, 1fr) !important;
+  }
+  
+  .form-grid-2,
+  .form-grid-3 {
+    grid-template-columns: repeat(1, 1fr) !important;
+  }
+  
+  .status-grid-2,
+  .status-grid-3 {
+    grid-template-columns: repeat(1, 1fr) !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  // Tablet responsive patterns kept for info-grid and form-grid
+  
+  .info-grid-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  .form-grid-3 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  .status-grid-3 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+// Padding utilities
+.p-xs { padding: var(--spacing-xs) !important; }
+.p-sm { padding: var(--spacing-sm) !important; }
+.p-md { padding: var(--spacing-md) !important; }
+.p-lg { padding: var(--spacing-lg) !important; }
+.p-xl { padding: var(--spacing-xl) !important; }
+
+// Margin utilities
+.m-xs { margin: var(--spacing-xs) !important; }
+.m-sm { margin: var(--spacing-sm) !important; }
+.m-md { margin: var(--spacing-md) !important; }
+.m-lg { margin: var(--spacing-lg) !important; }
+.m-xl { margin: var(--spacing-xl) !important; }
+
+// Directional spacing
+.px-xs { padding-left: var(--spacing-xs) !important; padding-right: var(--spacing-xs) !important; }
+.px-sm { padding-left: var(--spacing-sm) !important; padding-right: var(--spacing-sm) !important; }
+.px-md { padding-left: var(--spacing-md) !important; padding-right: var(--spacing-md) !important; }
+.px-lg { padding-left: var(--spacing-lg) !important; padding-right: var(--spacing-lg) !important; }
+.px-xl { padding-left: var(--spacing-xl) !important; padding-right: var(--spacing-xl) !important; }
+
+.py-xs { padding-top: var(--spacing-xs) !important; padding-bottom: var(--spacing-xs) !important; }
+.py-sm { padding-top: var(--spacing-sm) !important; padding-bottom: var(--spacing-sm) !important; }
+.py-md { padding-top: var(--spacing-md) !important; padding-bottom: var(--spacing-md) !important; }
+.py-lg { padding-top: var(--spacing-lg) !important; padding-bottom: var(--spacing-lg) !important; }
+.py-xl { padding-top: var(--spacing-xl) !important; padding-bottom: var(--spacing-xl) !important; }
+
+.mx-xs { margin-left: var(--spacing-xs) !important; margin-right: var(--spacing-xs) !important; }
+.mx-sm { margin-left: var(--spacing-sm) !important; margin-right: var(--spacing-sm) !important; }
+.mx-md { margin-left: var(--spacing-md) !important; margin-right: var(--spacing-md) !important; }
+.mx-lg { margin-left: var(--spacing-lg) !important; margin-right: var(--spacing-lg) !important; }
+.mx-xl { margin-left: var(--spacing-xl) !important; margin-right: var(--spacing-xl) !important; }
+
+.my-xs { margin-top: var(--spacing-xs) !important; margin-bottom: var(--spacing-xs) !important; }
+.my-sm { margin-top: var(--spacing-sm) !important; margin-bottom: var(--spacing-sm) !important; }
+.my-md { margin-top: var(--spacing-md) !important; margin-bottom: var(--spacing-md) !important; }
+.my-lg { margin-top: var(--spacing-lg) !important; margin-bottom: var(--spacing-lg) !important; }
+.my-xl { margin-top: var(--spacing-xl) !important; margin-bottom: var(--spacing-xl) !important; }
+
+// ===== TYPOGRAPHY UTILITIES (CSS Custom Properties) =====
+
+// Font size utilities
+.text-xs { font-size: var(--text-xs) !important; }
+.text-sm { font-size: var(--text-sm) !important; }
+.text-base { font-size: var(--text-base) !important; }
+.text-lg { font-size: var(--text-lg) !important; }
+.text-xl { font-size: var(--text-xl) !important; }
+.text-2xl { font-size: var(--text-2xl) !important; }
+.text-3xl { font-size: var(--text-3xl) !important; }
+.text-4xl { font-size: var(--text-4xl) !important; }
+
+// Font weight utilities
+.font-light { font-weight: var(--font-weight-light) !important; }
+.font-normal { font-weight: var(--font-weight-normal) !important; }
+.font-medium { font-weight: var(--font-weight-medium) !important; }
+.font-semibold { font-weight: var(--font-weight-semibold) !important; }
+.font-bold { font-weight: var(--font-weight-bold) !important; }
+
+// Line height utilities
+.leading-none { line-height: var(--leading-none) !important; }
+.leading-tight { line-height: var(--leading-tight) !important; }
+.leading-snug { line-height: var(--leading-snug) !important; }
+.leading-normal { line-height: var(--leading-normal) !important; }
+.leading-relaxed { line-height: var(--leading-relaxed) !important; }
+.leading-loose { line-height: var(--leading-loose) !important; }
+
+// ===== BORDER RADIUS UTILITIES (CSS Custom Properties) =====
+
+.rounded-none { border-radius: var(--radius-none) !important; }
+.rounded-sm { border-radius: var(--radius-sm) !important; }
+.rounded-md { border-radius: var(--radius-md) !important; }
+.rounded-lg { border-radius: var(--radius-lg) !important; }
+.rounded-xl { border-radius: var(--radius-xl) !important; }
+.rounded-2xl { border-radius: var(--radius-2xl) !important; }
+.rounded-full { border-radius: var(--radius-full) !important; }
+
+// ===== Z-INDEX UTILITIES (CSS Custom Properties) =====
+
+.z-dropdown { z-index: var(--z-dropdown) !important; }
+.z-sticky { z-index: var(--z-sticky) !important; }
+.z-fixed { z-index: var(--z-fixed) !important; }
+.z-modal-backdrop { z-index: var(--z-modal-backdrop) !important; }
+.z-modal { z-index: var(--z-modal) !important; }
+.z-popover { z-index: var(--z-popover) !important; }
+.z-tooltip { z-index: var(--z-tooltip) !important; }
+.z-toast { z-index: var(--z-toast) !important; }
 
 // ===== FLEX UTILITIES =====
 
@@ -182,18 +363,51 @@
   justify-content: flex-end;
 }
 
-// ===== TRANSITION UTILITIES =====
+// ===== TRANSITION UTILITIES (CSS Custom Properties) =====
 
+.transition-75 {
+  transition: all var(--duration-75) var(--ease-in-out) !important;
+}
+
+.transition-100 {
+  transition: all var(--duration-100) var(--ease-in-out) !important;
+}
+
+.transition-150 {
+  transition: all var(--duration-150) var(--ease-in-out) !important;
+}
+
+.transition-200 {
+  transition: all var(--duration-200) var(--ease-in-out) !important;
+}
+
+.transition-300 {
+  transition: all var(--duration-300) var(--ease-in-out) !important;
+}
+
+.transition-500 {
+  transition: all var(--duration-500) var(--ease-in-out) !important;
+}
+
+.transition-700 {
+  transition: all var(--duration-700) var(--ease-in-out) !important;
+}
+
+.transition-1000 {
+  transition: all var(--duration-1000) var(--ease-in-out) !important;
+}
+
+// Legacy transition utilities (backward compatibility)
 .transition-all {
-  transition: all 0.2s ease !important;
+  transition: all var(--duration-200) var(--ease-in-out) !important;
 }
 
 .transition-fast {
-  transition: all 0.15s ease !important;
+  transition: all var(--duration-150) var(--ease-in-out) !important;
 }
 
 .transition-slow {
-  transition: all 0.35s ease !important;
+  transition: all var(--duration-500) var(--ease-in-out) !important;
 }
 
 // ===== RESPONSIVE UTILITIES =====
@@ -210,7 +424,7 @@
   }
 }
 
-// ===== INTERACTIVE STATES =====
+// ===== INTERACTIVE STATES (MIXIN-BASED) =====
 
 .clickable {
   cursor: pointer;
@@ -221,14 +435,173 @@
   }
 }
 
-.hoverable {
-  transition: all 0.2s ease;
+// ===== BEM UTILITY CLASSES =====
+
+// Common BEM Element Patterns
+.bem-header {
+  // Standard header styling
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--border-light);
+  background: var(--background-card);
+}
+
+.bem-content {
+  // Standard content styling
+  padding: var(--spacing-md);
+  background: var(--background-page);
+}
+
+.bem-footer {
+  // Standard footer styling
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--border-light);
+  background: var(--background-card);
+}
+
+.bem-title {
+  // Standard title styling
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-sm) 0;
+  line-height: var(--leading-tight);
+}
+
+.bem-description {
+  // Standard description styling
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: var(--leading-normal);
+}
+
+.bem-actions {
+  // Standard actions container styling
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+  justify-content: flex-end;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--background-light);
+  border-top: 1px solid var(--border-light);
+}
+
+// Common BEM Modifier Patterns
+.bem-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.bem-loading {
+  position: relative;
+  pointer-events: none;
   
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--border-light);
+    border-top: 2px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
   }
 }
+
+.bem-active {
+  background: $primary;
+  color: $primary-dark;
+  border-color: $primary;
+}
+
+// BEM State Transitions
+.bem-transition {
+  transition: all var(--duration-200) var(--ease-in-out);
+}
+
+.bem-transition-slow {
+  transition: all var(--duration-300) var(--ease-in-out);
+}
+
+// ===== COMPONENT ORGANIZATION UTILITIES =====
+
+// Component Container
+.component-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background: var(--background-page);
+}
+
+.component-section {
+  flex: 1;
+  padding: var(--spacing-md);
+  background: var(--background-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  margin-bottom: var(--spacing-md);
+}
+
+.component-header {
+  @extend .bem-header;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  margin-bottom: 0;
+}
+
+.component-content {
+  @extend .bem-content;
+  border-radius: 0;
+  margin-bottom: 0;
+}
+
+.component-footer {
+  @extend .bem-footer;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  margin-bottom: 0;
+}
+
+// Component patterns removed - not used in project
+
+.hoverable {
+  @include hover-lift($background-card);
+}
+
+// Mixin-based utility classes
+.hover-lift {
+  @include hover-lift($background-card);
+}
+
+// .hover-lift-page and .hover-lift-light removed - not used in project
+
+.component-states {
+  @include component-states($background-card);
+}
+
+// .component-states-page removed - not used in project
+
+.focus-ring {
+  @include focus-ring();
+}
+
+// Button, card, and input utility classes removed - not used in project
+
+.flex-center {
+  @include flex-center();
+}
+
+.flex-between {
+  @include flex-between();
+}
+
+.text-truncate {
+  @include text-truncate();
+}
+
+// .text-truncate-2 and .text-truncate-3 removed - not used in project
 
 // ===== PRINT UTILITIES =====
 

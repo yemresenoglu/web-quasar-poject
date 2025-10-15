@@ -134,6 +134,11 @@ export default {
       reportsAnalytics: 'Reports & Analytics',
       systemManagement: 'System Management',
       helpSupport: 'Help & Support',
+      // New categories
+      hasarDosya: 'Damage File',
+      evrakYonetimi: 'Document Management',
+      raporlar: 'Reports',
+      sistemYonetimi: 'System Management',
     },
     items: {
       // Damage Operations
@@ -191,6 +196,24 @@ export default {
       supportRequests: 'Support Requests',
       trainingVideos: 'Training Videos',
       contact: 'Contact',
+
+      // New menu items
+      hasarDosyaSorgulamaArabulucu: 'Damage File Query (Mediator)',
+      hasarDosyaEkleme: 'Add Damage File',
+      hasarDosyaListesi: 'Damage File List',
+      hasarDosyaRaporlari: 'Damage File Reports',
+      
+      evrakYukleme: 'Document Upload',
+      evrakListesi: 'Document List',
+      evrakOnay: 'Document Approval',
+      
+      gunlukRapor: 'Daily Report',
+      aylikRapor: 'Monthly Report',
+      ozetRapor: 'Summary Report',
+      
+      kullaniciYonetimi: 'User Management',
+      yetkiYonetimi: 'Permission Management',
+      sistemAyarlari: 'System Settings',
     },
   },
 
@@ -264,97 +287,30 @@ export default {
 
   // Dashboard
   dashboard: {
-    // Top info cards
     pendingJobs: 'Pending Jobs',
     myJobs: 'My Jobs',
     sentJobs: 'Sent Jobs',
-
-    // Detailed job counts
     detailedJobCounts: 'Detailed Job Counts',
     pending: 'Pending',
     assigned: 'Assigned',
     sent: 'Sent',
-
-    // Process types
-    processes: {
-      valueLossMediation: 'Value Loss Mediation',
-      severeDamagePertMediation: 'Severe Damage Pert Mediation',
-      bodilyDamageVoluntaryMediation: 'Bodily Damage Voluntary Mediation',
-    },
-
-    // Job status
     jobStatus: 'Job Status',
-    todaySent: 'Today Sent',
-    todayReceived: 'Today Received',
-    pendingApproval: 'Pending Approval',
-    completed: 'Completed',
-    activeFiles: 'Active Files',
-    expertAssignments: 'Expert Assignments',
-
-    // Charts
     charts: {
       workStatusDistribution: 'Work Status Distribution',
       weeklyWorkTrend: 'Weekly Work Trend',
       processBasedWorkload: 'Process-Based Workload',
-      pending: 'Pending',
-      inProgress: 'In Progress',
-      completed: 'Completed',
-      completedJobs: 'Completed Jobs',
-      newJobs: 'New Jobs',
     },
-
-    // Status messages
-    status: {
-      lastUpdate: 'Last update: 5 min ago',
-      systemActive: 'System active',
-      detailedReport: 'Detailed Report',
-    },
-
-    // Location messages
-    location: {
-      gettingLocation: 'Getting location...',
-      permissionDenied: 'Location permission denied',
-      locationUnavailable: 'Location unavailable',
-      locationTimeout: 'Location request timeout',
-      locationServiceUnavailable: 'Location service unavailable',
-    },
-
-    // Announcement list
     announcements: {
       title: 'Announcement List',
-      empty: 'No announcements available',
       noAnnouncements: 'No announcements available',
-      viewAll: 'View All',
       readMore: 'Read More',
       showLess: 'Show Less',
-      categories: {
-        system: 'System',
-        maintenance: 'Maintenance',
-        security: 'Security',
-        update: 'Update',
-        general: 'General',
-      },
       priorities: {
         high: 'High',
         medium: 'Medium',
         low: 'Low',
       },
-      items: {
-        maintenance: {
-          title: 'System Maintenance Announcement',
-          description: 'Planned system maintenance will be performed this weekend.',
-        },
-        security: {
-          title: 'Security Update',
-          description: 'New security measures have been implemented.',
-        },
-        update: {
-          title: 'New Feature: Report Module',
-          description: 'Advanced reporting features are now available.',
-        },
-      },
       testNotification: 'Dashboard Loaded - Custom Notification Test',
-      unknownLocation: 'Unknown',
     },
   },
 
@@ -399,88 +355,6 @@ export default {
     },
   },
 
-  // Damage File Query
-  damageQuery: {
-    title: 'Damage File Query',
-    refresh: 'Refresh',
-    exportResults: 'Export Results',
-
-    // Tab labels
-    tabs: {
-      damage: 'Damage',
-      insured: 'Insured',
-      victim: 'Victim',
-      responsible: 'Responsible Person',
-    },
-
-    // Form labels
-    form: {
-      fileNumber: 'File Number',
-      reportNumber: 'Report Number',
-      fileStatus: 'File General Status',
-      subBranch: 'Sub Branch',
-      productCode: 'Product Code',
-      damageReason: 'Damage Reason',
-      preReportStartDate: 'Pre-Report Start Date',
-      preReportEndDate: 'Pre-Report End Date',
-      reportStartDate: 'Report Start Date',
-      reportEndDate: 'Report End Date',
-      damageStartDate: 'Damage Start Date',
-      damageEndDate: 'Damage End Date',
-      sideFile: 'Side File',
-      fileType: 'File Type',
-      priority: 'Priority',
-      status: 'Status',
-      policyNumber: 'Policy Number',
-      insuredName: 'Insured Name',
-      insuredSurname: 'Insured Surname',
-      insuredPlate: 'Insured Plate',
-      victimName: 'Victim Name',
-      victimPlate: 'Victim Plate',
-      legalNumber: 'Legal Number',
-      hasRecourse: 'Has Recourse?',
-      subDamageReason: 'Sub Damage Reason',
-    },
-
-    // Table columns
-    table: {
-      priority: 'Priority',
-      status: 'Status',
-      fileNumber: 'File Number',
-      reportNumber: 'Report Number',
-      sideFile: 'Side File',
-      preReportReason: 'Pre-Report Reason',
-      fileType: 'File Type',
-      policyNumber: 'Policy Number',
-      insuredName: 'Insured Name',
-      insuredPlate: 'Insured Plate',
-      insuredSurname: 'Insured Surname',
-      victimName: 'Victim Name',
-      victimPlate: 'Victim Plate',
-      legalNumber: 'Legal Number',
-      hasRecourse: 'Has Recourse?',
-      subBranch: 'Sub Branch',
-      damageReason: 'Damage Reason',
-      subDamageReason: 'Sub Damage Reason',
-      actions: 'Actions',
-    },
-
-    // Actions
-    actions: {
-      search: 'Search',
-      clear: 'Clear',
-      viewDetails: 'View Details',
-      edit: 'Edit',
-      delete: 'Delete',
-    },
-
-    // Messages
-    messages: {
-      noResults: 'No results found',
-      searchResults: 'Search Results',
-      loading: 'Loading...',
-    },
-  },
 
   // Error pages
   error: {
@@ -492,91 +366,6 @@ export default {
     },
   },
 
-  // Hasar Dosya page
-  hasarDosya: {
-    title: 'Damage Files',
-    actions: {
-      print: 'Print',
-      download: 'Download',
-      share: 'Share',
-      upload: 'Upload',
-      addNote: 'Add Note',
-    },
-    sections: {
-      reportInfo: 'Report Information',
-      eventInfo: 'Event Information',
-      policyInfo: 'Policy Information',
-      coverageInfo: 'Coverage',
-      victimInfo: 'Victim Information',
-      expertInfo: 'Expert Information',
-      paymentInfo: 'Payment Information',
-      documents: 'Documents',
-      notesAndProcess: 'Notes and Process',
-      expertResults: 'Expert Results',
-    },
-    labels: {
-      reportTime: 'Report Time',
-      reporter: 'Reporter',
-      contact: 'Contact',
-      reportType: 'Report Type',
-      reportDescription: 'Report Description',
-      eventDate: 'Event Date',
-      eventTime: 'Event Time',
-      eventLocation: 'Event Location',
-      city: 'City / District',
-      eventDescription: 'Event Description',
-      policyNumber: 'Policy Number',
-      policyHolder: 'Policy Holder',
-      policyStartDate: 'Start Date',
-      policyEndDate: 'End Date',
-      premium: 'Premium',
-      coverageType: 'Coverage Type',
-      coverageLimit: 'Coverage Limit',
-      victimName: 'Name Surname',
-      victimId: 'ID Number',
-      victimPhone: 'Phone',
-      victimEmail: 'Email',
-      estimatedDamage: 'Estimated Damage',
-      address: 'Address',
-      expertName: 'Expert Name',
-      expertCompany: 'Company',
-      expertContact: 'Contact',
-      assignmentDate: 'Assignment Date',
-      reportDate: 'Report Date',
-      approvedAmount: 'Approved Amount',
-      deductible: 'Deductible',
-      netPayment: 'Net Payment',
-      paymentType: 'Payment Type',
-      paymentDate: 'Payment Date',
-      paymentAmount: 'Payment Amount',
-      paymentStatus: 'Payment Status',
-      paymentDescription: 'Payment Description',
-      documentCategory: 'Category',
-      documentName: 'Document Name',
-      documentDate: 'Document Date',
-      documentSize: 'Document Size',
-      noteTitle: 'Note Title',
-      noteDate: 'Note Date',
-      noteAuthor: 'Note Author',
-      noteContent: 'Note Content',
-    },
-    messages: {
-      printing: 'File is being printed...',
-      downloading: 'File is being downloaded...',
-      shareFeature: 'Share feature will be available soon',
-      selectDocumentType: 'Please select document type',
-      documentRequestSent: '{type} document request sent',
-      uploadFeature: 'Document upload feature will be available soon',
-      viewingDocument: '{name} is being viewed...',
-      downloadingDocument: '{name} is being downloaded...',
-      addNoteFeature: 'Add note feature will be available soon',
-      editNoteFeature: 'Edit note feature will be available soon',
-      deleteNoteFeature: 'Delete note feature will be available soon',
-      loadingFile: '{fileNumber} file is being loaded...',
-      searchPlaceholder: 'Search file...',
-    },
-    fileTitle: 'Damage File - {fileNumber}',
-  },
 
   // Hasar Dosya Arabulucu page
   hasarDosyaArabulucu: {

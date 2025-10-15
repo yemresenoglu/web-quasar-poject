@@ -2,14 +2,38 @@ import { defineStore } from 'pinia'
 import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { createLogger } from 'src/utils/logger.js'
+import { getMenuCategories } from 'src/data/menu-mock-data.js'
+import { menuApiModule } from 'src/api/modules/menu-api.js'
 
 const logger = createLogger('MenuPageStore')
 
 // API'den menü yapısını al
-const buildMenuFromData = () => {
-  // TODO: Backend API'den menü verilerini al
-  logger.info('Menu data will be fetched from backend API')
-  return []
+const buildMenuFromData = async () => {
+  try {
+    logger.info('Fetching menu data from backend API')
+    
+    // Mock data kullanımı - geliştirme ortamında
+    if (process.env.NODE_ENV === 'development') {
+      logger.info('Using mock menu data for development')
+      const mockCategories = getMenuCategories()
+      logger.info('Mock menu data loaded successfully:', mockCategories.length, 'categories')
+      return mockCategories
+    }
+    
+    // TODO: Backend API'den menü verilerini al
+    // const result = await menuApiModule.getMenuData()
+    // return result.success ? result.data : []
+    
+    // Hata durumunda mock data kullan
+    logger.info('Falling back to mock menu data')
+    return getMenuCategories()
+  } catch (error) {
+    logger.error('Menu data fetch failed:', error)
+    
+    // Hata durumunda mock data kullan
+    logger.info('Using mock menu data due to error')
+    return getMenuCategories()
+  }
 }
 
 export const useMenuPageStore = defineStore(
@@ -44,56 +68,68 @@ export const useMenuPageStore = defineStore(
       { deep: true },
     )
 
-    // menu-data.json'dan menüyü oluştur
-    const dynamicMenu = buildMenuFromData()
+    // Menü verilerini API'den al
+    const originalMenuData = ref({
+      menu: [],
+    })
 
-    // Yardım ve Destek kategorisini manuel ekle
-    const helpSupportCategory = {
-      id: 'help-support',
-      translationKey: 'menuPage.categories.helpSupport',
-      icon: 'bi bi-question-circle',
-      items: [
-        {
-          id: 'user-guide',
-          translationKey: 'menuPage.items.userGuide',
-          icon: 'bi bi-book',
-          route: '/kullanim-kilavuzu',
-          quickAccess: false,
-        },
-        {
-          id: 'faq',
-          translationKey: 'menuPage.items.faq',
-          icon: 'bi bi-question-circle-fill',
-          route: '/sss',
-          quickAccess: false,
-        },
-        {
-          id: 'support-requests',
-          translationKey: 'menuPage.items.supportRequests',
-          icon: 'bi bi-headset',
-          route: '/destek-talepleri',
-          quickAccess: false,
-        },
-        {
-          id: 'training-videos',
-          translationKey: 'menuPage.items.trainingVideos',
-          icon: 'bi bi-play-circle',
-          route: '/egitim-videolari',
-          quickAccess: false,
-        },
-        {
-          id: 'contact',
-          translationKey: 'menuPage.items.contact',
-          icon: 'bi bi-envelope',
-          route: '/iletisim',
-          quickAccess: false,
-        },
-      ],
+    // Menü verilerini yükle
+    const loadMenuData = async () => {
+      try {
+        const dynamicMenu = await buildMenuFromData()
+        
+        // Yardım ve Destek kategorisini manuel ekle (static)
+        const helpSupportCategory = {
+          id: 'help-support',
+          translationKey: 'menuPage.categories.helpSupport',
+          icon: 'bi bi-question-circle',
+          items: [
+            {
+              id: 'user-guide',
+              translationKey: 'menuPage.items.userGuide',
+              icon: 'bi bi-book',
+              route: '/kullanim-kilavuzu',
+              quickAccess: false,
+            },
+            {
+              id: 'faq',
+              translationKey: 'menuPage.items.faq',
+              icon: 'bi bi-question-circle-fill',
+              route: '/sss',
+              quickAccess: false,
+            },
+            {
+              id: 'support-requests',
+              translationKey: 'menuPage.items.supportRequests',
+              icon: 'bi bi-headset',
+              route: '/destek-talepleri',
+              quickAccess: false,
+            },
+            {
+              id: 'training-videos',
+              translationKey: 'menuPage.items.trainingVideos',
+              icon: 'bi bi-play-circle',
+              route: '/egitim-videolari',
+              quickAccess: false,
+            },
+            {
+              id: 'contact',
+              translationKey: 'menuPage.items.contact',
+              icon: 'bi bi-envelope',
+              route: '/iletisim',
+              quickAccess: false,
+            },
+          ],
+        }
+        
+        originalMenuData.value.menu = [...dynamicMenu, helpSupportCategory]
+      } catch (error) {
+        logger.error('Menu data load failed:', error)
+      }
     }
 
-    const originalMenuData = ref({
-      menu: [...dynamicMenu, helpSupportCategory],
-    })
+    // İlk yükleme
+    loadMenuData()
 
     const translatedMenuData = computed(() => {
       return originalMenuData.value.menu.map((category) => ({

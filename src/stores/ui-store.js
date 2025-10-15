@@ -2,6 +2,12 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { Dark, LocalStorage, Notify } from 'quasar'
 import { createLogger } from 'src/utils/logger.js'
+import { 
+  simulateUIApi,
+  getMockNotifications,
+  getMockUISettings,
+  generateMockNotification
+} from 'src/data/ui-mock-data.js'
 
 const logger = createLogger('UIStore')
 
@@ -15,6 +21,7 @@ export const useUIStore = defineStore('ui', () => {
   const loading = ref(false)
   const error = ref(null)
   const darkMode = ref(LocalStorage.getItem('darkMode') || false)
+  const sompoMode = ref(LocalStorage.getItem('sompoMode') || false)
   
   // Dialog states
   const dialogs = ref({
@@ -251,6 +258,14 @@ export const useUIStore = defineStore('ui', () => {
     darkMode.value = !darkMode.value
     Dark.set(darkMode.value)
     LocalStorage.set('darkMode', darkMode.value)
+    
+    // Sompo mode'u kapat eğer dark mode açılırsa
+    if (darkMode.value && sompoMode.value) {
+      sompoMode.value = false
+      LocalStorage.set('sompoMode', false)
+      document.body.classList.remove('sompo-mode')
+    }
+    
     logger.info('Dark mode toggled:', { darkMode: darkMode.value })
   }
 
@@ -259,6 +274,42 @@ export const useUIStore = defineStore('ui', () => {
     Dark.set(value)
     LocalStorage.set('darkMode', value)
     logger.info('Dark mode set:', { darkMode: value })
+  }
+
+  // Sompo Mode Actions
+  const toggleSompoMode = () => {
+    sompoMode.value = !sompoMode.value
+    LocalStorage.set('sompoMode', sompoMode.value)
+    
+    // Dark mode'u kapat eğer sompo mode açılırsa
+    if (sompoMode.value && darkMode.value) {
+      darkMode.value = false
+      Dark.set(false)
+      LocalStorage.set('darkMode', false)
+    }
+    
+    // Body class'ını güncelle
+    if (sompoMode.value) {
+      document.body.classList.add('sompo-mode')
+    } else {
+      document.body.classList.remove('sompo-mode')
+    }
+    
+    logger.info('Sompo mode toggled:', { sompoMode: sompoMode.value })
+  }
+
+  const setSompoMode = (value) => {
+    sompoMode.value = value
+    LocalStorage.set('sompoMode', value)
+    
+    // Body class'ını güncelle
+    if (value) {
+      document.body.classList.add('sompo-mode')
+    } else {
+      document.body.classList.remove('sompo-mode')
+    }
+    
+    logger.info('Sompo mode set:', { sompoMode: value })
   }
 
   // Initialize Dark mode on store creation
@@ -270,6 +321,7 @@ export const useUIStore = defineStore('ui', () => {
     loading,
     error,
     darkMode,
+    sompoMode,
     dialogs,
     dialogData,
     
@@ -299,6 +351,10 @@ export const useUIStore = defineStore('ui', () => {
     // Dark Mode actions
     toggleDarkMode,
     setDarkMode,
+    
+    // Sompo Mode actions
+    toggleSompoMode,
+    setSompoMode,
     
     // Utility actions
     showSuccess,

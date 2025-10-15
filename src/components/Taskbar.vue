@@ -86,24 +86,6 @@
 
     <div class="taskbar__section">
       <q-list>
-        <!-- Dark Mode Toggle -->
-        <q-item 
-          class="taskbar__item taskbar__item--static"
-          clickable
-          @click="toggleDarkMode"
-        >
-          <q-item-section avatar>
-            <i 
-              :class="uiStore.darkMode ? 'bi bi-sun' : 'bi bi-moon'"
-              style="font-size: 16px;"
-              class="cursor-pointer"
-            >
-              <q-tooltip :anchor="tooltipAnchor" :self="tooltipSelf" :offset="tooltipOffset">
-                {{ uiStore.darkMode ? $t('darkMode.switchToLight') : $t('darkMode.switchToDark') }}
-              </q-tooltip>
-            </i>
-          </q-item-section>
-        </q-item>
 
         <q-item class="taskbar__item taskbar__item--avatar">
           <q-item-section avatar>
@@ -217,9 +199,6 @@ const navigateToRoute = (item) => {
   router.push(item.route)
 }
 
-const toggleDarkMode = () => {
-  uiStore.toggleDarkMode()
-}
 </script>
 
 <style lang="scss">
@@ -239,8 +218,8 @@ const toggleDarkMode = () => {
   max-width: 300px !important;
 }
 
-// BEM: Block - taskbar
-.taskbar {
+// BEM: Block - taskbar (Optimized with BEM mixins)
+@include bem-block('taskbar') {
   background-color: $background-card !important;
   display: flex;
   overflow: hidden;
@@ -250,7 +229,7 @@ const toggleDarkMode = () => {
   box-shadow: none !important;
   
   // BEM: Modifier - left position
-  &--left {
+  @include bem-modifier('left') {
     flex-direction: column;
     margin-top: 8px;
     margin-bottom: 8px;
@@ -259,11 +238,11 @@ const toggleDarkMode = () => {
   }
   
   // BEM: Element - section
-  &__section {
+  @include bem-element('section') {
     padding: 8px 0;
 
     // BEM: Modifier - growable section
-    &--grow {
+    @include bem-modifier('grow') {
       flex-grow: 1;
       overflow-y: auto;
     }
@@ -274,22 +253,22 @@ const toggleDarkMode = () => {
   }
   
   // BEM: Element - separator
-  &__separator {
+  @include bem-element('separator') {
     margin: 8px;
     opacity: 0.3;
     background: $border-lighter;
   }
   
   // BEM: Element - item
-  &__item {
+  @include bem-element('item') {
     min-height: 32px;
     padding: 4px;
     display: flex;
     justify-content: center;
     width: 100%;
     color: $text-secondary;
-    transition: all 0.2s ease;
-    background: transparent !important;
+    // Using mixin for consistent hover behavior
+    @include component-states(transparent, $background-hover, $background-light);
 
     .q-item__section--avatar {
       min-width: unset;
@@ -300,7 +279,7 @@ const toggleDarkMode = () => {
     }
     
     // BEM: Modifier - logo item
-    &--logo {
+    @include bem-modifier('logo') {
       cursor: pointer;
       
       .q-item__section--avatar {
@@ -310,7 +289,7 @@ const toggleDarkMode = () => {
     }
     
     // BEM: Modifier - static item (menu/pinned)
-    &--static {
+    @include bem-modifier('static') {
       .q-item__section--avatar {
         width: 32px;
         height: 32px;
@@ -343,7 +322,7 @@ const toggleDarkMode = () => {
     }
     
     // BEM: Modifier - avatar item (logo ile aynı)
-    &--avatar {
+    @include bem-modifier('avatar') {
       cursor: pointer;
       
       .q-item__section--avatar {
@@ -354,7 +333,7 @@ const toggleDarkMode = () => {
   }
   
   // BEM: Element - logo
-  &__logo {
+  @include bem-element('logo') {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -379,7 +358,7 @@ const toggleDarkMode = () => {
   }
   
   // BEM: Element - avatar wrapper (logo ile birebir aynı)
-  &__avatar-wrapper {
+  @include bem-element('avatar-wrapper') {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -441,7 +420,7 @@ const toggleDarkMode = () => {
   }
   
   // BEM: Element - avatar (Quasar component için - yedek)
-  &__avatar {
+  @include bem-element('avatar') {
     border: 2px solid rgba(0, 0, 0, 0.1) !important;
     transition: all 0.2s ease !important;
     width: 24px !important;
@@ -457,7 +436,7 @@ const toggleDarkMode = () => {
   }
   
   // BEM: Element - avatar icon (fallback - yedek)
-  &__avatar-icon {
+  @include bem-element('avatar-icon') {
     color: $text-secondary !important;
     opacity: 0.87 !important;
     transition: all 0.2s ease !important;
@@ -467,12 +446,12 @@ const toggleDarkMode = () => {
   }
   
   // BEM: Element - icon wrapper (for badge)
-  &__icon-wrapper {
+  @include bem-element('icon-wrapper') {
     position: relative;
   }
   
   // BEM: Element - notification badge
-  &__badge {
+  @include bem-element('badge') {
     position: absolute;
     top: -4px;
     right: -4px;
