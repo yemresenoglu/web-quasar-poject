@@ -230,9 +230,7 @@ const isLoading = ref(true)
 // Computed properties from store
 const currentDateTime = computed(() => dashboardStore.currentDateTime)
 const currentDate = computed(() => dashboardStore.currentDate)
-const userLocation = computed(() => dashboardStore.userLocation)
 const processStats = computed(() => dashboardStore.processStats)
-const jobStatusStats = computed(() => dashboardStore.jobStatusStats)
 const announcementList = computed(() => dashboardStore.announcementList)
 const summaryStats = computed(() => dashboardStore.summaryStats)
 

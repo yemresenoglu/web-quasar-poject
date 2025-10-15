@@ -217,7 +217,7 @@ const viewDocument = () => {
  * Open evrak in new tab
  * @param {Object} doc - Document to open in new tab
  */
-const openEvrakInNewTab = (doc) => {
+const openEvrakInNewTab = () => {
   // Bu örnekte evrak için ayrı bir sayfa yok, bu yüzden mevcut sayfayı yeni sekmede açıyoruz
   const url = `${window.location.origin}/hasar-dosya-arabulucu/${dosyaNo.value}`
   window.open(url, '_blank')

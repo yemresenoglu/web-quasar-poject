@@ -109,13 +109,7 @@ const { t } = useI18n()
 const sortBy = ref(null)
 const sortOrder = ref('asc')
 
-// Get sort icon class
-const getSortIconClass = (colName) => {
-  if (sortBy.value !== colName) {
-    return 'bi bi-chevron-expand'
-  }
-  return sortOrder.value === 'asc' ? 'bi bi-chevron-up' : 'bi bi-chevron-down'
-}
+// Sort icon functionality removed - using static icon
 
 // Props
 const props = defineProps({
