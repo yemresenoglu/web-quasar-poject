@@ -3,19 +3,19 @@
     <div class="account-menu__section-header">
       <div class="account-menu__section-title">{{ $t('account.actions') }}</div>
     </div>
-    
+
     <div class="account-menu__list">
-      <q-item 
-        clickable 
-        v-ripple 
-        @click="handleNavigate('/account/edit-profile')"
+      <q-item
+        clickable
+        v-ripple
+        @click="handleNavigate('/home/account/edit-profile')"
         class="account-menu__item"
         role="button"
         :aria-label="$t('account.editProfile')"
         tabindex="0"
       >
         <q-item-section avatar class="q-pr-none">
-          <i class="bi bi-gear" style="font-size: 16px;">
+          <i class="bi bi-gear" style="font-size: 16px">
             <q-tooltip>{{ $t('account.editProfile') }}</q-tooltip>
           </i>
         </q-item-section>
@@ -24,17 +24,17 @@
         </q-item-section>
       </q-item>
 
-      <q-item 
-        clickable 
-        v-ripple 
-        @click="handleNavigate('/account/change-password')"
+      <q-item
+        clickable
+        v-ripple
+        @click="handleNavigate('/home/account/change-password')"
         class="account-menu__item"
         role="button"
         :aria-label="$t('account.changePassword')"
         tabindex="0"
       >
         <q-item-section avatar class="q-pr-none">
-          <i class="bi bi-lock" style="font-size: 16px;">
+          <i class="bi bi-lock" style="font-size: 16px">
             <q-tooltip>{{ $t('account.changePassword') }}</q-tooltip>
           </i>
         </q-item-section>
@@ -45,9 +45,9 @@
 
       <div class="account-menu__divider"></div>
 
-      <q-item 
-        clickable 
-        v-ripple 
+      <q-item
+        clickable
+        v-ripple
         @click="handleLogout"
         class="account-menu__item account-menu__item--logout"
         :class="{ 'account-menu__item--loading': isLoggingOut }"
@@ -56,9 +56,12 @@
         tabindex="0"
       >
         <q-item-section avatar class="q-pr-none">
-          <i 
-            :class="[isLoggingOut ? 'bi bi-hourglass-split' : 'bi bi-box-arrow-right', { 'account-menu__loading-icon': isLoggingOut }]"
-            style="font-size: 16px;"
+          <i
+            :class="[
+              isLoggingOut ? 'bi bi-hourglass-split' : 'bi bi-box-arrow-right',
+              { 'account-menu__loading-icon': isLoggingOut },
+            ]"
+            style="font-size: 16px"
           >
             <q-tooltip>{{ isLoggingOut ? 'Çıkış yapılıyor...' : $t('account.logout') }}</q-tooltip>
           </i>
@@ -81,8 +84,8 @@ const { t: $t } = useI18n()
 defineProps({
   isLoggingOut: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
 const emit = defineEmits(['logout', 'navigate'])
@@ -164,11 +167,11 @@ const handleNavigate = (route) => {
     :deep(.q-item__section--side) {
       min-width: 40px;
       padding-left: 16px;
-      
+
       &:last-child {
         padding-left: 8px;
       }
-      
+
       .q-icon {
         color: $text-secondary;
         opacity: 0.87;
@@ -179,7 +182,7 @@ const handleNavigate = (route) => {
     &:hover {
       background: $background-light;
       border-left: 2px solid $border-accent;
-      
+
       :deep(.q-item__section--side .q-icon) {
         opacity: 1;
       }
@@ -196,15 +199,15 @@ const handleNavigate = (route) => {
 // Logout Item
 .account-menu__item--logout {
   color: $text-secondary !important;
-  
+
   .account-menu__item-title {
     color: $text-secondary !important;
   }
-  
+
   :deep(.q-icon) {
     color: $text-secondary !important;
   }
-  
+
   :deep(.q-item__section--avatar .q-icon) {
     color: $text-secondary !important;
   }
@@ -229,4 +232,3 @@ const handleNavigate = (route) => {
   }
 }
 </style>
-

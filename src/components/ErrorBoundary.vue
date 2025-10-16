@@ -93,7 +93,7 @@ const handleApiError = (error) => {
       logger.warn('Authentication error - redirecting to login')
       // Redirect to login after a delay
       setTimeout(() => {
-        router.push('/login')
+        router.push('/')
       }, 3000)
       break
 
@@ -156,7 +156,7 @@ const resetError = () => {
  */
 const goHome = () => {
   resetError()
-  router.push('/')
+  router.push('/home')
 }
 </script>
 

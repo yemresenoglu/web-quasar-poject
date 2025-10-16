@@ -2,7 +2,8 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { createLogger } from 'src/utils/logger.js'
 import { getMockDashboardData } from 'src/data/index-page-mock-data.js'
-import { dashboardApiModule } from 'src/api/modules/dashboard-api.js'
+// import { dashboardApiModule } from 'src/api/modules/dashboard-api.js'
+import { shouldUseMockData, getEnvironmentInfo } from 'src/constants/api.js'
 
 const logger = createLogger('DashboardStore')
 
@@ -42,55 +43,99 @@ export const useDashboardStore = defineStore('dashboard', () => {
     })
   }
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = async (userOid) => {
+    if (!userOid) {
+      logger.error('UserOid is required for dashboard data')
+      error.value = 'User OID is required'
+      return
+    }
+
+    // Demo user için de mock data kullan
+    const isDemoUser = userOid === 'DEMO_USER'
+
     isLoading.value = true
     error.value = null
-    
+
     try {
-      logger.info('Fetching dashboard data from backend')
-      
-      // Mock data kullanımı - geliştirme ortamında
-      if (process.env.NODE_ENV === 'development') {
-        logger.info('Using mock data for development')
+      logger.info('Fetching dashboard data from backend', { userOid })
+
+      // Environment-based API call strategy
+      if (shouldUseMockData() || isDemoUser) {
+        logger.info('Using mock data for development/demo', {
+          userOid,
+          isDemoUser,
+          environment: getEnvironmentInfo().environment,
+        })
         const mockData = getMockDashboardData()
-        
+
         userLocation.value = mockData.userLocation
         processStats.value = mockData.processStats
         jobStatusStats.value = mockData.jobStatusStats
         announcementList.value = mockData.announcementList
         chartData.value = mockData.chartData
-        
-        logger.info('Mock dashboard data loaded successfully')
+
+        console.log('📊 Mock chartData loaded:', chartData.value)
+
+        logger.info('Mock dashboard data loaded successfully', { userOid })
         return
       }
-      
-          // Gerçek API çağrısı
-          const result = await dashboardApiModule.getDashboardData()
-      
-      if (result.success && result.data) {
-        userLocation.value = result.data.userLocation || ''
-        processStats.value = result.data.processStats || []
-        jobStatusStats.value = result.data.jobStatusStats || []
-        announcementList.value = result.data.announcements || []
-        chartData.value = result.data.charts || {}
+
+      // BACKEND INTEGRATION - Gerçek API çağrısı
+      /*
+      try {
+        logger.info('Attempting backend getDashboardData', { userOid })
+        const result = await dashboardApiModule.getDashboardData(userOid)
         
-        logger.info('Dashboard data loaded successfully')
-      } else {
-        throw new Error(result.error || 'Failed to fetch dashboard data')
+        if (result.success && result.data) {
+          userLocation.value = result.data.userLocation || ''
+          processStats.value = result.data.processStats || []
+          jobStatusStats.value = result.data.jobStatusStats || []
+          announcementList.value = result.data.announcements || []
+          chartData.value = result.data.charts || {}
+          
+          logger.info('Dashboard data loaded successfully (Backend)', { userOid })
+        } else {
+          logger.warn('Backend getDashboardData failed, falling back to mock data', {
+            error: result.error,
+            userOid
+          })
+          throw new Error(result.error || 'Backend dashboard data fetch failed')
+        }
+      } catch (apiError) {
+        logger.error('Backend API getDashboardData error, falling back to mock data:', {
+          error: apiError.message,
+          userOid
+        })
+        throw apiError
       }
-    } catch (err) {
-      logger.error('Dashboard data fetch failed:', err)
-      error.value = err.message
-      
-      // Hata durumunda mock data kullan
-      logger.info('Falling back to mock data due to error')
+      */
+
+      // ŞU AN MOCK DATA KULLAN - Backend entegrasyonu için yorum satırlarını kaldır
+      logger.info('Backend integration disabled - using mock data for getDashboardData')
       const mockData = getMockDashboardData()
-      
+
       userLocation.value = mockData.userLocation
       processStats.value = mockData.processStats
       jobStatusStats.value = mockData.jobStatusStats
       announcementList.value = mockData.announcementList
       chartData.value = mockData.chartData
+
+      console.log('📊 Mock chartData loaded:', chartData.value)
+    } catch (err) {
+      logger.error('Dashboard data fetch failed:', err, { userOid })
+      error.value = err.message
+
+      // Hata durumunda mock data kullan
+      logger.info('Falling back to mock data due to error', { userOid })
+      const mockData = getMockDashboardData()
+
+      userLocation.value = mockData.userLocation
+      processStats.value = mockData.processStats
+      jobStatusStats.value = mockData.jobStatusStats
+      announcementList.value = mockData.announcementList
+      chartData.value = mockData.chartData
+
+      console.log('📊 Fallback chartData loaded:', chartData.value)
     } finally {
       isLoading.value = false
     }
@@ -129,14 +174,14 @@ export const useDashboardStore = defineStore('dashboard', () => {
     }
   }
 
-  const startRealTimeUpdates = () => {
+  const startRealTimeUpdates = (userOid) => {
     if (timer) return
 
     updateDateTime()
     timer = setInterval(updateDateTime, 1000)
-    fetchDashboardData()
+    fetchDashboardData(userOid)
 
-    logger.info('Real-time updates started')
+    logger.info('Real-time updates started', { userOid })
   }
 
   const stopRealTimeUpdates = () => {
@@ -147,8 +192,8 @@ export const useDashboardStore = defineStore('dashboard', () => {
     }
   }
 
-  const refreshDashboard = async () => {
-    await fetchDashboardData()
+  const refreshDashboard = async (userOid) => {
+    await fetchDashboardData(userOid)
     updateDateTime()
   }
 

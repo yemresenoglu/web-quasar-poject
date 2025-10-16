@@ -65,7 +65,7 @@ class CookieManager {
   }
 
   removeCookie(name) {
-    const pastDate = new Date(0).toUTCString()
+    const pastDate = new Date(0)
     this.setCookie(name, '', { expires: pastDate })
     this.cookies.delete(name)
     logger.info('Cookie removed:', name)

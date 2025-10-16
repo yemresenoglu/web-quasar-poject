@@ -3,7 +3,8 @@
 
 import { createBaseApi } from '../base-api.js'
 import { createLogger } from 'src/utils/logger.js'
-import { getMockSearchResponse, searchByDosyaNo } from 'src/data/mock-hasar-dosya-data.js'
+import { getMockSearchResponse } from 'src/data/mock-hasar-dosya-data.js'
+import { shouldUseMockData, getEnvironmentInfo } from 'src/constants/api.js'
 
 const logger = createLogger('HasarDosyaAPI')
 
@@ -29,38 +30,71 @@ export const hasarDosyaApiModule = {
   async searchHasarFiles(searchParams = {}) {
     try {
       logger.info('Hasar Dosya API: Search files', searchParams)
-      
-      // Mock data kullanımı - geliştirme ortamında
-      if (process.env.NODE_ENV === 'development') {
-        logger.info('Using mock hasar dosya data for development')
-        
+
+      // Environment-based API call strategy
+      if (shouldUseMockData()) {
+        logger.info('Using mock hasar dosya data for development', {
+          environment: getEnvironmentInfo().environment,
+        })
+
         const { dosyaNo, victimNumber } = searchParams
         const mockResponse = getMockSearchResponse(dosyaNo, victimNumber)
-        
-        logger.info('Mock search successful', { 
+
+        logger.info('Mock search successful', {
           count: mockResponse.data.files.length,
           dosyaNo,
-          victimNumber
+          victimNumber,
         })
-        
+
         return mockResponse
       }
-      
-      // Gerçek API çağrısı
-      const response = await createBaseApi().dispatch('searchHasarFiles', searchParams)
-      
-      if (response.success) {
-        logger.info('Hasar Dosya API: Search successful', { 
-          count: response.data?.length || 0 
+
+      // BACKEND INTEGRATION - Gerçek API çağrısı
+      /*
+      try {
+        logger.info('Attempting backend searchHasarFiles', { 
+          searchParams: Object.keys(searchParams),
+          dosyaNo: searchParams.dosyaNo 
         })
-      } else {
-        logger.error('Hasar Dosya API: Search failed', response.error)
+        
+        const response = await createBaseApi().dispatch('searchHasarFiles', searchParams)
+        
+        if (response.success) {
+          logger.info('Hasar Dosya API: Search successful (Backend)', { 
+            count: response.data?.length || 0,
+            dosyaNo: searchParams.dosyaNo
+          })
+        } else {
+          logger.warn('Backend searchHasarFiles failed, falling back to mock data', {
+            error: response.error,
+            dosyaNo: searchParams.dosyaNo
+          })
+          
+          // Fallback to mock data
+          const { dosyaNo, victimNumber } = searchParams
+          return getMockSearchResponse(dosyaNo, victimNumber)
+        }
+        
+        return response
+      } catch (apiError) {
+        logger.error('Backend API searchHasarFiles error, falling back to mock data:', {
+          error: apiError.message,
+          dosyaNo: searchParams.dosyaNo
+        })
+        
+        // Fallback to mock data
+        const { dosyaNo, victimNumber } = searchParams
+        return getMockSearchResponse(dosyaNo, victimNumber)
       }
-      
-      return response
+      */
+
+      // ŞU AN MOCK DATA KULLAN - Backend entegrasyonu için yorum satırlarını kaldır
+      logger.info('Backend integration disabled - using mock data for searchHasarFiles')
+      const { dosyaNo, victimNumber } = searchParams
+      return getMockSearchResponse(dosyaNo, victimNumber)
     } catch (error) {
       logger.error('Hasar Dosya API: Search error', error)
-      
+
       // Hata durumunda mock data döndür
       logger.info('Falling back to mock data due to error')
       const { dosyaNo, victimNumber } = searchParams
@@ -76,16 +110,64 @@ export const hasarDosyaApiModule = {
   async getHasarFileDetails(dosyaNo) {
     try {
       logger.info('Hasar Dosya API: Get file details', { dosyaNo })
-      
-      const response = await createBaseApi().dispatch('getHasarFileDetails', { dosyaNo })
-      
-      if (response.success) {
-        logger.info('Hasar Dosya API: File details retrieved successfully')
-      } else {
-        logger.error('Hasar Dosya API: Get file details failed', response.error)
+
+      // Environment-based API call strategy
+      if (shouldUseMockData()) {
+        logger.info('Using mock data for getHasarFileDetails', {
+          dosyaNo,
+          environment: getEnvironmentInfo().environment,
+        })
+
+        // Mock response for file details
+        const mockResponse = {
+          success: true,
+          data: {
+            dosyaNo,
+            details: 'Mock file details',
+            retrievedAt: new Date().toISOString(),
+          },
+        }
+
+        logger.info('Mock file details retrieved successfully', { dosyaNo })
+        return mockResponse
       }
-      
-      return response
+
+      // BACKEND INTEGRATION - Gerçek API çağrısı
+      /*
+      try {
+        logger.info('Attempting backend getHasarFileDetails', { dosyaNo })
+        const response = await createBaseApi().dispatch('getHasarFileDetails', { dosyaNo })
+        
+        if (response.success) {
+          logger.info('Hasar Dosya API: File details retrieved successfully (Backend)', { dosyaNo })
+        } else {
+          logger.error('Hasar Dosya API: Get file details failed (Backend)', { 
+            error: response.error,
+            dosyaNo 
+          })
+        }
+        
+        return response
+      } catch (apiError) {
+        logger.error('Backend API getHasarFileDetails error:', {
+          error: apiError.message,
+          dosyaNo
+        })
+        throw apiError
+      }
+      */
+
+      // ŞU AN MOCK DATA KULLAN - Backend entegrasyonu için yorum satırlarını kaldır
+      logger.info('Backend integration disabled - using mock data for getHasarFileDetails')
+      const mockResponse = {
+        success: true,
+        data: {
+          dosyaNo,
+          details: 'Mock file details',
+          retrievedAt: new Date().toISOString(),
+        },
+      }
+      return mockResponse
     } catch (error) {
       logger.error('Hasar Dosya API: Get file details error', error)
       throw error
@@ -106,15 +188,15 @@ export const hasarDosyaApiModule = {
   async createHasarFile(fileData) {
     try {
       logger.info('Hasar Dosya API: Create file', { dosyaNo: fileData.dosyaNo })
-      
+
       const response = await createBaseApi().dispatch('createHasarFile', fileData)
-      
+
       if (response.success) {
         logger.info('Hasar Dosya API: File created successfully')
       } else {
         logger.error('Hasar Dosya API: Create file failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Hasar Dosya API: Create file error', error)
@@ -131,18 +213,18 @@ export const hasarDosyaApiModule = {
   async updateHasarFile(dosyaNo, updateData) {
     try {
       logger.info('Hasar Dosya API: Update file', { dosyaNo })
-      
+
       const response = await createBaseApi().dispatch('updateHasarFile', {
         dosyaNo,
-        ...updateData
+        ...updateData,
       })
-      
+
       if (response.success) {
         logger.info('Hasar Dosya API: File updated successfully')
       } else {
         logger.error('Hasar Dosya API: Update file failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Hasar Dosya API: Update file error', error)
@@ -158,15 +240,15 @@ export const hasarDosyaApiModule = {
   async deleteHasarFile(dosyaNo) {
     try {
       logger.info('Hasar Dosya API: Delete file', { dosyaNo })
-      
+
       const response = await createBaseApi().dispatch('deleteHasarFile', { dosyaNo })
-      
+
       if (response.success) {
         logger.info('Hasar Dosya API: File deleted successfully')
       } else {
         logger.error('Hasar Dosya API: Delete file failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Hasar Dosya API: Delete file error', error)
@@ -182,17 +264,17 @@ export const hasarDosyaApiModule = {
   async isDosyakapali(oidHsrDosya) {
     try {
       logger.info('Hasar Dosya API: Check file closure', { oidHsrDosya })
-      
+
       const response = await createBaseApi().dispatch('isDosyakapali', {
-        oidHsrDosya
+        oidHsrDosya,
       })
-      
+
       if (response.success) {
         logger.info('Hasar Dosya API: File closure check successful')
       } else {
         logger.error('Hasar Dosya API: File closure check failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Hasar Dosya API: File closure check error', error)
@@ -209,18 +291,18 @@ export const hasarDosyaApiModule = {
   async closeHasarFile(dosyaNo, kapanisNedeni) {
     try {
       logger.info('Hasar Dosya API: Close file', { dosyaNo })
-      
+
       const response = await createBaseApi().dispatch('closeHasarFile', {
         dosyaNo,
-        kapanisNedeni
+        kapanisNedeni,
       })
-      
+
       if (response.success) {
         logger.info('Hasar Dosya API: File closed successfully')
       } else {
         logger.error('Hasar Dosya API: Close file failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Hasar Dosya API: Close file error', error)
@@ -235,15 +317,15 @@ export const hasarDosyaApiModule = {
   async getHasarTurleri() {
     try {
       logger.info('Hasar Dosya API: Get hasar types')
-      
+
       const response = await createBaseApi().dispatch('getHasarTurleri', {})
-      
+
       if (response.success) {
         logger.info('Hasar Dosya API: Hasar types retrieved successfully')
       } else {
         logger.error('Hasar Dosya API: Get hasar types failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Hasar Dosya API: Get hasar types error', error)
@@ -258,15 +340,15 @@ export const hasarDosyaApiModule = {
   async getDurumlar() {
     try {
       logger.info('Hasar Dosya API: Get statuses')
-      
+
       const response = await createBaseApi().dispatch('getDurumlar', {})
-      
+
       if (response.success) {
         logger.info('Hasar Dosya API: Statuses retrieved successfully')
       } else {
         logger.error('Hasar Dosya API: Get statuses failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Hasar Dosya API: Get statuses error', error)
@@ -282,21 +364,21 @@ export const hasarDosyaApiModule = {
   async getHasarFileStatistics(filters = {}) {
     try {
       logger.info('Hasar Dosya API: Get statistics', filters)
-      
+
       const response = await createBaseApi().dispatch('getHasarFileStatistics', filters)
-      
+
       if (response.success) {
         logger.info('Hasar Dosya API: Statistics retrieved successfully')
       } else {
         logger.error('Hasar Dosya API: Get statistics failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Hasar Dosya API: Get statistics error', error)
       throw error
     }
-  }
+  },
 }
 
 export default hasarDosyaApiModule

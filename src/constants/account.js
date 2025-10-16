@@ -4,59 +4,7 @@
  * Note: DEPARTMENT_ITEMS and TASK_ITEMS are now managed in the Pinia store
  */
 
-// Department options for profile form and selection
-export const DEPARTMENT_OPTIONS = [
-  { label: 'Arabuluculuk', value: 'arabuluculuk' },
-  { label: 'Hukuk', value: 'hukuk' }
-]
-
-// Department items template - API'den gelecek, bu sadece fallback
-export const DEFAULT_DEPARTMENT_ITEMS = [
-  {
-    id: 'arabuluculuk',
-    name: 'Arabuluculuk',
-    icon: 'bi bi-shield-check',
-    selected: true
-  },
-  {
-    id: 'hukuk',
-    name: 'Hukuk',
-    icon: 'bi bi-file-text',
-    selected: false
-  }
-]
-
-// Task items template - API'den gelecek, bu sadece fallback
-export const DEFAULT_TASK_ITEMS = [
-  {
-    id: 'task-1',
-    name: 'Arabulucu',
-    description: 'Arabuluculuk görevlerini yürüt',
-    icon: 'bi bi-shield-check',
-    completed: true
-  },
-  {
-    id: 'task-2',
-    name: 'Avukat',
-    description: 'Hukuki danışmanlık ve temsil görevleri',
-    icon: 'bi bi-file-text',
-    completed: false
-  },
-  {
-    id: 'task-3',
-    name: 'Dosya Yöneticisi',
-    description: 'Dosya ve belge yönetimi görevleri',
-    icon: 'bi bi-briefcase',
-    completed: false
-  },
-  {
-    id: 'task-4',
-    name: 'Eksper',
-    description: 'Uzmanlık ve değerlendirme görevleri',
-    icon: 'bi bi-clipboard-check',
-    completed: false
-  }
-]
+// Kullanılmayan constants kaldırıldı - API'den gelecek
 
 // Loading state keys
 export const LOADING_STATE_KEYS = {
@@ -64,19 +12,14 @@ export const LOADING_STATE_KEYS = {
   PASSWORD: 'password',
   DEPARTMENT: 'department',
   LOGOUT: 'logout',
-  NAVIGATION: 'navigation'
+  NAVIGATION: 'navigation',
 }
 
-// Avatar configuration
-export const AVATAR_CONFIG = {
-  size: '72px',
-  src: 'https://cdn.quasar.dev/img/boy-avatar.png',
-  alt: 'Profile Avatar'
-}
+// Avatar configuration kaldırıldı - kullanılmıyor
 
 // Menu configuration
 export const MENU_CONFIG = {
   offset: [20, 0],
   transitionDuration: 100,
-  borderRadius: '18px'
+  borderRadius: '18px',
 }

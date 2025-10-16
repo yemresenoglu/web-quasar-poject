@@ -22,15 +22,15 @@ export const authApiModule = {
   async login(loginData) {
     try {
       logger.info('Auth API: Login attempt', { userCode: loginData.userCode })
-      
+
       const response = await createBaseApi().dispatch('login', loginData)
-      
+
       if (response.success) {
         logger.info('Auth API: Login successful')
       } else {
         logger.error('Auth API: Login failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Auth API: Login error', error)
@@ -45,15 +45,15 @@ export const authApiModule = {
   async logout() {
     try {
       logger.info('Auth API: Logout attempt')
-      
+
       const response = await createBaseApi().dispatch('logout', {})
-      
+
       if (response.success) {
         logger.info('Auth API: Logout successful')
       } else {
         logger.warn('Auth API: Logout failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Auth API: Logout error', error)
@@ -68,15 +68,15 @@ export const authApiModule = {
   async checkSession() {
     try {
       logger.info('Auth API: Session check')
-      
+
       const response = await createBaseApi().dispatch('checkSession', {})
-      
+
       if (response.success) {
         logger.info('Auth API: Session valid')
       } else {
         logger.warn('Auth API: Session invalid', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Auth API: Session check error', error)
@@ -91,15 +91,15 @@ export const authApiModule = {
   async refreshToken() {
     try {
       logger.info('Auth API: Token refresh')
-      
+
       const response = await createBaseApi().dispatch('refreshToken', {})
-      
+
       if (response.success) {
         logger.info('Auth API: Token refreshed successfully')
       } else {
         logger.error('Auth API: Token refresh failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Auth API: Token refresh error', error)
@@ -108,21 +108,75 @@ export const authApiModule = {
   },
 
   /**
-   * Kullanıcı bilgilerini getir
+   * Kullanıcı birim bilgilerini getir (default ve seçili birim)
+   * @param {string} userOid - Kullanıcı OID
+   * @returns {Promise<Object>} User unit response with default and selected unit info
+   */
+  async getUserUnit(userOid) {
+    try {
+      logger.info('Auth API: Get user unit', { userOid })
+
+      const response = await createBaseApi().dispatch('getUserUnit', { userOid })
+
+      if (response.success) {
+        logger.info('Auth API: User unit retrieved successfully', {
+          defaultBirimOid: response.data?.defaultBirimOid,
+          selectedBirimOid: response.data?.selectedBirimOid,
+        })
+      } else {
+        logger.error('Auth API: Get user unit failed', response.error)
+      }
+
+      return response
+    } catch (error) {
+      logger.error('Auth API: Get user unit error', error)
+      throw error
+    }
+  },
+
+  /**
+   * Kullanıcı görev bilgilerini getir (default ve seçili görev)
+   * @param {string} userOid - Kullanıcı OID
+   * @returns {Promise<Object>} User task response with default and selected task info
+   */
+  async getUserTask(userOid) {
+    try {
+      logger.info('Auth API: Get user task', { userOid })
+
+      const response = await createBaseApi().dispatch('getUserTask', { userOid })
+
+      if (response.success) {
+        logger.info('Auth API: User task retrieved successfully', {
+          defaultGörevOid: response.data?.defaultGörevOid,
+          selectedGörevOid: response.data?.selectedGörevOid,
+        })
+      } else {
+        logger.error('Auth API: Get user task failed', response.error)
+      }
+
+      return response
+    } catch (error) {
+      logger.error('Auth API: Get user task error', error)
+      throw error
+    }
+  },
+
+  /**
+   * Kullanıcı bilgilerini getir (legacy - deprecated)
    * @returns {Promise<Object>} User info response
    */
   async getUserInfo() {
     try {
       logger.info('Auth API: Get user info')
-      
+
       const response = await createBaseApi().dispatch('getUserInfo', {})
-      
+
       if (response.success) {
         logger.info('Auth API: User info retrieved successfully')
       } else {
         logger.error('Auth API: Get user info failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Auth API: Get user info error', error)
@@ -137,15 +191,15 @@ export const authApiModule = {
   async getCaptcha() {
     try {
       logger.info('Auth API: Get captcha')
-      
+
       const response = await createBaseApi().dispatch('getCaptcha', {})
-      
+
       if (response.success) {
         logger.info('Auth API: Captcha retrieved successfully')
       } else {
         logger.error('Auth API: Get captcha failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Auth API: Get captcha error', error)
@@ -162,18 +216,18 @@ export const authApiModule = {
   async requestPasswordReset(userCode, email) {
     try {
       logger.info('Auth API: Password reset request', { userCode })
-      
+
       const response = await createBaseApi().dispatch('requestPasswordReset', {
         userCode,
-        email
+        email,
       })
-      
+
       if (response.success) {
         logger.info('Auth API: Password reset request successful')
       } else {
         logger.error('Auth API: Password reset request failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Auth API: Password reset request error', error)
@@ -190,24 +244,80 @@ export const authApiModule = {
   async confirmPasswordReset(token, newPassword) {
     try {
       logger.info('Auth API: Password reset confirm')
-      
+
       const response = await createBaseApi().dispatch('confirmPasswordReset', {
         token,
-        newPassword
+        newPassword,
       })
-      
+
       if (response.success) {
         logger.info('Auth API: Password reset confirmed successfully')
       } else {
         logger.error('Auth API: Password reset confirm failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Auth API: Password reset confirm error', error)
       throw error
     }
-  }
+  },
+
+  /**
+   * Kullanıcının seçili birimini güncelle
+   * @param {string} userOid - Kullanıcı OID
+   * @param {string} selectedBirimOid - Seçili birim OID
+   * @returns {Promise<Object>} Update selected unit response
+   */
+  async updateSelectedUnit(userOid, selectedBirimOid) {
+    try {
+      logger.info('Auth API: Update selected unit', { userOid, selectedBirimOid })
+
+      const response = await createBaseApi().dispatch('updateSelectedUnit', {
+        userOid,
+        selectedBirimOid,
+      })
+
+      if (response.success) {
+        logger.info('Auth API: Selected unit updated successfully')
+      } else {
+        logger.error('Auth API: Update selected unit failed', response.error)
+      }
+
+      return response
+    } catch (error) {
+      logger.error('Auth API: Update selected unit error', error)
+      throw error
+    }
+  },
+
+  /**
+   * Kullanıcının seçili görevini güncelle
+   * @param {string} userOid - Kullanıcı OID
+   * @param {string} selectedGörevOid - Seçili görev OID
+   * @returns {Promise<Object>} Update selected task response
+   */
+  async updateSelectedTask(userOid, selectedGörevOid) {
+    try {
+      logger.info('Auth API: Update selected task', { userOid, selectedGörevOid })
+
+      const response = await createBaseApi().dispatch('updateSelectedTask', {
+        userOid,
+        selectedGörevOid,
+      })
+
+      if (response.success) {
+        logger.info('Auth API: Selected task updated successfully')
+      } else {
+        logger.error('Auth API: Update selected task failed', response.error)
+      }
+
+      return response
+    } catch (error) {
+      logger.error('Auth API: Update selected task error', error)
+      throw error
+    }
+  },
 }
 
 export default authApiModule

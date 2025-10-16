@@ -1,90 +1,93 @@
 const routes = [
   {
-    path: '/login',
+    path: '/',
     component: () => import('layouts/LoginLayout.vue'),
     children: [
       {
         path: '',
         name: 'login',
         component: () => import('pages/LoginPage.vue'),
-        meta: { 
+        meta: {
           title: 'Giriş Yap',
           titleKey: 'pageTitles.login',
           requiresAuth: false,
-          hideFromMenu: true 
-        }
-      }
-    ]
+          hideFromMenu: true,
+        },
+      },
+    ],
   },
   {
-    path: '/',
+    path: '/home',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { 
-        path: '', 
-        name: 'home',
+      {
+        path: '',
+        name: 'index',
         component: () => import('pages/IndexPage.vue'),
-        meta: { 
+        meta: {
           title: 'Başlangıç',
           titleKey: 'pageTitles.home',
-          icon: 'house' 
-        }
+          icon: 'house',
+          requiresAuth: true,
+        },
       },
-      { 
-        path: 'menu', 
+      {
+        path: 'menu',
         name: 'menu',
         component: () => import('pages/MenuPage.vue'),
-        meta: { 
+        meta: {
           title: 'Menü',
           titleKey: 'pageTitles.menu',
-          icon: 'grid-3x3-gap' 
-        }
+          icon: 'grid-3x3-gap',
+          requiresAuth: true,
+        },
       },
-      { 
-        path: 'hasar-sorgula-arabulucu', 
+      {
+        path: 'menu/hasar-sorgula-arabulucu',
         name: 'hasar-sorgula-arabulucu',
         component: () => import('src/pages/HasarDosyaSorgulaArabulucu.vue'),
-        meta: { 
+        meta: {
           title: 'Hasar Dosya Sorgula (Arabulucu)',
           titleKey: 'pageTitles.hasarSorgulaArabulucu',
-          icon: 'scales' 
-        }
+          icon: 'scales',
+          requiresAuth: true,
+        },
       },
-      { 
-        path: 'hasar-dosya-arabulucu/:dosyaNo', 
+      {
+        path: 'menu/hasar-dosya-arabulucu/:dosyaNo',
         name: 'hasar-dosya-arabulucu',
         component: () => import('src/pages/HasarDosyaArabulucu.vue'),
-        meta: { 
+        meta: {
           title: 'Hasar Dosya (Arabulucu)',
           titleKey: 'pageTitles.hasarDosyaArabulucu',
-          icon: 'scales' 
-        }
+          icon: 'scales',
+        },
       },
-      { 
-        path: 'account/edit-profile', 
+      {
+        path: 'account/edit-profile',
         name: 'account-edit-profile',
         component: () => import('src/pages/AccountEditProfile.vue'),
-        meta: { 
+        meta: {
           title: 'Profil Düzenle',
           titleKey: 'pageTitles.accountEditProfile',
           icon: 'person',
           requiresAuth: true,
-          hideFromMenu: true
-        }
+          hideFromMenu: true,
+        },
       },
-      { 
-        path: 'account/change-password', 
+      {
+        path: 'account/change-password',
         name: 'account-change-password',
         component: () => import('src/pages/AccountChangePassword.vue'),
-        meta: { 
+        meta: {
           title: 'Şifre Değiştir',
           titleKey: 'pageTitles.accountChangePassword',
           icon: 'key',
           requiresAuth: true,
-          hideFromMenu: true
-        }
-      }
-    ]
+          hideFromMenu: true,
+        },
+      },
+    ],
   },
 
   // Always leave this as last one,
@@ -93,9 +96,9 @@ const routes = [
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),
     meta: {
-      titleKey: 'pageTitles.notFound'
-    }
-  }
+      titleKey: 'pageTitles.notFound',
+    },
+  },
 ]
 
 export default routes

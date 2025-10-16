@@ -13,20 +13,24 @@ const logger = createLogger('DashboardAPI')
 export const dashboardApiModule = {
   /**
    * Dashboard ana verilerini getir
+   * @param {string} userOid - Kullanıcı OID
    * @returns {Promise<Object>} Dashboard data response
    */
-  async getDashboardData() {
+  async getDashboardData(userOid) {
     try {
-      logger.info('Dashboard API: Get dashboard data')
-      
-      const response = await createBaseApi().dispatch('getDashboardData', {})
-      
+      logger.info('Dashboard API: Get dashboard data', { userOid })
+
+      const response = await createBaseApi().dispatch('getDashboardData', { userOid })
+
       if (response.success) {
-        logger.info('Dashboard API: Dashboard data retrieved successfully')
+        logger.info('Dashboard API: Dashboard data retrieved successfully', {
+          userOid,
+          dataKeys: Object.keys(response.data || {}),
+        })
       } else {
         logger.error('Dashboard API: Get dashboard data failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Dashboard API: Get dashboard data error', error)
@@ -36,6 +40,7 @@ export const dashboardApiModule = {
 
   /**
    * Hasar istatistiklerini getir
+   * @param {string} userOid - Kullanıcı OID
    * @param {Object} filters - Filtre parametreleri
    * @param {Date} filters.baslangicTarihi - Başlangıç tarihi
    * @param {Date} filters.bitisTarihi - Bitiş tarihi
@@ -43,18 +48,18 @@ export const dashboardApiModule = {
    * @param {string} filters.hasarTuru - Hasar türü
    * @returns {Promise<Object>} Statistics response
    */
-  async getHasarStatistics(filters = {}) {
+  async getHasarStatistics(userOid, filters = {}) {
     try {
-      logger.info('Dashboard API: Get hasar statistics', filters)
-      
-      const response = await createBaseApi().dispatch('getHasarStatistics', filters)
-      
+      logger.info('Dashboard API: Get hasar statistics', { userOid, filters })
+
+      const response = await createBaseApi().dispatch('getHasarStatistics', { userOid, ...filters })
+
       if (response.success) {
         logger.info('Dashboard API: Hasar statistics retrieved successfully')
       } else {
         logger.error('Dashboard API: Get hasar statistics failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Dashboard API: Get hasar statistics error', error)
@@ -73,15 +78,15 @@ export const dashboardApiModule = {
   async getPerformanceReports(filters = {}) {
     try {
       logger.info('Dashboard API: Get performance reports', filters)
-      
+
       const response = await createBaseApi().dispatch('getPerformanceReports', filters)
-      
+
       if (response.success) {
         logger.info('Dashboard API: Performance reports retrieved successfully')
       } else {
         logger.error('Dashboard API: Get performance reports failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Dashboard API: Get performance reports error', error)
@@ -91,24 +96,25 @@ export const dashboardApiModule = {
 
   /**
    * Grafik verilerini getir
+   * @param {string} userOid - Kullanıcı OID
    * @param {Object} options - Grafik seçenekleri
    * @param {string} options.grafikTuru - Grafik türü ('pie', 'line', 'bar')
    * @param {string} options.veriTuru - Veri türü ('hasar', 'evrak', 'eksper')
    * @param {Object} options.filters - Filtre parametreleri
    * @returns {Promise<Object>} Chart data response
    */
-  async getChartData(options = {}) {
+  async getChartData(userOid, options = {}) {
     try {
-      logger.info('Dashboard API: Get chart data', options)
-      
-      const response = await createBaseApi().dispatch('getChartData', options)
-      
+      logger.info('Dashboard API: Get chart data', { userOid, options })
+
+      const response = await createBaseApi().dispatch('getChartData', { userOid, ...options })
+
       if (response.success) {
         logger.info('Dashboard API: Chart data retrieved successfully')
       } else {
         logger.error('Dashboard API: Get chart data failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Dashboard API: Get chart data error', error)
@@ -127,15 +133,15 @@ export const dashboardApiModule = {
   async getAnnouncements(filters = {}) {
     try {
       logger.info('Dashboard API: Get announcements', filters)
-      
+
       const response = await createBaseApi().dispatch('getAnnouncements', filters)
-      
+
       if (response.success) {
         logger.info('Dashboard API: Announcements retrieved successfully')
       } else {
         logger.error('Dashboard API: Get announcements failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Dashboard API: Get announcements error', error)
@@ -150,15 +156,15 @@ export const dashboardApiModule = {
   async getUserLocation() {
     try {
       logger.info('Dashboard API: Get user location')
-      
+
       const response = await createBaseApi().dispatch('getUserLocation', {})
-      
+
       if (response.success) {
         logger.info('Dashboard API: User location retrieved successfully')
       } else {
         logger.error('Dashboard API: Get user location failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Dashboard API: Get user location error', error)
@@ -176,15 +182,15 @@ export const dashboardApiModule = {
   async getJobStatusStatistics(filters = {}) {
     try {
       logger.info('Dashboard API: Get job status statistics', filters)
-      
+
       const response = await createBaseApi().dispatch('getJobStatusStatistics', filters)
-      
+
       if (response.success) {
         logger.info('Dashboard API: Job status statistics retrieved successfully')
       } else {
         logger.error('Dashboard API: Get job status statistics failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Dashboard API: Get job status statistics error', error)
@@ -202,15 +208,15 @@ export const dashboardApiModule = {
   async getProcessStatistics(filters = {}) {
     try {
       logger.info('Dashboard API: Get process statistics', filters)
-      
+
       const response = await createBaseApi().dispatch('getProcessStatistics', filters)
-      
+
       if (response.success) {
         logger.info('Dashboard API: Process statistics retrieved successfully')
       } else {
         logger.error('Dashboard API: Get process statistics failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Dashboard API: Get process statistics error', error)
@@ -229,15 +235,15 @@ export const dashboardApiModule = {
   async generateSummaryReport(reportOptions = {}) {
     try {
       logger.info('Dashboard API: Generate summary report', reportOptions)
-      
+
       const response = await createBaseApi().dispatch('generateSummaryReport', reportOptions)
-      
+
       if (response.success) {
         logger.info('Dashboard API: Summary report generated successfully')
       } else {
         logger.error('Dashboard API: Generate summary report failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Dashboard API: Generate summary report error', error)
@@ -252,21 +258,21 @@ export const dashboardApiModule = {
   async getDashboardWidgets() {
     try {
       logger.info('Dashboard API: Get dashboard widgets')
-      
+
       const response = await createBaseApi().dispatch('getDashboardWidgets', {})
-      
+
       if (response.success) {
         logger.info('Dashboard API: Dashboard widgets retrieved successfully')
       } else {
         logger.error('Dashboard API: Get dashboard widgets failed', response.error)
       }
-      
+
       return response
     } catch (error) {
       logger.error('Dashboard API: Get dashboard widgets error', error)
       throw error
     }
-  }
+  },
 }
 
 export default dashboardApiModule

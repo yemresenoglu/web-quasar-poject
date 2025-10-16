@@ -11,10 +11,10 @@
       <!-- Login Form -->
       <div class="login-page__section">
         <div class="login-page__section-header">
-          <i class="bi bi-person-circle login-page__section-icon" style="font-size: 16px;"></i>
+          <i class="bi bi-person-circle login-page__section-icon" style="font-size: 16px"></i>
           <div class="login-page__section-title">{{ t('login.title') }}</div>
         </div>
-        
+
         <q-form @submit.prevent="handleLogin" class="login-page__form">
           <div class="login-page__form-grid">
             <!-- Kullanıcı Kodu -->
@@ -48,17 +48,17 @@
                   <i class="bi bi-lock"></i>
                 </template>
                 <template v-slot:append>
-                  <i 
-                    :class="showPassword ? 'bi bi-eye' : 'bi bi-eye-slash'" 
-                    class="cursor-pointer" 
+                  <i
+                    :class="showPassword ? 'bi bi-eye' : 'bi bi-eye-slash'"
+                    class="cursor-pointer"
                     @click="authStore.togglePasswordVisibility()"
                   ></i>
                 </template>
               </q-input>
             </div>
 
-            <!-- Captcha -->
-            <div class="login-page__field login-page__field--full">
+            <!-- Captcha - Sadece captchaKontrolDurum true ise göster -->
+            <div v-if="captchaKontrolDurum" class="login-page__field login-page__field--full">
               <label class="login-page__field-label">{{ $t('login.captcha') }}</label>
               <div class="captcha-field-wrapper">
                 <CaptchaImage ref="captchaRef" class="captcha-image-section" />
@@ -74,10 +74,10 @@
 
             <!-- Şifremi Unuttum -->
             <div class="login-page__field login-page__field--full">
-              <q-btn 
-                flat 
-                dense 
-                no-caps 
+              <q-btn
+                flat
+                dense
+                no-caps
                 :label="$t('login.forgotPassword')"
                 @click="showForgotPasswordDialog = true"
                 class="login-page__forgot-password-btn"
@@ -85,7 +85,7 @@
               />
             </div>
           </div>
-          
+
           <!-- Login Button -->
           <div class="search-form-actions">
             <q-btn
@@ -115,7 +115,6 @@
 
     <!-- Şifremi Unuttum Dialog -->
     <ForgotPasswordDialog v-model="showForgotPasswordDialog" />
-
   </q-page>
 </template>
 
@@ -128,6 +127,7 @@ import { useAuthStore } from 'src/stores/auth-store.js'
 import { createLogger } from 'src/utils/logger.js'
 import CaptchaImage from 'src/components/CaptchaImage.vue'
 import ForgotPasswordDialog from 'src/components/ForgotPasswordDialog.vue'
+import { getCaptchaKontrolDurum } from 'src/data/auth-mock-data.js'
 
 // Composables
 const router = useRouter()
@@ -135,7 +135,6 @@ const $q = useQuasar()
 const { t } = useI18n()
 const authStore = useAuthStore()
 const logger = createLogger('LoginPage')
-
 
 // Reactive data
 const showForgotPasswordDialog = ref(false)
@@ -145,11 +144,11 @@ const captchaRef = ref(null)
 const loading = computed(() => authStore.isLoading)
 const showPassword = computed(() => authStore.showPassword)
 const loginForm = computed(() => authStore.loginForm)
+const captchaKontrolDurum = computed(() => getCaptchaKontrolDurum())
 const isFormValid = computed(() => {
-  return loginForm.value.userCode && 
-         loginForm.value.password
+  const baseValid = loginForm.value.userCode && loginForm.value.password
+  return captchaKontrolDurum.value ? baseValid && loginForm.value.captcha : baseValid
 })
-
 
 // Methods
 const generateCaptcha = () => {
@@ -162,36 +161,37 @@ const handleLogin = async () => {
   if (!isFormValid.value) return
 
   logger.info('Login attempt started')
-  
+
   const result = await authStore.login(
     loginForm.value.userCode,
     loginForm.value.password,
-    loginForm.value.captcha
+    captchaKontrolDurum.value ? loginForm.value.captcha : null,
   )
-  
+
   if (result.success) {
     $q.notify({
       type: 'positive',
       message: t('login.successMessage'),
       icon: '✓',
-      position: 'top-right'
+      position: 'top-right',
     })
-    
+
     logger.info('Login successful')
-    router.push('/')
+    router.push('/home')
   } else {
     $q.notify({
       type: 'negative',
       message: result.message,
       icon: '✕',
-      position: 'top-right'
+      position: 'top-right',
     })
-    
-    // Regenerate captcha on failed login
-    generateCaptcha()
+
+    // Regenerate captcha on failed login (sadece captcha kontrolü aktifse)
+    if (captchaKontrolDurum.value) {
+      generateCaptcha()
+    }
   }
 }
-
 
 // Lifecycle
 onMounted(() => {
@@ -243,7 +243,7 @@ onMounted(() => {
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: all 0.2s ease;
-  
+
   &:hover {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   }
@@ -311,28 +311,28 @@ onMounted(() => {
   :deep(.q-field__control) {
     border-radius: 4px;
     min-height: 40px;
-    
+
     &:hover {
       border-color: $border-hover;
     }
   }
-  
+
   :deep(.q-field__label) {
     font-size: 13px;
     color: $text-secondary;
     font-weight: 400;
   }
-  
+
   :deep(.q-field__native) {
     font-size: 13px;
     color: $text-primary;
     padding: 8px 12px;
   }
-  
+
   :deep(.q-field__control):before {
     border-color: $border-lighter;
   }
-  
+
   :deep(.q-field__prepend),
   :deep(.q-field__append) {
     .q-icon,
@@ -341,13 +341,13 @@ onMounted(() => {
       color: $text-secondary;
       opacity: 0.7;
       transition: opacity 0.2s ease;
-      
+
       &:hover {
         opacity: 1;
       }
     }
   }
-  
+
   // Error state için Bootstrap icon - LoginPage özel
   :deep(.q-field--error) {
     // Border'ı düzelt - tam oturması için
@@ -355,7 +355,7 @@ onMounted(() => {
       border: 2px solid #f56565 !important;
       border-radius: 4px !important;
     }
-    
+
     // Input içindeki tüm icon'ları gizle (prepend dahil)
     .q-field__control {
       .q-field__prepend,
@@ -363,14 +363,14 @@ onMounted(() => {
       .q-field__native {
         .q-icon,
         i,
-        [class*="bi-"] {
+        [class*='bi-'] {
           display: none !important;
         }
       }
-      
+
       // Sadece sağda tek icon göster
       &::after {
-        content: "⚠" !important;
+        content: '⚠' !important;
         position: absolute !important;
         right: 12px !important;
         top: 50% !important;
@@ -382,12 +382,12 @@ onMounted(() => {
         display: block !important;
       }
     }
-    
+
     // Quasar'ın default error icon'unu özellikle hedefle
     .q-field__append {
       .q-icon.material-icons,
       i.material-icons,
-      .q-icon[class*="material-icons"] {
+      .q-icon[class*='material-icons'] {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
@@ -396,12 +396,12 @@ onMounted(() => {
         font-size: 0 !important;
       }
     }
-    
+
     // Tüm error icon'larını gizle
     .q-field__append {
       .q-icon,
       i,
-      [class*="material-icons"] {
+      [class*='material-icons'] {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
@@ -412,21 +412,21 @@ onMounted(() => {
         padding: 0 !important;
       }
     }
-    
+
     // Kırmızı alt çizgiyi kaldır
     .q-field__native {
       text-decoration: none !important;
       border-bottom: none !important;
       box-shadow: none !important;
     }
-    
+
     .q-field__messages {
       color: #f56565 !important;
-      
+
       .q-icon {
         display: none !important;
       }
-      
+
       // Icon'u tamamen kaldır
       &::before {
         display: none !important;
@@ -452,7 +452,6 @@ onMounted(() => {
   max-width: 200px;
 }
 
-
 // BEM: Element - forgot password button
 .login-page__forgot-password-btn {
   font-size: 12px;
@@ -462,7 +461,7 @@ onMounted(() => {
   text-transform: none;
   min-height: 24px;
   opacity: 0.87;
-  
+
   &:hover {
     color: $border-accent;
     opacity: 1;
@@ -496,7 +495,7 @@ onMounted(() => {
   letter-spacing: 0.3px !important;
   line-height: 1.1 !important;
   text-transform: uppercase !important;
-  
+
   // Icon styling
   :deep(.q-icon) {
     font-size: 9px !important;
@@ -504,7 +503,7 @@ onMounted(() => {
     color: $text-secondary !important;
     opacity: 1 !important;
   }
-  
+
   // Loading state
   &.q-btn--loading {
     :deep(.q-icon) {
@@ -538,17 +537,16 @@ onMounted(() => {
     padding: 0 8px;
     color: $text-secondary;
     text-transform: none;
-    
+
     &:hover {
       color: $border-accent;
     }
   }
-  
+
   .q-separator {
     background: $border-lighter;
   }
 }
-
 
 // Responsive design
 @media (max-width: 480px) {
@@ -564,7 +562,7 @@ onMounted(() => {
     .section-header {
       padding: 12px 14px;
     }
-    
+
     .section-content {
       padding: 14px;
     }
@@ -582,7 +580,7 @@ onMounted(() => {
     font-size: 10px;
     letter-spacing: 1px;
   }
-  
+
   .login-form {
     .form-group {
       margin-bottom: 14px;
@@ -616,11 +614,11 @@ onMounted(() => {
 // Override global uppercase rules for this page (AccountEditProfile stili)
 .login-page {
   text-transform: none !important;
-  
+
   * {
     text-transform: none !important;
   }
-  
+
   .q-field__label,
   .q-item__label,
   .login-page__section-title,
@@ -629,16 +627,15 @@ onMounted(() => {
   .dialog-description {
     text-transform: none !important;
   }
-  
+
   // ✅ Login butonu uppercase olmalı (AccountEditProfile stili)
   .search-btn,
   .login-page__login-btn {
     text-transform: uppercase !important;
-    
+
     * {
       text-transform: uppercase !important;
     }
   }
 }
 </style>
-

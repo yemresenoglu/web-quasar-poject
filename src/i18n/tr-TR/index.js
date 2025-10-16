@@ -36,10 +36,10 @@ export default {
     title: 'Tema Seçimi',
     lightTheme: 'Aydınlık Tema',
     lightDescription: 'Klasik beyaz arka plan, günlük kullanım için ideal',
-    darkTheme: 'Karanlık Tema', 
+    darkTheme: 'Karanlık Tema',
     darkDescription: 'Koyu arka plan, göz yorgunluğunu azaltır',
-        sompoTheme: 'SOMPO Tema',
-        sompoDescription: 'SOMPO Sigorta | Sigortacılık Ürün ve Hizmetleri özelinde',
+    sompoTheme: 'SOMPO Tema',
+    sompoDescription: 'SOMPO Sigorta | Sigortacılık Ürün ve Hizmetleri özelinde',
   },
 
   // Common actions
@@ -70,7 +70,7 @@ export default {
     forgotPassword: 'Şifremi Unuttum',
     forgotPasswordTitle: 'Şifre Sıfırlama',
     forgotPasswordDescription: 'E-posta adresinizi girin, şifre sıfırlama bağlantısı gönderelim.',
-    email: 'E-posta Adresi',
+    email: 'E-Posta',
     sendResetLink: 'Bağlantı Gönder',
     refreshCaptcha: 'Kodu Yenile',
     invalidCaptcha: 'Güvenlik kodu hatalı',
@@ -220,15 +220,15 @@ export default {
       hasarDosyaEkleme: 'Hasar Dosya Ekleme',
       hasarDosyaListesi: 'Hasar Dosya Listesi',
       hasarDosyaRaporlari: 'Hasar Dosya Raporları',
-      
+
       evrakYukleme: 'Evrak Yükleme',
       evrakListesi: 'Evrak Listesi',
       evrakOnay: 'Evrak Onay',
-      
+
       gunlukRapor: 'Günlük Rapor',
       aylikRapor: 'Aylık Rapor',
       ozetRapor: 'Özet Rapor',
-      
+
       kullaniciYonetimi: 'Kullanıcı Yönetimi',
       yetkiYonetimi: 'Yetki Yönetimi',
       sistemAyarlari: 'Sistem Ayarları',
@@ -259,7 +259,7 @@ export default {
     lastName: 'Soyadı',
     userCode: 'Kullanıcı Kodu',
     department: 'Birim',
-    email: 'E-posta Adresi',
+    email: 'E-Posta',
     phone: 'Telefon',
     position: 'Pozisyon',
     defaultUser: 'Kullanıcı',
@@ -392,7 +392,6 @@ export default {
     },
   },
 
-
   // Error pages
   error: {
     notFound: {
@@ -402,7 +401,6 @@ export default {
       menuButton: 'Menüye Git',
     },
   },
-
 
   // Hasar Dosya Arabulucu page
   hasarDosyaArabulucu: {

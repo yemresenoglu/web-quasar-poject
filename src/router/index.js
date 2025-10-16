@@ -1,7 +1,13 @@
 import { defineRouter } from '#q-app/wrappers'
-import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
+import {
+  createRouter,
+  createMemoryHistory,
+  createWebHistory,
+  createWebHashHistory,
+} from 'vue-router'
 import routes from './routes'
 import { i18n } from 'src/boot/i18n'
+import { useAuthStore } from 'src/stores/auth-store'
 
 /*
  * If not building with SSR mode, you can
@@ -15,7 +21,9 @@ import { i18n } from 'src/boot/i18n'
 export default defineRouter(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
-    : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory)
+    : process.env.VUE_ROUTER_MODE === 'history'
+      ? createWebHistory
+      : createWebHashHistory
 
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
@@ -24,16 +32,43 @@ export default defineRouter(function (/* { store, ssrContext } */) {
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
-    history: createHistory(process.env.VUE_ROUTER_BASE)
+    history: createHistory(process.env.VUE_ROUTER_BASE),
+  })
+
+  // Router guard for authentication
+  Router.beforeEach(async (to, from, next) => {
+    const authStore = useAuthStore()
+
+    // Check if route requires authentication
+    if (to.meta?.requiresAuth === true) {
+      // Check if user is authenticated
+      if (!authStore.isAuthenticated) {
+        // Try to restore session
+        const sessionRestored = await authStore.checkSession()
+        if (!sessionRestored) {
+          // Redirect to login if not authenticated
+          next('/')
+          return
+        }
+      }
+    }
+
+    // If user is authenticated and trying to access login page, redirect to home
+    if (to.path === '/' && authStore.isAuthenticated) {
+      next('/home')
+      return
+    }
+
+    next()
   })
 
   // Update document title on route change
   Router.afterEach((to) => {
     const baseTitle = 'SOMPO Sigorta'
-    
+
     // Get titleKey from route meta
     const titleKey = to.meta?.titleKey
-    
+
     if (titleKey && i18n.global) {
       // Use i18n translation
       const pageTitle = i18n.global.t(titleKey)

@@ -4,11 +4,11 @@
       <div class="account-menu__section-title">{{ $t('quickAccess.title') }}</div>
     </div>
     <div class="account-menu__list">
-      <q-item 
-        v-for="item in quickAccessItems" 
+      <q-item
+        v-for="item in quickAccessItems"
         :key="item.id"
-        clickable 
-        v-ripple 
+        clickable
+        v-ripple
         class="account-menu__item"
         @click="handleNavigate(item.route)"
         role="button"
@@ -16,7 +16,7 @@
         tabindex="0"
       >
         <q-item-section avatar class="q-pr-none">
-          <i :class="item.icon" style="font-size: 16px;">
+          <i :class="item.icon" style="font-size: 16px">
             <q-tooltip>{{ item.text }}</q-tooltip>
           </i>
         </q-item-section>
@@ -24,12 +24,18 @@
           <div class="account-menu__item-title">{{ item.text }}</div>
         </q-item-section>
         <q-item-section side>
-          <i 
-            :class="[item.pinned ? 'bi bi-check-circle' : 'bi bi-circle', 'account-menu__pin-icon', { 'account-menu__pin-icon--pinned': item.pinned }]"
-            style="font-size: 16px;"
+          <i
+            :class="[
+              item.pinned ? 'bi bi-check-circle' : 'bi bi-circle',
+              'account-menu__pin-icon',
+              { 'account-menu__pin-icon--pinned': item.pinned },
+            ]"
+            style="font-size: 16px"
             @click.stop="handleTogglePin(item.id)"
           >
-            <q-tooltip>{{ item.pinned ? $t('quickAccess.unpinFromTaskbar') : $t('quickAccess.pinToTaskbar') }}</q-tooltip>
+            <q-tooltip>{{
+              item.pinned ? $t('quickAccess.unpinFromTaskbar') : $t('quickAccess.pinToTaskbar')
+            }}</q-tooltip>
           </i>
         </q-item-section>
       </q-item>
@@ -49,8 +55,8 @@ const { t: $t } = useI18n()
 defineProps({
   quickAccessItems: {
     type: Array,
-    required: true
-  }
+    default: () => [],
+  },
 })
 
 const emit = defineEmits(['navigate', 'toggle-pin'])
@@ -126,11 +132,11 @@ const handleTogglePin = (itemId) => {
     :deep(.q-item__section--side) {
       min-width: 40px;
       padding-left: 16px;
-      
+
       &:last-child {
         padding-left: 8px;
       }
-      
+
       .q-icon {
         color: $text-secondary;
         opacity: 0.87;
@@ -141,7 +147,7 @@ const handleTogglePin = (itemId) => {
     &:hover {
       background: $background-light;
       border-left: 2px solid $border-accent;
-      
+
       :deep(.q-item__section--side .q-icon) {
         opacity: 1;
       }
@@ -174,7 +180,9 @@ const handleTogglePin = (itemId) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: opacity 0.2s ease, color 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    color 0.2s ease;
   cursor: pointer;
 
   &:hover {
@@ -187,4 +195,3 @@ const handleTogglePin = (itemId) => {
   }
 }
 </style>
-

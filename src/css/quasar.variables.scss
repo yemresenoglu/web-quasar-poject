@@ -1,4 +1,4 @@
-@use "sass:color";
+@use 'sass:color';
 
 // Quasar SCSS (& Sass) Variables
 // --------------------------------------------------
@@ -15,82 +15,82 @@
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
 
 // ===== PRIMARY COLORS (Button Base) =====
-$primary   : #f8fafc;        // Açık gri - Button background
-$primary-dark: #e2e8f0;      // Orta gri - Button hover state
+$primary: #f8fafc; // Açık gri - Button background
+$primary-dark: #e2e8f0; // Orta gri - Button hover state
 
 // ===== SOMPO MODE COLORS =====
 // Klasik tema renklerinin Sompo tema karşılıkları (pembe tonlu)
 
 // Text Colors (Sompo Mode) - Klasik tema ile aynı fonksiyonlar
-$sompo-text-primary: #1e293b;      // Koyu lacivert - Başlıklar, info-value (aynı)
-$sompo-text-secondary: #64748b;    // Koyu gri - Labels, button text, table headers (aynı)
-$sompo-text-tertiary: #374151;     // Orta koyu gri - Description text (aynı)
-$sompo-text-muted: #6b7280;        // Orta gri - İkincil yazılar (aynı)
-$sompo-text-white: white;          // Beyaz - Button text (aynı)
-$sompo-text-success: #059669;      // Yeşil - Success states (aynı)
+$sompo-text-primary: #1e293b; // Koyu lacivert - Başlıklar, info-value (aynı)
+$sompo-text-secondary: #64748b; // Koyu gri - Labels, button text, table headers (aynı)
+$sompo-text-tertiary: #374151; // Orta koyu gri - Description text (aynı)
+$sompo-text-muted: #6b7280; // Orta gri - İkincil yazılar (aynı)
+$sompo-text-white: white; // Beyaz - Button text (aynı)
+$sompo-text-success: #059669; // Yeşil - Success states (aynı)
 
 // Border Colors (Sompo Mode) - Klasik tema fonksiyonlarına göre pembe tonlu
-$sompo-border-light: #f3c5c5;      // Açık pembe - Input borders, card borders (klasik: #e2e8f0)
-$sompo-border-lighter: #f8dee0;    // Çok açık pembe - Section borders (klasik: #f1f5f9)
-$sompo-border-hover: #f3c5c5;      // Orta pembe - Hover borders (klasik: #cbd5e1)
-$sompo-border-accent: #b42029;     // SOMPO kırmızı - Button left border accent (klasik: #3b82f6)
+$sompo-border-light: #f3c5c5; // Açık pembe - Input borders, card borders (klasik: #e2e8f0)
+$sompo-border-lighter: #f8dee0; // Çok açık pembe - Section borders (klasik: #f1f5f9)
+$sompo-border-hover: $sompo-border-light; // Hover borders (duplikasyon kaldırıldı)
+$sompo-border-accent: #b42029; // SOMPO kırmızı - Button left border accent (klasik: #3b82f6)
 
 // Background Colors (Sompo Mode) - Klasik tema fonksiyonlarına göre pembe tonlu
-$sompo-background-page: #f8f3f4;   // Ana pembe arka plan (klasik: #f8fafc)
-$sompo-background-light: #f8dee0;  // İkincil pembe arka plan (klasik: #f1f5f9)
-$sompo-background-hover: #f8dee0;  // Pembe hover (klasik: #f9fafb)
-$sompo-background-card: white;     // Beyaz - Card background (aynı)
-$sompo-background-input: white;    // Beyaz - Input background (aynı)
-$sompo-background-button: #f8f3f4; // Pembe button background (klasik: #f8fafc)
-$sompo-background-table-header: #f8f3f4; // Pembe table header (klasik: #f8fafc)
+$sompo-background-page: #f8f3f4; // Ana pembe arka plan (klasik: #f8fafc)
+$sompo-background-light: #f8dee0; // İkincil pembe arka plan (klasik: #f1f5f9)
+$sompo-background-hover: $sompo-background-light; // Pembe hover (duplikasyon kaldırıldı)
+$sompo-background-card: white; // Beyaz - Card background (aynı)
+$sompo-background-input: white; // Beyaz - Input background (aynı)
+$sompo-background-button: $sompo-background-page; // Pembe button background (duplikasyon kaldırıldı)
+$sompo-background-table-header: $sompo-background-page; // Pembe table header (duplikasyon kaldırıldı)
 
 // Primary Colors (Sompo Mode)
-$sompo-primary: rgba(180, 32, 41, 1);     // Ana kırmızı - SOMPO brand
+$sompo-primary: rgba(180, 32, 41, 1); // Ana kırmızı - SOMPO brand
 $sompo-primary-light: rgba(180, 32, 41, 0.9); // Kırmızı hafif şeffaf
-$sompo-primary-dark: rgba(150, 25, 35, 1);    // Koyu kırmızı - Hover states
-$sompo-accent: #f3c5c5;                    // Açık pembe - Accent color
-$sompo-border: rgba(243, 197, 197, 0.8);   // Border rengi
+$sompo-primary-dark: rgba(150, 25, 35, 1); // Koyu kırmızı - Hover states
+$sompo-accent: #f3c5c5; // Açık pembe - Accent color
+$sompo-border: rgba(243, 197, 197, 0.8); // Border rengi
 
 // ===== QUASAR DEFAULT COLORS =====
-$secondary : #26A69A;
-$accent    : #9C27B0;
+$secondary: #26a69a;
+$accent: #9c27b0;
 
-$positive  : #21BA45;
-$negative  : #C10015;
-$info      : #31CCEC;
-$warning   : #F2C037;
+$positive: #21ba45;
+$negative: #c10015;
+$info: #31ccec;
+$warning: #f2c037;
 
 // ═══════════════════════════════════════════════════════════
 // LIGHT MODE - DEFAULT THEME
 // ═══════════════════════════════════════════════════════════
 
 // Text Colors (Light Mode)
-$text-primary: #1e293b;      // Koyu lacivert - Başlıklar, info-value
-$text-secondary: #64748b;    // Koyu gri - Labels, button text, table headers
-$text-tertiary: #374151;     // Orta koyu gri - Description text
-$text-muted: #6b7280;        // Orta gri - İkincil yazılar
-$text-white: white;          // Beyaz - Button text (primary state)
-$text-success: #059669;      // Yeşil - Success states, amount values
+$text-primary: #1e293b; // Koyu lacivert - Başlıklar, info-value
+$text-secondary: #64748b; // Koyu gri - Labels, button text, table headers
+$text-tertiary: #374151; // Orta koyu gri - Description text
+$text-muted: #6b7280; // Orta gri - İkincil yazılar
+$text-white: white; // Beyaz - Button text (primary state)
+$text-success: #059669; // Yeşil - Success states, amount values
 
 // Border Colors (Light Mode)
-$border-light: #e2e8f0;      // Açık gri - Input borders, card borders, table borders
-$border-lighter: #f1f5f9;    // Çok açık gri - Section borders, subtle dividers
-$border-hover: #cbd5e1;      // Orta gri - Hover borders
-$border-accent: #3b82f6;     // Mavi - Button left border accent
+$border-light: #e2e8f0; // Açık gri - Input borders, card borders, table borders
+$border-lighter: #f1f5f9; // Çok açık gri - Section borders, subtle dividers
+$border-hover: #cbd5e1; // Orta gri - Hover borders
+$border-accent: #3b82f6; // Mavi - Button left border accent
 
 // Background Colors (Light Mode)
-$background-page: #f8fafc;   // Açık gri - Main page background
-$background-light: #f1f5f9;  // Çok açık gri - Secondary background
-$background-hover: #f9fafb;  // Çok açık gri - Table row hover
-$background-card: white;     // Beyaz - Card background
-$background-input: white;    // Beyaz - Input background
+$background-page: #f8fafc; // Açık gri - Main page background
+$background-light: #f1f5f9; // Çok açık gri - Secondary background
+$background-hover: #f9fafb; // Çok açık gri - Table row hover
+$background-card: white; // Beyaz - Card background
+$background-input: white; // Beyaz - Input background
 $background-button: #f8fafc; // Açık gri - Button background (same as $primary)
 $background-table-header: #f8fafc; // Açık gri - Table header background
 
 // Shadow Colors (Light Mode)
-$shadow-xs: rgba(0, 0, 0, 0.04);  // Extra small shadow - Card default
-$shadow-sm: rgba(0, 0, 0, 0.05);  // Small shadow - Hover effects
-$shadow-md: rgba(0, 0, 0, 0.06);  // Medium shadow - Card hover
+$shadow-xs: rgba(0, 0, 0, 0.04); // Extra small shadow - Card default
+$shadow-sm: rgba(0, 0, 0, 0.05); // Small shadow - Hover effects
+$shadow-md: rgba(0, 0, 0, 0.06); // Medium shadow - Card hover
 
 // Box Shadow Presets (Light Mode)
 $box-shadow-card: 0 1px 3px $shadow-xs;
@@ -105,33 +105,33 @@ $box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.06);
 // ═══════════════════════════════════════════════════════════
 
 // Base Dark Colors
-$dark-base: #030514;         // Ana dark background
-$dark-elevated: #0a0f1e;     // Yükseltilmiş elementler (cards, modals)
-$dark-elevated-2: #111827;   // Daha yüksek elementler
-$dark-elevated-3: #1e293b;   // En yüksek elementler
+$dark-base: #030514; // Ana dark background
+$dark-elevated: #0a0f1e; // Yükseltilmiş elementler (cards, modals)
+$dark-elevated-2: #111827; // Daha yüksek elementler
+$dark-elevated-3: #1e293b; // En yüksek elementler
 
 // Text Colors (Dark Mode)
-$dark-text-primary: #f1f5f9;    // Çok açık gri - Ana yazılar
-$dark-text-secondary: #94a3b8;  // Orta açık gri - Labels, secondary text
-$dark-text-tertiary: #64748b;   // Orta gri - Tertiary text
-$dark-text-muted: #475569;      // Koyu gri - Muted text
-$dark-text-success: #10b981;    // Yeşil - Success states
+$dark-text-primary: #f1f5f9; // Çok açık gri - Ana yazılar
+$dark-text-secondary: #94a3b8; // Orta açık gri - Labels, secondary text
+$dark-text-tertiary: #64748b; // Orta gri - Tertiary text
+$dark-text-muted: #475569; // Koyu gri - Muted text
+$dark-text-success: #10b981; // Yeşil - Success states
 
 // Border Colors (Dark Mode)
-$dark-border-light: #1e293b;    // Koyu gri - Borders
-$dark-border-lighter: #0f172a;  // Çok koyu gri - Subtle borders
-$dark-border-hover: #334155;    // Orta koyu gri - Hover borders
-$dark-border-accent: #3b82f6;   // Mavi - Accent (aynı kalıyor)
+$dark-border-light: #1e293b; // Koyu gri - Borders
+$dark-border-lighter: #0f172a; // Çok koyu gri - Subtle borders
+$dark-border-hover: #334155; // Orta koyu gri - Hover borders
+$dark-border-accent: #3b82f6; // Mavi - Accent (aynı kalıyor)
 
 // Background Colors (Dark Mode)
-$dark-background-page: #030514;     // Ana sayfa background
-$dark-background-light: #0a0f1e;    // Secondary background
-$dark-background-hover: #0f1729;    // Hover background
-$dark-background-card: #242735;     // Card background (Taskbar ile aynı!)
-$dark-background-input: #111827;    // Input background
-$dark-background-button: #1e293b;   // Button background
+$dark-background-page: #030514; // Ana sayfa background
+$dark-background-light: #0a0f1e; // Secondary background
+$dark-background-hover: #0f1729; // Hover background
+$dark-background-card: #242735; // Card background (Taskbar ile aynı!)
+$dark-background-input: #111827; // Input background
+$dark-background-button: #1e293b; // Button background
 $dark-background-table-header: #0f172a; // Table header
-$dark-background-taskbar: #242735;  // Taskbar background (Card ile aynı!)
+$dark-background-taskbar: #242735; // Taskbar background (Card ile aynı!)
 
 // Shadow Colors (Dark Mode) - Daha yumuşak gölgeler
 $dark-shadow-xs: rgba(0, 0, 0, 0.3);
@@ -139,10 +139,16 @@ $dark-shadow-sm: rgba(0, 0, 0, 0.4);
 $dark-shadow-md: rgba(0, 0, 0, 0.5);
 
 // Box Shadow Presets (Dark Mode)
-$dark-box-shadow-card: 0 1px 3px $dark-shadow-xs, 0 0 0 1px rgba(255, 255, 255, 0.02);
-$dark-box-shadow-card-hover: 0 2px 6px $dark-shadow-md, 0 0 0 1px rgba(255, 255, 255, 0.05);
+$dark-box-shadow-card:
+  0 1px 3px $dark-shadow-xs,
+  0 0 0 1px rgba(255, 255, 255, 0.02);
+$dark-box-shadow-card-hover:
+  0 2px 6px $dark-shadow-md,
+  0 0 0 1px rgba(255, 255, 255, 0.05);
 $dark-box-shadow-input-hover: 0 1px 3px $dark-shadow-sm;
-$dark-box-shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+$dark-box-shadow-dropdown:
+  0 4px 12px rgba(0, 0, 0, 0.5),
+  0 0 0 1px rgba(255, 255, 255, 0.05);
 $dark-box-shadow-button: 0 1px 2px rgba(0, 0, 0, 0.3);
 $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
 
@@ -152,40 +158,40 @@ $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
 
 // Spacing Scale (8px base unit)
 :root {
-  --spacing-xs: 4px;    // 0.25rem
-  --spacing-sm: 8px;    // 0.5rem
-  --spacing-md: 16px;   // 1rem
-  --spacing-lg: 24px;   // 1.5rem
-  --spacing-xl: 32px;   // 2rem
-  --spacing-2xl: 48px;  // 3rem
-  --spacing-3xl: 64px;  // 4rem
-  
+  --spacing-xs: 4px; // 0.25rem
+  --spacing-sm: 8px; // 0.5rem
+  --spacing-md: 16px; // 1rem
+  --spacing-lg: 24px; // 1.5rem
+  --spacing-xl: 32px; // 2rem
+  --spacing-2xl: 48px; // 3rem
+  --spacing-3xl: 64px; // 4rem
+
   // Border Radius Scale
   --radius-none: 0;
-  --radius-sm: 4px;     // 0.25rem
-  --radius-md: 8px;     // 0.5rem
-  --radius-lg: 12px;    // 0.75rem
-  --radius-xl: 18px;    // 1.125rem
-  --radius-2xl: 24px;   // 1.5rem
+  --radius-sm: 4px; // 0.25rem
+  --radius-md: 8px; // 0.5rem
+  --radius-lg: 12px; // 0.75rem
+  --radius-xl: 18px; // 1.125rem
+  --radius-2xl: 24px; // 1.5rem
   --radius-full: 9999px; // Full rounded
-  
+
   // Typography Scale
-  --text-xs: 0.75rem;   // 12px
-  --text-sm: 0.875rem;  // 14px
-  --text-base: 1rem;    // 16px
-  --text-lg: 1.125rem;  // 18px
-  --text-xl: 1.25rem;   // 20px
-  --text-2xl: 1.5rem;   // 24px
+  --text-xs: 0.75rem; // 12px
+  --text-sm: 0.875rem; // 14px
+  --text-base: 1rem; // 16px
+  --text-lg: 1.125rem; // 18px
+  --text-xl: 1.25rem; // 20px
+  --text-2xl: 1.5rem; // 24px
   --text-3xl: 1.875rem; // 30px
-  --text-4xl: 2.25rem;  // 36px
-  
+  --text-4xl: 2.25rem; // 36px
+
   // Font Weight Scale
   --font-weight-light: 300;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
-  
+
   // Line Height Scale
   --leading-none: 1;
   --leading-tight: 1.25;
@@ -193,7 +199,7 @@ $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
   --leading-normal: 1.5;
   --leading-relaxed: 1.625;
   --leading-loose: 2;
-  
+
   // Z-Index Scale
   --z-dropdown: 1000;
   --z-sticky: 1020;
@@ -203,7 +209,7 @@ $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
   --z-popover: 1060;
   --z-tooltip: 1070;
   --z-toast: 1080;
-  
+
   // Animation Duration Scale
   --duration-75: 75ms;
   --duration-100: 100ms;
@@ -213,19 +219,19 @@ $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
   --duration-500: 500ms;
   --duration-700: 700ms;
   --duration-1000: 1000ms;
-  
+
   // Animation Easing Scale
   --ease-linear: linear;
   --ease-in: cubic-bezier(0.4, 0, 1, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  
+
   // Component State Colors (Light Mode)
   --state-hover-lightness: 5%;
   --state-active-lightness: 10%;
   --state-disabled-opacity: 0.4;
-  
+
   // Focus Ring
   --focus-ring-width: 2px;
   --focus-ring-offset: 2px;
@@ -242,13 +248,13 @@ $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
   background: $background-var;
   transition: all var(--duration-200) var(--ease-in-out);
   transform: translateZ(0); // GPU acceleration
-  
+
   &:hover {
     background: color.adjust($background-var, $lightness: $lightness);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, $shadow-opacity);
   }
-  
+
   &:active {
     transform: translateY(0);
     transition: all var(--duration-100) var(--ease-out);
@@ -259,16 +265,16 @@ $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
 @mixin component-states($base-bg, $hover-bg: null, $active-bg: null, $disabled-opacity: 0.4) {
   background: $base-bg;
   transition: all var(--duration-200) var(--ease-in-out);
-  
+
   &:hover {
     background: $hover-bg or color.adjust($base-bg, $lightness: 5%);
   }
-  
+
   &:active {
     background: $active-bg or color.adjust($base-bg, $lightness: 10%);
     transform: translateY(1px);
   }
-  
+
   &:disabled,
   &[disabled] {
     opacity: $disabled-opacity;
@@ -278,14 +284,18 @@ $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 // Focus Ring Pattern - WCAG compliant focus styling
-@mixin focus-ring($color: var(--focus-ring-color), $width: var(--focus-ring-width), $offset: var(--focus-ring-offset)) {
+@mixin focus-ring(
+  $color: var(--focus-ring-color),
+  $width: var(--focus-ring-width),
+  $offset: var(--focus-ring-offset)
+) {
   &:focus-visible {
     outline: $width solid $color;
     outline-offset: $offset;
     border-radius: var(--radius-sm);
     box-shadow: 0 0 0 calc(#{$width} + 2px) rgba($color, var(--focus-ring-opacity));
   }
-  
+
   &:focus:not(:focus-visible) {
     outline: none;
   }
@@ -308,25 +318,25 @@ $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
   justify-content: center;
   gap: var(--spacing-xs);
   min-height: 32px;
-  
+
   &:hover {
     background: color.adjust($bg-color, $lightness: 5%);
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
-  
+
   &:active {
     background: color.adjust($bg-color, $lightness: 10%);
     transform: translateY(0);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   }
-  
+
   &:disabled {
     opacity: var(--state-disabled-opacity);
     cursor: not-allowed;
     pointer-events: none;
   }
-  
+
   @include focus-ring();
 }
 
@@ -337,7 +347,7 @@ $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
   border-radius: var(--radius-lg);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   transition: all var(--duration-300) var(--ease-in-out);
-  
+
   &:hover {
     border-color: color.adjust($border-color, $lightness: 10%);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
@@ -355,22 +365,22 @@ $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
   color: $text-primary;
   transition: all var(--duration-200) var(--ease-in-out);
   width: 100%;
-  
+
   &:hover {
     border-color: $border-hover;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
-  
+
   &:focus {
     border-color: $border-accent;
     box-shadow: 0 0 0 2px rgba($border-accent, 0.15);
     outline: none;
   }
-  
+
   &::placeholder {
     color: $text-muted;
   }
-  
+
   &:disabled {
     background: color.adjust($bg-color, $lightness: -5%);
     color: $text-muted;
@@ -444,25 +454,25 @@ $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
   .#{$block-name} {
     // Block styles
     @content;
-    
+
     // Common element patterns - placeholder mixin content
     &__header {
       padding: var(--spacing-md);
       border-bottom: 1px solid var(--border-light);
       background: var(--background-card);
     }
-    
+
     &__content {
       padding: var(--spacing-md);
       background: var(--background-page);
     }
-    
+
     &__footer {
       padding: var(--spacing-md);
       border-top: 1px solid var(--border-light);
       background: var(--background-card);
     }
-    
+
     &__title {
       font-size: var(--text-lg);
       font-weight: var(--font-weight-semibold);
@@ -470,14 +480,14 @@ $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
       margin: 0 0 var(--spacing-sm) 0;
       line-height: var(--leading-tight);
     }
-    
+
     &__description {
       font-size: var(--text-sm);
       color: var(--text-secondary);
       margin: 0;
       line-height: var(--leading-normal);
     }
-    
+
     &__actions {
       display: flex;
       gap: var(--spacing-sm);
@@ -487,18 +497,18 @@ $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
       background: var(--background-light);
       border-top: 1px solid var(--border-light);
     }
-    
+
     // Common modifier patterns
     &--disabled {
       opacity: 0.5;
       pointer-events: none;
       cursor: not-allowed;
     }
-    
+
     &--loading {
       position: relative;
       pointer-events: none;
-      
+
       &::after {
         content: '';
         position: absolute;
@@ -513,7 +523,7 @@ $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
         animation: spin 1s linear infinite;
       }
     }
-    
+
     &--active {
       background: var(--primary);
       color: var(--primary-dark);
@@ -531,11 +541,11 @@ $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
 
 @mixin grid-responsive($mobile: 1, $tablet: 2, $desktop: 3, $gap: var(--spacing-sm)) {
   @include grid-base($mobile, $gap);
-  
+
   @include tablet {
     grid-template-columns: repeat($tablet, 1fr);
   }
-  
+
   @include desktop {
     grid-template-columns: repeat($desktop, 1fr);
   }
@@ -643,8 +653,8 @@ $dark-box-shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.4);
 
 // Özel buton sınıfları için de uppercase
 button,
-input[type="button"],
-input[type="submit"],
+input[type='button'],
+input[type='submit'],
 .action-btn,
 .save-btn,
 .search-btn,
@@ -673,7 +683,12 @@ label,
 span,
 div,
 p,
-h1, h2, h3, h4, h5, h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
 .section-title,
 .section-content,
 .form-group,

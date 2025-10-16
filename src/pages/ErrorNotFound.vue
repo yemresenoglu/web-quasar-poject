@@ -5,7 +5,7 @@
         <div class="error-icon-wrapper">
           <i class="bi bi-exclamation-triangle error-icon"></i>
         </div>
-        
+
         <div class="error-code">
           {{ errorCode }}
         </div>
@@ -22,7 +22,7 @@
           <q-btn
             class="home-button"
             unelevated
-            to="/"
+            to="/home"
             icon-left="bi-house"
             :label="homeButtonLabel"
             no-caps
@@ -30,8 +30,8 @@
           <q-btn
             class="menu-button"
             unelevated
-            to="/menu"
-              icon-left="bi-grid-3x3-gap"
+            to="/home/menu"
+            icon-left="bi-grid-3x3-gap"
             :label="t('error.notFound.menuButton')"
             no-caps
           />
@@ -89,7 +89,7 @@ const homeButtonLabel = computed(() => t('error.notFound.homeButton'))
   display: flex;
   flex-direction: column;
   justify-content: center;
-  
+
   &:hover {
     box-shadow: $box-shadow-card-hover;
   }
@@ -97,7 +97,7 @@ const homeButtonLabel = computed(() => t('error.notFound.homeButton'))
 
 .error-icon-wrapper {
   margin-bottom: 24px;
-  
+
   .error-icon {
     font-size: 64px;
     color: $text-secondary; // #64748b - UI tasarımı ile uyumlu
@@ -154,7 +154,7 @@ const homeButtonLabel = computed(() => t('error.notFound.homeButton'))
   min-height: 40px;
   text-transform: uppercase !important; // Button label'ları uppercase
   letter-spacing: 0.5px; // Uppercase için letter-spacing
-  
+
   :deep(.q-icon) {
     font-size: 14px;
     margin-right: 6px;
@@ -166,7 +166,7 @@ const homeButtonLabel = computed(() => t('error.notFound.homeButton'))
     transform: translateY(-1px);
     box-shadow: $box-shadow-input-hover;
   }
-  
+
   &:active {
     transform: translateY(0);
   }
@@ -177,27 +177,27 @@ const homeButtonLabel = computed(() => t('error.notFound.homeButton'))
   .page-container {
     max-width: 100%;
   }
-  
+
   .error-content {
     padding: 48px 32px;
     min-height: 400px;
   }
-  
+
   .error-code {
     font-size: 72px;
   }
-  
+
   .error-title {
     font-size: 20px;
   }
-  
+
   .error-message {
     font-size: 14px;
   }
-  
+
   .error-actions {
     flex-direction: column;
-    
+
     .home-button,
     .menu-button {
       width: 100%;

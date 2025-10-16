@@ -22,14 +22,18 @@
       <!-- Password Section -->
       <div class="account-change-password__section">
         <div class="account-change-password__section-header">
-          <i class="bi bi-key account-change-password__section-icon" style="font-size: 16px;"></i>
-          <div class="account-change-password__section-title">{{ $t('account.changePassword') }}</div>
+          <i class="bi bi-key account-change-password__section-icon" style="font-size: 16px"></i>
+          <div class="account-change-password__section-title">
+            {{ $t('account.changePassword') }}
+          </div>
         </div>
-        
+
         <q-form @submit.prevent="submitChangePassword" class="account-change-password__form">
           <div class="account-change-password__form-grid">
             <div class="account-change-password__field account-change-password__field--full">
-              <label class="account-change-password__field-label">{{ $t('account.currentPassword') }}</label>
+              <label class="account-change-password__field-label">{{
+                $t('account.currentPassword')
+              }}</label>
               <q-input
                 v-model="passwordForm.currentPassword"
                 outlined
@@ -39,9 +43,11 @@
                 class="account-change-password__input"
               />
             </div>
-            
+
             <div class="account-change-password__field account-change-password__field--full">
-              <label class="account-change-password__field-label">{{ $t('account.newPassword') }}</label>
+              <label class="account-change-password__field-label">{{
+                $t('account.newPassword')
+              }}</label>
               <q-input
                 v-model="passwordForm.newPassword"
                 outlined
@@ -51,9 +57,11 @@
                 class="account-change-password__input"
               />
             </div>
-            
+
             <div class="account-change-password__field account-change-password__field--full">
-              <label class="account-change-password__field-label">{{ $t('account.confirmPassword') }}</label>
+              <label class="account-change-password__field-label">{{
+                $t('account.confirmPassword')
+              }}</label>
               <q-input
                 v-model="passwordForm.confirmPassword"
                 outlined
@@ -64,7 +72,7 @@
               />
             </div>
           </div>
-          
+
           <div class="search-form-actions">
             <q-btn
               color="primary"
@@ -90,25 +98,42 @@
       <!-- Security Tips -->
       <div class="account-change-password__section">
         <div class="account-change-password__section-header">
-          <i class="bi bi-shield-check account-change-password__section-icon" style="font-size: 16px;"></i>
-          <div class="account-change-password__section-title">{{ $t('account.passwordSecurityTips') }}</div>
+          <i
+            class="bi bi-shield-check account-change-password__section-icon"
+            style="font-size: 16px"
+          ></i>
+          <div class="account-change-password__section-title">
+            {{ $t('account.passwordSecurityTips') }}
+          </div>
         </div>
-        
+
         <div class="account-change-password__tips">
           <div class="account-change-password__tip">
-            <i class="bi bi-check-circle account-change-password__tip-icon" style="font-size: 14px;"></i>
+            <i
+              class="bi bi-check-circle account-change-password__tip-icon"
+              style="font-size: 14px"
+            ></i>
             <span class="account-change-password__tip-text">{{ $t('account.passwordTip1') }}</span>
           </div>
           <div class="account-change-password__tip">
-            <i class="bi bi-check-circle account-change-password__tip-icon" style="font-size: 14px;"></i>
+            <i
+              class="bi bi-check-circle account-change-password__tip-icon"
+              style="font-size: 14px"
+            ></i>
             <span class="account-change-password__tip-text">{{ $t('account.passwordTip2') }}</span>
           </div>
           <div class="account-change-password__tip">
-            <i class="bi bi-check-circle account-change-password__tip-icon" style="font-size: 14px;"></i>
+            <i
+              class="bi bi-check-circle account-change-password__tip-icon"
+              style="font-size: 14px"
+            ></i>
             <span class="account-change-password__tip-text">{{ $t('account.passwordTip3') }}</span>
           </div>
           <div class="account-change-password__tip">
-            <i class="bi bi-check-circle account-change-password__tip-icon" style="font-size: 14px;"></i>
+            <i
+              class="bi bi-check-circle account-change-password__tip-icon"
+              style="font-size: 14px"
+            ></i>
             <span class="account-change-password__tip-text">{{ $t('account.passwordTip4') }}</span>
           </div>
         </div>
@@ -134,22 +159,24 @@ const accountStore = useAccountStore()
 
 // Loading states
 const loadingStates = ref({
-  password: false
+  password: false,
 })
 
 // Password form
 const passwordForm = ref({
   currentPassword: '',
   newPassword: '',
-  confirmPassword: ''
+  confirmPassword: '',
 })
 
 // Computed
 const isPasswordFormValid = computed(() => {
-  return passwordForm.value.currentPassword && 
-         passwordForm.value.newPassword && 
-         passwordForm.value.newPassword.length >= 6 &&
-         passwordForm.value.newPassword === passwordForm.value.confirmPassword
+  return (
+    passwordForm.value.currentPassword &&
+    passwordForm.value.newPassword &&
+    passwordForm.value.newPassword.length >= 6 &&
+    passwordForm.value.newPassword === passwordForm.value.confirmPassword
+  )
 })
 
 /**
@@ -157,17 +184,15 @@ const isPasswordFormValid = computed(() => {
  * @returns {Object} Object containing validation rules for each form field
  */
 const validationRules = computed(() => ({
-  currentPassword: [
-    val => !!val || $t('validation.required')
-  ],
+  currentPassword: [(val) => !!val || $t('validation.required')],
   newPassword: [
-    val => !!val || $t('validation.required'),
-    val => val.length >= 6 || $t('validation.minLength', { min: 6 })
+    (val) => !!val || $t('validation.required'),
+    (val) => val.length >= 6 || $t('validation.minLength', { min: 6 }),
   ],
   confirmPassword: [
-    val => !!val || $t('validation.required'),
-    val => val === passwordForm.value.newPassword || $t('validation.passwordMismatch')
-  ]
+    (val) => !!val || $t('validation.required'),
+    (val) => val === passwordForm.value.newPassword || $t('validation.passwordMismatch'),
+  ],
 }))
 
 /**
@@ -178,7 +203,7 @@ const resetPasswordForm = () => {
   passwordForm.value = {
     currentPassword: '',
     newPassword: '',
-    confirmPassword: ''
+    confirmPassword: '',
   }
 }
 
@@ -194,22 +219,22 @@ const submitChangePassword = async () => {
     logger.info('Password change initiated')
     const result = await accountStore.changePassword(
       passwordForm.value.currentPassword,
-      passwordForm.value.newPassword
+      passwordForm.value.newPassword,
     )
-    
+
     if (result.success) {
       resetPasswordForm()
       $q.notify({
         type: 'positive',
         message: $t('account.passwordChangedSuccessfully'),
         icon: '✓',
-        position: 'top-right'
+        position: 'top-right',
       })
       logger.info('Password changed successfully')
-      
+
       // Redirect to profile page after successful password change
       setTimeout(() => {
-        router.push('/account/edit-profile')
+        router.push('/home/account/edit-profile')
       }, 1500)
     } else {
       logger.error('Password change failed:', result.message)
@@ -217,7 +242,7 @@ const submitChangePassword = async () => {
         type: 'negative',
         message: $t('account.passwordChangeFailed'),
         icon: '✕',
-        position: 'top-right'
+        position: 'top-right',
       })
     }
   } catch (error) {
@@ -226,7 +251,7 @@ const submitChangePassword = async () => {
       type: 'negative',
       message: $t('account.passwordChangeError'),
       icon: '✕',
-      position: 'top-right'
+      position: 'top-right',
     })
   } finally {
     loadingStates.value.password = false
@@ -308,7 +333,7 @@ onMounted(() => {
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     transition: all 0.2s ease;
-    
+
     &:hover {
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     }
@@ -368,24 +393,24 @@ onMounted(() => {
     :deep(.q-field__control) {
       border-radius: 4px;
       min-height: 40px;
-      
+
       &:hover {
         border-color: $border-hover;
       }
     }
-    
+
     :deep(.q-field__label) {
       font-size: 13px;
       color: $text-secondary;
       font-weight: 400;
     }
-    
+
     :deep(.q-field__native) {
       font-size: 13px;
       color: $text-primary;
       padding: 8px 12px;
     }
-    
+
     :deep(.q-field__control):before {
       border-color: $border-lighter;
     }
@@ -418,7 +443,7 @@ onMounted(() => {
     letter-spacing: 0.3px !important;
     line-height: 1.1 !important;
     text-transform: uppercase !important;
-    
+
     // Icon styling
     :deep(.q-icon) {
       font-size: 9px !important;
@@ -426,7 +451,7 @@ onMounted(() => {
       color: $text-secondary !important;
       opacity: 1 !important;
     }
-    
+
     // Loading state
     &.q-btn--loading {
       :deep(.q-icon) {
@@ -457,7 +482,7 @@ onMounted(() => {
     letter-spacing: 0.3px !important;
     line-height: 1.1 !important;
     text-transform: uppercase !important;
-    
+
     // Icon styling
     :deep(.q-icon) {
       font-size: 9px !important;
@@ -465,9 +490,11 @@ onMounted(() => {
       color: $text-secondary !important;
       opacity: 1 !important;
     }
-    
+
     // Hover/Focus states
-    &:hover, &:focus, &:active {
+    &:hover,
+    &:focus,
+    &:active {
       border: none !important;
       border-top: none !important;
       border-right: none !important;
@@ -506,11 +533,11 @@ onMounted(() => {
 // Override global uppercase rules for this page
 .account-change-password {
   text-transform: none !important;
-  
+
   * {
     text-transform: none !important;
   }
-  
+
   .q-field__label,
   .q-item__label,
   .account-change-password__title,
@@ -519,16 +546,15 @@ onMounted(() => {
   .account-change-password__tip-text {
     text-transform: none !important;
   }
-  
+
   // ✅ Butonlar uppercase olmalı (HasarDosya stili)
   .search-btn,
   .clear-btn {
     text-transform: uppercase !important;
-    
+
     * {
       text-transform: uppercase !important;
     }
   }
 }
 </style>
-

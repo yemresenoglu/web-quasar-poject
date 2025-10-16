@@ -1,6 +1,58 @@
 // Menu Mock Data
 // Menü yapısı için gerçekçi test verileri
 
+// Kullanıcı bazlı menü verileri
+export const getUserMenuData = (userOid, selectedBirimLabel, selectedGörevLabel) => {
+  const baseMenu = getMenuCategories()
+
+  // Kullanıcı ve rol bazlı menü filtreleme
+  if (selectedBirimLabel === 'Arabuluculuk' && selectedGörevLabel === 'Arabulucu') {
+    return baseMenu
+      .map((category) => {
+        if (category.id === 'hasar-dosya') {
+          return {
+            ...category,
+            items: category.items.filter(
+              (item) =>
+                item.id === 'hasar-dosya-sorgulama-arabulucu' || item.id === 'hasar-dosya-listesi',
+            ),
+          }
+        }
+        if (category.id === 'evrak-yonetimi') {
+          return {
+            ...category,
+            items: category.items.filter(
+              (item) => item.id === 'evrak-yukleme' || item.id === 'evrak-listesi',
+            ),
+          }
+        }
+        if (category.id === 'raporlar') {
+          return {
+            ...category,
+            items: category.items.filter((item) => item.id === 'arabuluculuk-raporlari'),
+          }
+        }
+        return category
+      })
+      .filter((category) => category.items.length > 0)
+  }
+
+  if (selectedBirimLabel === 'Hasar Uzmanı' && selectedGörevLabel === 'Hasar Uzmanı') {
+    return baseMenu.map((category) => {
+      if (category.id === 'hasar-dosya') {
+        return {
+          ...category,
+          items: category.items.filter((item) => item.id !== 'hasar-dosya-sorgulama-arabulucu'),
+        }
+      }
+      return category
+    })
+  }
+
+  // Varsayılan menü
+  return baseMenu
+}
+
 export const mockMenuData = {
   // Hasar Dosya kategorisi
   hasarDosya: {
@@ -12,35 +64,35 @@ export const mockMenuData = {
         id: 'hasar-dosya-sorgulama-arabulucu',
         translationKey: 'menuPage.items.hasarDosyaSorgulamaArabulucu',
         icon: 'bi bi-search',
-        route: '/hasar-sorgula-arabulucu',
+        route: '/home/menu/hasar-sorgula-arabulucu',
         quickAccess: true,
-        description: 'Arabulucu olarak hasar dosyalarını sorgulayın'
+        description: 'Arabulucu olarak hasar dosyalarını sorgulayın',
       },
       {
         id: 'hasar-dosya-ekleme',
         translationKey: 'menuPage.items.hasarDosyaEkleme',
         icon: 'bi bi-plus-circle',
-        route: '/hasar-dosya-ekle',
+        route: '/home/menu/hasar-dosya-ekle',
         quickAccess: false,
-        description: 'Yeni hasar dosyası ekleyin'
+        description: 'Yeni hasar dosyası ekleyin',
       },
       {
         id: 'hasar-dosya-listesi',
         translationKey: 'menuPage.items.hasarDosyaListesi',
         icon: 'bi bi-list-ul',
-        route: '/hasar-dosya-listesi',
+        route: '/home/menu/hasar-dosya-listesi',
         quickAccess: false,
-        description: 'Tüm hasar dosyalarını görüntüleyin'
+        description: 'Tüm hasar dosyalarını görüntüleyin',
       },
       {
         id: 'hasar-dosya-raporlari',
         translationKey: 'menuPage.items.hasarDosyaRaporlari',
         icon: 'bi bi-file-earmark-bar-graph',
-        route: '/hasar-dosya-raporlari',
+        route: '/home/menu/hasar-dosya-raporlari',
         quickAccess: false,
-        description: 'Hasar dosyası raporlarını inceleyin'
-      }
-    ]
+        description: 'Hasar dosyası raporlarını inceleyin',
+      },
+    ],
   },
 
   // Evrak Yönetimi kategorisi
@@ -53,27 +105,27 @@ export const mockMenuData = {
         id: 'evrak-yukleme',
         translationKey: 'menuPage.items.evrakYukleme',
         icon: 'bi bi-cloud-upload',
-        route: '/evrak-yukle',
+        route: '/home/menu/evrak-yukle',
         quickAccess: true,
-        description: 'Yeni evrak yükleyin'
+        description: 'Yeni evrak yükleyin',
       },
       {
         id: 'evrak-listesi',
         translationKey: 'menuPage.items.evrakListesi',
         icon: 'bi bi-file-text',
-        route: '/evrak-listesi',
+        route: '/home/menu/evrak-listesi',
         quickAccess: false,
-        description: 'Tüm evrakları görüntüleyin'
+        description: 'Tüm evrakları görüntüleyin',
       },
       {
         id: 'evrak-onay',
         translationKey: 'menuPage.items.evrakOnay',
         icon: 'bi bi-check-square',
-        route: '/evrak-onay',
+        route: '/home/menu/evrak-onay',
         quickAccess: false,
-        description: 'Evrak onay işlemlerini yapın'
-      }
-    ]
+        description: 'Evrak onay işlemlerini yapın',
+      },
+    ],
   },
 
   // Raporlar kategorisi
@@ -86,27 +138,27 @@ export const mockMenuData = {
         id: 'gunluk-rapor',
         translationKey: 'menuPage.items.gunlukRapor',
         icon: 'bi bi-calendar-day',
-        route: '/raporlar/gunluk',
+        route: '/home/menu/raporlar/gunluk',
         quickAccess: false,
-        description: 'Günlük işlem raporlarını görüntüleyin'
+        description: 'Günlük işlem raporlarını görüntüleyin',
       },
       {
         id: 'aylik-rapor',
         translationKey: 'menuPage.items.aylikRapor',
         icon: 'bi bi-calendar-month',
-        route: '/raporlar/aylik',
+        route: '/home/menu/raporlar/aylik',
         quickAccess: false,
-        description: 'Aylık performans raporlarını inceleyin'
+        description: 'Aylık performans raporlarını inceleyin',
       },
       {
         id: 'ozet-rapor',
         translationKey: 'menuPage.items.ozetRapor',
         icon: 'bi bi-file-earmark-text',
-        route: '/raporlar/ozet',
+        route: '/home/menu/raporlar/ozet',
         quickAccess: true,
-        description: 'Özet raporları görüntüleyin'
-      }
-    ]
+        description: 'Özet raporları görüntüleyin',
+      },
+    ],
   },
 
   // Sistem Yönetimi kategorisi
@@ -119,28 +171,28 @@ export const mockMenuData = {
         id: 'kullanici-yonetimi',
         translationKey: 'menuPage.items.kullaniciYonetimi',
         icon: 'bi bi-people',
-        route: '/sistem/kullanicilar',
+        route: '/home/menu/sistem/kullanicilar',
         quickAccess: false,
-        description: 'Kullanıcı hesaplarını yönetin'
+        description: 'Kullanıcı hesaplarını yönetin',
       },
       {
         id: 'yetki-yonetimi',
         translationKey: 'menuPage.items.yetkiYonetimi',
         icon: 'bi bi-shield-check',
-        route: '/sistem/yetkiler',
+        route: '/home/menu/sistem/yetkiler',
         quickAccess: false,
-        description: 'Sistem yetkilerini yönetin'
+        description: 'Sistem yetkilerini yönetin',
       },
       {
         id: 'sistem-ayarlari',
         translationKey: 'menuPage.items.sistemAyarlari',
         icon: 'bi bi-sliders',
-        route: '/sistem/ayarlar',
+        route: '/home/menu/sistem/ayarlar',
         quickAccess: false,
-        description: 'Sistem ayarlarını düzenleyin'
-      }
-    ]
-  }
+        description: 'Sistem ayarlarını düzenleyin',
+      },
+    ],
+  },
 }
 
 // Menü kategorilerini dizi olarak döndüren fonksiyon
@@ -156,19 +208,19 @@ export const getMenuCategoryById = (categoryId) => {
 // Quick access öğelerini getiren fonksiyon
 export const getQuickAccessItems = () => {
   const allItems = []
-  
-  Object.values(mockMenuData).forEach(category => {
-    const quickAccessItems = category.items.filter(item => item.quickAccess)
+
+  Object.values(mockMenuData).forEach((category) => {
+    const quickAccessItems = category.items.filter((item) => item.quickAccess)
     allItems.push(...quickAccessItems)
   })
-  
+
   return allItems
 }
 
 // Belirli bir menü öğesini ID ile getiren fonksiyon
 export const getMenuItemById = (itemId) => {
   for (const category of Object.values(mockMenuData)) {
-    const item = category.items.find(item => item.id === itemId)
+    const item = category.items.find((item) => item.id === itemId)
     if (item) {
       return item
     }
@@ -180,21 +232,21 @@ export const getMenuItemById = (itemId) => {
 export const searchMenuItems = (searchTerm) => {
   const results = []
   const term = searchTerm.toLowerCase()
-  
-  Object.values(mockMenuData).forEach(category => {
-    category.items.forEach(item => {
+
+  Object.values(mockMenuData).forEach((category) => {
+    category.items.forEach((item) => {
       if (
         item.translationKey.toLowerCase().includes(term) ||
         item.description.toLowerCase().includes(term)
       ) {
         results.push({
           ...item,
-          categoryName: category.translationKey
+          categoryName: category.translationKey,
         })
       }
     })
   })
-  
+
   return results
 }
 
@@ -203,7 +255,7 @@ export const getMockMenuApiResponse = () => {
   return {
     success: true,
     data: getMenuCategories(),
-    status: 200
+    status: 200,
   }
 }
 
@@ -213,10 +265,10 @@ export const generateRandomMenuItem = () => {
   const randomCategory = categories[Math.floor(Math.random() * categories.length)]
   const categoryItems = mockMenuData[randomCategory].items
   const randomItem = categoryItems[Math.floor(Math.random() * categoryItems.length)]
-  
+
   return {
     ...randomItem,
-    categoryId: randomCategory
+    categoryId: randomCategory,
   }
 }
 

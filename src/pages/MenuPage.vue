@@ -13,11 +13,7 @@
             <i class="bi bi-search"></i>
           </template>
           <template v-slot:append>
-            <i
-              v-if="searchQuery"
-              class="bi bi-x cursor-pointer"
-              @click="clearSearch"
-            ></i>
+            <i v-if="searchQuery" class="bi bi-x cursor-pointer" @click="clearSearch"></i>
           </template>
         </q-input>
       </div>
@@ -35,7 +31,7 @@
               <q-skeleton type="QAvatar" size="24px" />
             </q-item-section>
             <q-item-section>
-              <q-skeleton type="text" :width="`${60 + (i * 5)}%`" />
+              <q-skeleton type="text" :width="`${60 + i * 5}%`" />
             </q-item-section>
           </q-item>
         </q-list>
@@ -47,10 +43,10 @@
       <i class="bi bi-inbox"></i>
       <p class="empty-state__title">{{ $t('menuPage.noResults') }}</p>
       <p class="empty-state__description">{{ $t('menuPage.tryDifferentSearch') }}</p>
-      <q-btn 
-        flat 
-        color="primary" 
-        :label="$t('menuPage.clearSearch')" 
+      <q-btn
+        flat
+        color="primary"
+        :label="$t('menuPage.clearSearch')"
         @click="clearSearch"
         :aria-label="$t('menuPage.clearSearch')"
         class="q-mt-md"
@@ -59,33 +55,36 @@
 
     <!-- Menu Container -->
     <div v-else class="menu-page__container">
-      <div v-for="menuItem in filteredMenuData" 
-           :key="menuItem.id" 
-           class="menu-page__category">
+      <div v-for="menuItem in filteredMenuData" :key="menuItem.id" class="menu-page__category">
         <div class="menu-page__category-header">
           <i :class="menuItem.icon" class="q-mr-sm"></i>
           <h3 class="menu-page__category-title">{{ menuItem.text }}</h3>
         </div>
         <q-list class="menu-page__list">
-          <q-item v-for="item in menuItem.items" 
-                  :key="item.id"
-                  clickable
-                  v-ripple
-                  :class="['menu-page__item', { 'menu-page__item--context-menu': hoveredItem?.id === item.id }]"
-                  @click="openInTab(item)"
-                  @mouseenter="handleItemHover(item)"
-                  @mouseleave="handleItemLeave()"
-                  @contextmenu="openContextMenu($event, item)">
+          <q-item
+            v-for="item in menuItem.items"
+            :key="item.id"
+            clickable
+            v-ripple
+            :class="[
+              'menu-page__item',
+              { 'menu-page__item--context-menu': hoveredItem?.id === item.id },
+            ]"
+            @click="openInTab(item)"
+            @mouseenter="handleItemHover(item)"
+            @mouseleave="handleItemLeave()"
+            @contextmenu="openContextMenu($event, item)"
+          >
             <q-item-section avatar v-if="item.icon">
               <i :class="item.icon"></i>
             </q-item-section>
             <q-item-section>
               <div class="menu-page__item-content">
                 <span class="menu-page__item-text">{{ item.text }}</span>
-                <q-chip 
-                  v-if="item.quickAccess" 
-                  size="xs" 
-                  color="blue" 
+                <q-chip
+                  v-if="item.quickAccess"
+                  size="xs"
+                  color="blue"
                   text-color="white"
                   class="menu-page__chip"
                 >
@@ -100,18 +99,25 @@
     </div>
 
     <!-- Custom Context Menu -->
-    <div 
+    <div
       v-if="showContextMenu && selectedItem"
       class="menu-page__context-menu"
       :style="contextMenuStyle"
       @click.stop
     >
       <div class="menu-page__context-menu-item" @click="toggleQuickAccess">
-        <i 
-          :class="[selectedItem?.quickAccess ? 'bi bi-check-circle' : 'bi bi-circle', { 'menu-page__context-menu-icon--active': selectedItem?.quickAccess }]"
+        <i
+          :class="[
+            selectedItem?.quickAccess ? 'bi bi-check-circle' : 'bi bi-circle',
+            { 'menu-page__context-menu-icon--active': selectedItem?.quickAccess },
+          ]"
         ></i>
         <span class="menu-page__context-menu-text">
-          {{ selectedItem?.quickAccess ? $t('quickMenu.removeFromQuickAccess') : $t('quickMenu.addToQuickAccess') }}
+          {{
+            selectedItem?.quickAccess
+              ? $t('quickMenu.removeFromQuickAccess')
+              : $t('quickMenu.addToQuickAccess')
+          }}
         </span>
       </div>
     </div>
@@ -123,42 +129,57 @@ import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useMenuPageStore } from 'src/stores/menu-page-store'
-import { useMenuStore } from 'src/stores/menu-store'
+import { useAuthStore } from 'src/stores/auth-store'
 
 // Composables
 const { t } = useI18n()
 const menuPageStore = useMenuPageStore()
-const menuStore = useMenuStore()
 const router = useRouter()
+const authStore = useAuthStore()
 
 // Store state (direkt store'dan al - reactive)
-const isLoading = computed(() => menuStore.isLoading)
+const isLoading = computed(() => menuPageStore.isLoading)
 const searchQuery = computed({
-  get: () => menuStore.searchQuery,
-  set: (value) => menuStore.setSearchQuery(value)
+  get: () => menuPageStore.searchQuery,
+  set: (value) => menuPageStore.setSearchQuery(value),
 })
-const showContextMenu = computed(() => menuStore.showContextMenu)
-const selectedItem = computed(() => menuStore.selectedItem)
-const hoveredItem = computed(() => menuStore.hoveredItem)
-const contextMenuStyle = computed(() => menuStore.contextMenuStyle)
+const showContextMenu = computed(() => menuPageStore.showContextMenu)
+const selectedItem = computed(() => menuPageStore.selectedItem)
+const hoveredItem = computed(() => menuPageStore.hoveredItem)
+const contextMenuStyle = computed(() => menuPageStore.contextMenuStyle)
+
+// Menu data with translations
+const translatedMenuData = computed(() => {
+  return menuPageStore.menuData.map((category) => ({
+    ...category,
+    // Eğer translationKey varsa çevir, yoksa text'i kullan
+    text: category.translationKey ? t(category.translationKey) : category.text,
+    items: category.items.map((item) => ({
+      ...item,
+      // Eğer translationKey varsa çevir, yoksa text'i kullan
+      text: item.translationKey ? t(item.translationKey) : item.text,
+    })),
+  }))
+})
 
 // Filtered menu data based on search query
 const filteredMenuData = computed(() => {
-  if (!menuStore.searchQuery || menuStore.searchQuery.trim() === '') {
-    return menuPageStore.translatedMenuData
+  if (!menuPageStore.searchQuery || menuPageStore.searchQuery.trim() === '') {
+    return translatedMenuData.value
   }
-  
-  const query = menuStore.searchQuery.toLowerCase().trim()
-  
-  return menuPageStore.translatedMenuData
-    .map(category => ({
+
+  const query = menuPageStore.searchQuery.toLowerCase().trim()
+
+  return translatedMenuData.value
+    .map((category) => ({
       ...category,
-      items: category.items.filter(item =>
-        item.text.toLowerCase().includes(query) ||
-        (item.description && item.description.toLowerCase().includes(query))
-      )
+      items: category.items.filter(
+        (item) =>
+          item.text.toLowerCase().includes(query) ||
+          (item.description && item.description.toLowerCase().includes(query)),
+      ),
     }))
-    .filter(category => category.items.length > 0)
+    .filter((category) => category.items.length > 0)
 })
 
 // Check if search has results
@@ -168,45 +189,69 @@ const hasSearchResults = computed(() => {
 
 // Methods (store actions'lara delegate et)
 const clearSearch = () => {
-  menuStore.clearSearch()
+  menuPageStore.clearSearch()
 }
 
 const openInTab = (item) => {
   if (!item.route) return
+
+  // Debug: Route'u logla
+  console.log('🟢 MenuPage navigating to:', {
+    id: item.id,
+    route: item.route,
+    translationKey: item.translationKey,
+  })
+
   router.push(item.route)
 }
 
 const handleItemHover = (item) => {
-  menuStore.handleItemHover(item)
+  menuPageStore.handleItemHover(item)
 }
 
 const handleItemLeave = () => {
-  menuStore.handleItemLeave()
+  menuPageStore.handleItemLeave()
 }
 
 const openContextMenu = (event, item) => {
-  menuStore.openContextMenu(event, item)
+  menuPageStore.openContextMenu(event, item)
 }
 
 const toggleQuickAccess = () => {
-  if (menuStore.selectedItem) {
-    menuPageStore.toggleQuickAccess(menuStore.selectedItem.id)
-    menuStore.closeContextMenu()
+  if (menuPageStore.selectedItem) {
+    menuPageStore.toggleQuickAccess(menuPageStore.selectedItem.id)
+    menuPageStore.closeContextMenu()
   }
 }
 
 const closeContextMenu = () => {
-  menuStore.closeContextMenu()
+  menuPageStore.closeContextMenu()
 }
 
 const handleGlobalContextMenu = (event) => {
-  menuStore.handleGlobalContextMenu(event)
+  menuPageStore.handleGlobalContextMenu(event)
 }
 
 // Lifecycle
-onMounted(() => {
+onMounted(async () => {
   // Start loading from store
-  menuStore.startLoading(600)
+  menuPageStore.startLoading(600)
+
+  // Kullanıcı bilgilerini kontrol et ve menüyü yükle
+  const userOid = authStore.user?.oid
+  if (userOid) {
+    console.log('🟢 MenuPage loading with userOid:', userOid)
+
+    // Development mode'da cache'i temizle
+    if (process.env.NODE_ENV === 'development') {
+      menuPageStore.clearMenuCache(userOid)
+    }
+
+    await menuPageStore.loadMenuData(userOid)
+  } else {
+    console.warn('⚠️ UserOid not available for menu - using demo data')
+    await menuPageStore.loadMenuData('DEMO_USER')
+  }
 })
 </script>
 
@@ -242,42 +287,43 @@ onMounted(() => {
       border: 1px solid $border-light;
       border-radius: 6px;
       transition: all 0.2s ease;
-      
+
       &::before {
         border: none;
       }
-      
+
       &:hover {
         border-color: $border-hover;
         box-shadow: $box-shadow-input-hover;
       }
     }
-    
+
     :deep(.q-field__marginal) {
       height: 40px;
     }
-    
+
     :deep(.q-field__native) {
       font-size: 14px;
       padding: 0 10px;
       line-height: 1.4;
       height: 40px;
     }
-    
+
     :deep(.q-field__prepend),
     :deep(.q-field__append) {
       height: 40px;
       display: flex;
       align-items: center;
       padding: 0 4px;
-      
-      .q-icon, i {
+
+      .q-icon,
+      i {
         font-size: 18px;
         color: $text-secondary;
         opacity: 0.87;
       }
     }
-    
+
     &.q-field--focused {
       :deep(.q-field__control) {
         border-color: $border-accent;
@@ -304,7 +350,7 @@ onMounted(() => {
     box-shadow: $box-shadow-card;
     transition: all 0.2s ease;
     border: 1px solid $border-lighter;
-    
+
     &:hover {
       box-shadow: $box-shadow-card-hover;
       transform: translateY(-2px);
@@ -318,8 +364,9 @@ onMounted(() => {
     margin-bottom: 24px;
     padding-bottom: 16px;
     border-bottom: 1px solid $border-lighter;
-    
-    .q-icon, i {
+
+    .q-icon,
+    i {
       font-size: 20px;
       color: $text-secondary;
       opacity: 0.87;
@@ -362,7 +409,8 @@ onMounted(() => {
       border-radius: 2px;
       transition: all 0.2s ease;
 
-      .q-icon, i {
+      .q-icon,
+      i {
         width: 24px;
         height: 24px;
         border-radius: 2px;
@@ -372,7 +420,9 @@ onMounted(() => {
         display: flex;
         justify-content: center;
         align-items: center;
-        transition: opacity 0.2s ease, color 0.2s ease;
+        transition:
+          opacity 0.2s ease,
+          color 0.2s ease;
       }
     }
 
@@ -427,8 +477,9 @@ onMounted(() => {
     box-shadow: 0 2px 4px rgba(100, 116, 139, 0.15);
     border-radius: 11px;
     border: 1px solid $border-light;
-    
-    :deep(.q-icon), :deep(i) {
+
+    :deep(.q-icon),
+    :deep(i) {
       color: $text-secondary !important;
       font-size: 10px;
     }
@@ -455,7 +506,8 @@ onMounted(() => {
     transition: all 0.2s ease;
     cursor: pointer;
 
-    .q-icon, i {
+    .q-icon,
+    i {
       color: $text-secondary;
       opacity: 0.87;
       font-size: 14px;
@@ -465,7 +517,8 @@ onMounted(() => {
       background: $background-light;
       border-left: 2px solid $border-accent;
 
-      .q-icon, i {
+      .q-icon,
+      i {
         opacity: 1;
       }
     }
@@ -515,4 +568,4 @@ onMounted(() => {
     margin: 0;
   }
 }
-</style> 
+</style>

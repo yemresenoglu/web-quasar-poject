@@ -91,6 +91,7 @@ import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
 import { useAccountStore } from 'src/stores/account-store'
 import { useMenuPageStore } from 'src/stores/menu-page-store'
+import { useAuthStore } from 'src/stores/auth-store'
 import { createLogger } from 'src/utils/logger.js'
 import { LOADING_STATE_KEYS, MENU_CONFIG } from 'src/constants/account.js'
 
@@ -111,6 +112,7 @@ const { t: $t } = useI18n()
 
 const accountStore = useAccountStore()
 const menuPageStore = useMenuPageStore()
+const authStore = useAuthStore()
 
 // Taskbar position from store
 const taskbarPosition = computed(() => accountStore.accountSettings.taskbar.position)
@@ -144,7 +146,14 @@ const loadingStates = ref({
 })
 
 // Computed
-const quickAccessItems = computed(() => menuPageStore.quickAccessItems)
+const quickAccessItems = computed(() => {
+  // Store'dan gelen quickAccessItems'ı kontrol et
+  const items = menuPageStore.quickAccessItems || []
+  return items.map((item) => ({
+    ...item,
+    text: item.translationKey ? $t(item.translationKey) : item.text,
+  }))
+})
 const departmentItems = computed(() => accountStore.departmentItems)
 const taskItems = computed(() => accountStore.taskItems)
 const taskbarSettings = computed(() => accountStore.accountSettings.taskbar)
@@ -157,7 +166,13 @@ const taskbarSettings = computed(() => accountStore.accountSettings.taskbar)
  */
 const closeMenu = () => {
   logger.info('Account menu closing')
-  menuRef.value.hide()
+  try {
+    if (menuRef.value && typeof menuRef.value.hide === 'function') {
+      menuRef.value.hide()
+    }
+  } catch (error) {
+    logger.warn('Menu close failed:', error)
+  }
 }
 
 /**
@@ -167,10 +182,34 @@ const closeMenu = () => {
  */
 const handleLogout = async () => {
   loadingStates.value[LOADING_STATE_KEYS.LOGOUT] = true
+
   try {
     logger.info('User logout initiated')
-    accountStore.logout()
+
+    // Önce menüyü kapat (component destroy olmadan)
     closeMenu()
+
+    // AuthStore'dan logout işlemini gerçekleştir
+    await authStore.logout()
+
+    // AccountStore'dan da logout işlemini gerçekleştir
+    accountStore.logout()
+
+    // Menu cache'ini temizle (userOid'i logout öncesi al)
+    const userOid = authStore.user?.oid || 'YEMRE001'
+    menuPageStore.clearMenuCache(userOid)
+
+    // Başarı mesajı göster
+    $q.notify({
+      type: 'positive',
+      message: 'Başarıyla çıkış yapıldı',
+      icon: '✓',
+      position: 'top-right',
+    })
+
+    // Login sayfasına yönlendir (en son)
+    await router.push('/')
+
     logger.info('User logout completed successfully')
   } catch (error) {
     logger.error('Logout failed:', error)
@@ -180,8 +219,6 @@ const handleLogout = async () => {
       icon: '✕',
       position: 'top-right',
     })
-    // Even if logout fails, still close the menu
-    closeMenu()
   } finally {
     loadingStates.value[LOADING_STATE_KEYS.LOGOUT] = false
   }

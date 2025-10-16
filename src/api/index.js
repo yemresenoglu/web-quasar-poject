@@ -1,23 +1,34 @@
 import axios from 'axios'
 import { createLogger } from 'src/utils/logger.js'
 import cookieManager from './cookieManager.js'
-import { getBaseUrl } from 'src/constants/api.js'
+import { getBaseUrl, API_CONFIG, shouldUseMockData, getEnvironmentInfo } from 'src/constants/api.js'
 
 const logger = createLogger('API')
 
-const API_CONFIG = {
-  baseURL: getBaseUrl(),
-  timeout: 30000,
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    Accept: 'application/json, text/javascript, */*; q=0.01',
-    'Accept-Language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
-    'Accept-Encoding': 'gzip, deflate',
-    Connection: 'keep-alive',
-  },
+// Dynamic API Configuration based on environment
+const createApiConfig = () => {
+  const envInfo = getEnvironmentInfo()
+
+  return {
+    baseURL: getBaseUrl(),
+    timeout: envInfo.timeout,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      Accept: 'application/json, text/javascript, */*; q=0.01',
+      'Accept-Language': 'tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7',
+      'Accept-Encoding': 'gzip, deflate',
+      Connection: 'keep-alive',
+      // Backend integration headers
+      'X-Requested-With': 'XMLHttpRequest',
+      'X-Environment': envInfo.environment,
+      'X-Mock-Data': shouldUseMockData() ? 'true' : 'false',
+    },
+  }
 }
 
-const apiClient = axios.create(API_CONFIG)
+const DYNAMIC_API_CONFIG = createApiConfig()
+
+const apiClient = axios.create(DYNAMIC_API_CONFIG)
 
 apiClient.interceptors.request.use(
   (config) => {
@@ -92,4 +103,52 @@ apiClient.interceptors.response.use(
 )
 
 export default apiClient
-export { API_CONFIG }
+export { API_CONFIG, DYNAMIC_API_CONFIG }
+
+// Backend Integration Utilities
+export const apiIntegrationUtils = {
+  /**
+   * Check if backend is available
+   * @returns {Promise<boolean>}
+   */
+  async checkBackendHealth() {
+    try {
+      const response = await apiClient.get('/health')
+      return response.status === 200
+    } catch (error) {
+      logger.warn('Backend health check failed:', error.message)
+      return false
+    }
+  },
+
+  /**
+   * Get current API configuration
+   * @returns {Object}
+   */
+  getCurrentConfig() {
+    return {
+      baseURL: DYNAMIC_API_CONFIG.baseURL,
+      timeout: DYNAMIC_API_CONFIG.timeout,
+      useMockData: shouldUseMockData(),
+      environment: getEnvironmentInfo().environment,
+    }
+  },
+
+  /**
+   * Switch to backend mode (disable mock data)
+   * @returns {void}
+   */
+  enableBackendMode() {
+    // This would require restarting the app or dynamic config reload
+    logger.info('Backend mode activation requires app restart')
+  },
+
+  /**
+   * Switch to mock mode (enable mock data)
+   * @returns {void}
+   */
+  enableMockMode() {
+    // This would require restarting the app or dynamic config reload
+    logger.info('Mock mode activation requires app restart')
+  },
+}

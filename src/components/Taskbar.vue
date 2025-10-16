@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <q-drawer
     v-if="taskbarSettings.showTaskbar && isVertical"
@@ -14,7 +15,7 @@
       <q-list>
         <q-item class="taskbar__item taskbar__item--logo">
           <q-item-section avatar>
-            <div 
+            <div
               class="taskbar__logo cursor-pointer"
               @click="navigateToIndex"
               role="button"
@@ -23,8 +24,8 @@
               @keydown.enter="navigateToIndex"
               @keydown.space.prevent="navigateToIndex"
             >
-              <img 
-                src="/src/assets/logo.png" 
+              <img
+                src="/src/assets/logo.png"
                 alt="SOMPO Logo"
                 width="24"
                 height="24"
@@ -38,18 +39,18 @@
         </q-item>
         <q-item class="taskbar__item taskbar__item--static">
           <q-item-section avatar class="taskbar__icon-wrapper">
-            <i 
+            <i
               class="bi bi-grid-3x3-gap cursor-pointer"
-              style="font-size: 16px;"
+              style="font-size: 16px"
               @click="navigateToMenu"
             >
               <q-tooltip :anchor="tooltipAnchor" :self="tooltipSelf" :offset="tooltipOffset">
                 {{ $t('taskbar.menu') }}
               </q-tooltip>
             </i>
-            <q-badge 
-              v-if="newMenuItemsCount > 0" 
-              color="red" 
+            <q-badge
+              v-if="newMenuItemsCount > 0"
+              color="red"
               floating
               rounded
               class="taskbar__badge"
@@ -58,15 +59,15 @@
             </q-badge>
           </q-item-section>
         </q-item>
-        <q-item 
-          v-for="pinnedItem in menuPageStore.pinnedQuickAccessItems" 
+        <q-item
+          v-for="pinnedItem in menuPageStore.pinnedQuickAccessItems"
           :key="pinnedItem.id"
           class="taskbar__item taskbar__item--static"
         >
           <q-item-section avatar>
-            <i 
+            <i
               :class="pinnedItem.icon"
-              style="font-size: 16px;"
+              style="font-size: 16px"
               class="cursor-pointer"
               @click="navigateToRoute(pinnedItem)"
             >
@@ -81,37 +82,31 @@
 
     <q-separator spaced="sm" inset class="taskbar__separator" />
 
-    <div class="taskbar__section taskbar__section--grow">
-    </div>
+    <div class="taskbar__section taskbar__section--grow"></div>
 
     <div class="taskbar__section">
       <q-list>
-
         <q-item class="taskbar__item taskbar__item--avatar">
           <q-item-section avatar>
-            <div 
+            <div
               class="taskbar__avatar-wrapper cursor-pointer"
               role="button"
               :aria-label="$t('taskbar.account')"
               tabindex="0"
             >
-              <q-avatar 
-                v-if="userProfile.avatar" 
-                size="24px" 
-                class="taskbar__avatar"
-              >
-                <img 
-                  :src="userProfile.avatar" 
+              <q-avatar v-if="userProfile.avatar" size="24px" class="taskbar__avatar">
+                <img
+                  :src="userProfile.avatar"
                   :alt="userProfile.firstName"
                   width="24"
                   height="24"
                   loading="lazy"
                 />
               </q-avatar>
-              <i 
+              <i
                 v-else
                 class="bi bi-person-circle taskbar__avatar-icon"
-                style="font-size: 24px;"
+                style="font-size: 24px"
               ></i>
               <q-tooltip :anchor="tooltipAnchor" :self="tooltipSelf" :offset="tooltipOffset">
                 {{ $t('taskbar.account') }}
@@ -123,7 +118,6 @@
       </q-list>
     </div>
   </q-drawer>
-
 </template>
 
 <script setup>
@@ -131,20 +125,20 @@ import { defineAsyncComponent, computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMenuPageStore } from 'src/stores/menu-page-store'
 import { useAccountStore } from 'src/stores/account-store'
-import { useUIStore } from 'src/stores/ui-store'
+// import { useUIStore } from 'src/stores/ui-store'
 
 const AccountMenu = defineAsyncComponent(() => import('./account/AccountMenu.vue'))
 
 const router = useRouter()
 const menuPageStore = useMenuPageStore()
 const accountStore = useAccountStore()
-const uiStore = useUIStore()
+// const uiStore = useUIStore() // Unused for now
 
 const props = defineProps({
   modelValue: {
     type: Boolean,
-    required: true
-  }
+    required: true,
+  },
 })
 
 defineEmits(['update:modelValue'])
@@ -187,18 +181,17 @@ const handleMouseLeave = () => {
 }
 
 const navigateToIndex = () => {
-  router.push('/')
+  router.push('/home')
 }
 
 const navigateToMenu = () => {
-  router.push('/menu')
+  router.push('/home/menu')
 }
 
 const navigateToRoute = (item) => {
   if (!item.route) return
   router.push(item.route)
 }
-
 </script>
 
 <style lang="scss">
@@ -224,10 +217,10 @@ const navigateToRoute = (item) => {
   display: flex;
   overflow: hidden;
   transition: all 0.3s ease;
-  border-radius: 18px !important; 
+  border-radius: 18px !important;
   border: 1px solid rgba(0, 0, 0, 0.12) !important;
   box-shadow: none !important;
-  
+
   // BEM: Modifier - left position
   @include bem-modifier('left') {
     flex-direction: column;
@@ -236,7 +229,7 @@ const navigateToRoute = (item) => {
     margin-left: 8px !important;
     height: calc(100vh - 16px) !important;
   }
-  
+
   // BEM: Element - section
   @include bem-element('section') {
     padding: 8px 0;
@@ -251,14 +244,14 @@ const navigateToRoute = (item) => {
       padding: 0;
     }
   }
-  
+
   // BEM: Element - separator
   @include bem-element('separator') {
     margin: 8px;
     opacity: 0.3;
     background: $border-lighter;
   }
-  
+
   // BEM: Element - item
   @include bem-element('item') {
     min-height: 32px;
@@ -277,17 +270,17 @@ const navigateToRoute = (item) => {
       justify-content: center;
       align-items: center;
     }
-    
+
     // BEM: Modifier - logo item
     @include bem-modifier('logo') {
       cursor: pointer;
-      
+
       .q-item__section--avatar {
         width: 32px;
         height: 32px;
       }
     }
-    
+
     // BEM: Modifier - static item (menu/pinned)
     @include bem-modifier('static') {
       .q-item__section--avatar {
@@ -307,56 +300,58 @@ const navigateToRoute = (item) => {
           display: flex;
           justify-content: center;
           align-items: center;
-          transition: opacity 0.2s ease, color 0.2s ease;
+          transition:
+            opacity 0.2s ease,
+            color 0.2s ease;
         }
       }
-      
+
       &:hover {
         background: $background-light;
         border-left: 2px solid $border-accent;
-        
+
         .q-item__section--avatar .q-icon {
           opacity: 1;
         }
       }
     }
-    
+
     // BEM: Modifier - avatar item (logo ile aynı)
     @include bem-modifier('avatar') {
       cursor: pointer;
-      
+
       .q-item__section--avatar {
         width: 32px;
         height: 32px;
       }
     }
   }
-  
+
   // BEM: Element - logo
   @include bem-element('logo') {
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
-    
+
     img {
       object-fit: contain;
       filter: grayscale(20%) opacity(0.87);
       transition: all 0.2s ease;
     }
-    
+
     &:hover img {
       filter: grayscale(0%) opacity(1);
       transform: scale(1.15) !important;
     }
-    
+
     &:focus-visible {
       outline: 2px solid $border-accent;
       outline-offset: 2px;
       border-radius: 4px;
     }
   }
-  
+
   // BEM: Element - avatar wrapper (logo ile birebir aynı)
   @include bem-element('avatar-wrapper') {
     display: flex !important;
@@ -365,7 +360,7 @@ const navigateToRoute = (item) => {
     transition: all 0.2s ease !important;
     width: 24px !important;
     height: 24px !important;
-    
+
     // Quasar q-avatar override - daha spesifik
     .q-avatar.taskbar__avatar {
       border: 2px solid rgba(0, 0, 0, 0.1) !important;
@@ -374,7 +369,7 @@ const navigateToRoute = (item) => {
       height: 24px !important;
       min-width: 24px !important;
       min-height: 24px !important;
-      
+
       img {
         object-fit: contain !important;
         filter: grayscale(20%) opacity(0.87) !important;
@@ -384,7 +379,7 @@ const navigateToRoute = (item) => {
         transform: none !important;
       }
     }
-    
+
     // Icon fallback
     .q-icon.taskbar__avatar-icon {
       color: $text-secondary !important;
@@ -394,38 +389,38 @@ const navigateToRoute = (item) => {
       height: 24px !important;
       font-size: 24px !important;
     }
-    
+
     // Hover state - wrapper'a uygulanıyor (logo ile aynı)
     &:hover {
       .q-avatar.taskbar__avatar {
         transform: scale(1.15) !important;
-        
+
         img {
           filter: grayscale(0%) opacity(1) !important;
           transform: scale(1.15) !important;
         }
       }
-      
+
       .q-icon.taskbar__avatar-icon {
         opacity: 1 !important;
         transform: scale(1.15) !important;
       }
     }
-    
+
     &:focus-visible {
       outline: 2px solid $border-accent !important;
       outline-offset: 2px !important;
       border-radius: 4px !important;
     }
   }
-  
+
   // BEM: Element - avatar (Quasar component için - yedek)
   @include bem-element('avatar') {
     border: 2px solid rgba(0, 0, 0, 0.1) !important;
     transition: all 0.2s ease !important;
     width: 24px !important;
     height: 24px !important;
-    
+
     img {
       object-fit: contain !important;
       filter: grayscale(20%) opacity(0.87) !important;
@@ -434,7 +429,7 @@ const navigateToRoute = (item) => {
       height: 24px !important;
     }
   }
-  
+
   // BEM: Element - avatar icon (fallback - yedek)
   @include bem-element('avatar-icon') {
     color: $text-secondary !important;
@@ -444,12 +439,12 @@ const navigateToRoute = (item) => {
     height: 24px !important;
     font-size: 24px !important;
   }
-  
+
   // BEM: Element - icon wrapper (for badge)
   @include bem-element('icon-wrapper') {
     position: relative;
   }
-  
+
   // BEM: Element - notification badge
   @include bem-element('badge') {
     position: absolute;
@@ -462,4 +457,4 @@ const navigateToRoute = (item) => {
     z-index: 1;
   }
 }
-</style> 
+</style>

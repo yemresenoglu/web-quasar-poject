@@ -7,7 +7,7 @@ export const LogLevel = {
   ERROR: 0,
   WARN: 1,
   INFO: 2,
-  DEBUG: 3
+  DEBUG: 3,
 }
 
 class Logger {
@@ -15,35 +15,39 @@ class Logger {
     this.context = context
     this.isProduction = process.env.NODE_ENV === 'production'
     this.isDevelopment = process.env.NODE_ENV === 'development'
-    
+
     // Log filtreleme sistemi
     this.filters = {
-      general: true,       // Default category
-      error: true,         // Error tracking
-      performance: true,
+      general: this.isDevelopment, // Development'da genel loglar
+      error: true, // Her zaman error logları
+      performance: this.isDevelopment, // Development'da performance logları
       userBehavior: false, // Gereksiz logları kapat
       translation: false,
-      monitoring: true
+      monitoring: false, // Monitoring loglarını kapat
+      auth: this.isDevelopment, // Auth logları sadece development'da
+      store: this.isDevelopment, // Store logları sadece development'da
+      api: this.isDevelopment, // API logları sadece development'da
+      ui: this.isDevelopment, // UI logları sadece development'da
     }
-    
+
     // Log seviyesi kontrolü
-    this.logLevel = this.isProduction ? LogLevel.WARN : LogLevel.DEBUG
+    this.logLevel = this.isProduction ? LogLevel.ERROR : LogLevel.INFO
   }
 
   /**
    * Log seviyesini kontrol eder
    */
   shouldLog(level, category = 'general') {
-    // Production'da sadece ERROR ve WARN
-    if (this.isProduction && level > LogLevel.WARN) {
+    // Production'da sadece ERROR
+    if (this.isProduction && level > LogLevel.ERROR) {
       return false
     }
-    
-    // Kategori filtresi
+
+    // Kategori filtresi - development'da bile kapatılabilir
     if (category && !this.filters[category]) {
       return false
     }
-    
+
     return level <= this.logLevel
   }
 
@@ -61,7 +65,7 @@ class Logger {
   writeToConsole(level, message, data) {
     const prefix = this.getLogPrefix(level)
     const args = data ? [message, data] : [message]
-    
+
     switch (level) {
       case LogLevel.ERROR:
         console.error(prefix, ...args)
@@ -86,9 +90,9 @@ class Logger {
       [LogLevel.ERROR]: '🔴',
       [LogLevel.WARN]: '🟡',
       [LogLevel.INFO]: '🔵',
-      [LogLevel.DEBUG]: '⚪'
+      [LogLevel.DEBUG]: '⚪',
     }
-    
+
     return `${levelEmoji[level]} [${this.context}]`
   }
 
@@ -100,9 +104,9 @@ class Logger {
       [LogLevel.ERROR]: 'ERROR',
       [LogLevel.WARN]: 'WARN',
       [LogLevel.INFO]: 'INFO',
-      [LogLevel.DEBUG]: 'DEBUG'
+      [LogLevel.DEBUG]: 'DEBUG',
     }
-    
+
     return levelNames[level] || 'UNKNOWN'
   }
 
@@ -153,11 +157,15 @@ class Logger {
   trackError(error, context = {}) {
     if (this.isProduction) {
       // Integration with error tracking service (Sentry, etc.)
-      this.error('Tracked Error:', { 
-        error: error.message, 
-        stack: error.stack, 
-        ...context 
-      }, 'error')
+      this.error(
+        'Tracked Error:',
+        {
+          error: error.message,
+          stack: error.stack,
+          ...context,
+        },
+        'error',
+      )
     } else {
       this.error('Error:', error, context, 'error')
     }
@@ -189,4 +197,4 @@ export const serviceLogger = createLogger('Service')
 export const performanceLogger = createLogger('Performance')
 export const monitoringLogger = createLogger('Monitoring')
 
-export default Logger 
+export default Logger
